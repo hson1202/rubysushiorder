@@ -1,16 +1,23 @@
-import React, { useContext } from 'react'
+import React, { useContext, useRef, useState, useLayoutEffect, useCallback } from 'react'
 import './FoodItem.css'
 import { assets } from '../../assets/assets'
 import { StoreContext } from '../../Context/StoreContext'
 import { useTranslation } from 'react-i18next'
 import { isFoodAvailable, getAvailabilityStatus } from '../../utils/timeUtils'
+import { normalizeAllergens, getAllergenInfo } from '../../utils/allergens'
+import { formatHuf } from '../../utils/currency'
 
-const FoodItem = ({id, name, nameVI, nameEN, nameHU, price, description, image, sku, isPromotion, originalPrice, promotionPrice, soldCount = 0, likes = 0, options, onViewDetails, compact = false, availableFrom, availableTo, dailyAvailability, weeklySchedule}) => {
+const FoodItem = ({id, name, nameVI, nameEN, nameHU, price, description, image, sku, isPromotion, originalPrice, promotionPrice, soldCount = 0, likes = 0, options, portion, allergens, onViewDetails, compact = false, availableFrom, availableTo, dailyAvailability, weeklySchedule}) => {
   const {cartItems, addToCart, removeFromCart, url} = useContext(StoreContext);
   const { i18n, t } = useTranslation();
   
   const currentLanguage = i18n.language;
-  
+
+  // Normalize allergens into known display info
+  const allergenInfos = normalizeAllergens(allergens)
+    .map((code) => getAllergenInfo(code, currentLanguage))
+    .filter(Boolean);
+
   // Check food availability
   const foodData = { availableFrom, availableTo, dailyAvailability, weeklySchedule };
   const isAvailable = isFoodAvailable(foodData);
@@ -30,17 +37,7 @@ const FoodItem = ({id, name, nameVI, nameEN, nameHU, price, description, image, 
     }
   };
 
-  const formatPrice = (price) => {
-    if (!price || isNaN(Number(price)) || Number(price) <= 0) {
-      return '0 Ft';
-    }
-    return new Intl.NumberFormat('hu-HU', {
-      style: 'currency',
-      currency: 'HUF',
-      minimumFractionDigits: 0,
-      maximumFractionDigits: 0
-    }).format(Number(price));
-  };
+  const formatPrice = (price) => formatHuf(price);
 
   // Calculate price range for products with options
   const getPriceDisplay = () => {
@@ -101,7 +98,7 @@ const FoodItem = ({id, name, nameVI, nameEN, nameHU, price, description, image, 
     if (isPromotion && promotionPrice) {
       return (
         <div className="price-container">
-          <span className="original-price">{formatPrice(originalPrice)}</span>
+          <span className="original-price">{formatPrice(originalPrice || price)}</span>
           <span className="promotion-price">{formatPrice(promotionPrice)}</span>
         </div>
       );
@@ -111,38 +108,77 @@ const FoodItem = ({id, name, nameVI, nameEN, nameHU, price, description, image, 
   };
 
   const calculateDiscount = () => {
-    if (!isPromotion || !originalPrice || !promotionPrice) return 0;
-    return Math.round(((originalPrice - promotionPrice) / originalPrice) * 100);
+    const basePrice = originalPrice || price;
+    if (!isPromotion || !basePrice || !promotionPrice) return 0;
+    return Math.round(((basePrice - promotionPrice) / basePrice) * 100);
   };
 
-  const handleCardClick = (e) => {
-    // Prevent popup when clicking on quantity controls
-    if (e.target.closest('.quantity-controls-overlay')) {
-      return;
-    }
-    
-    // Debug: Log options data
-    console.log('🔍 FoodItem - Options data:', options)
-    
+  const localizedName = getLocalizedName();
+
+  const openDetail = useCallback(() => {
+    if (!onViewDetails) return;
     onViewDetails({
       _id: id,
-      name, 
-      nameVI, 
-      nameEN, 
+      name,
+      nameVI,
+      nameEN,
       nameHU,
-      description, 
-      price, 
-      image, 
+      description,
+      price,
+      image,
       sku,
-      isPromotion, 
-      originalPrice, 
-      promotionPrice, 
-      soldCount, 
+      isPromotion,
+      originalPrice,
+      promotionPrice,
+      soldCount,
       likes,
       options,
+      portion,
+      allergens,
       status: 'active',
       language: 'vi'
     });
+  }, [id, name, nameVI, nameEN, nameHU, description, price, image, sku, isPromotion, originalPrice, promotionPrice, soldCount, likes, options, portion, allergens, onViewDetails]);
+
+  const titleRef = useRef(null);
+  const descriptionRef = useRef(null);
+  const [showReadMore, setShowReadMore] = useState(false);
+
+  useLayoutEffect(() => {
+    if (!compact) return;
+
+    const checkOverflow = () => {
+      const titleEl = titleRef.current;
+      const descEl = descriptionRef.current;
+      const titleOverflow = titleEl ? titleEl.scrollHeight > titleEl.clientHeight + 1 : false;
+      const descOverflow = descEl ? descEl.scrollHeight > descEl.clientHeight + 1 : false;
+      const heuristicOverflow =
+        (description && description.length > 60) ||
+        (portion && portion.length > 40) ||
+        (localizedName && localizedName.length > 50);
+
+      setShowReadMore(titleOverflow || descOverflow || heuristicOverflow);
+    };
+
+    checkOverflow();
+
+    const observer = typeof ResizeObserver !== 'undefined' ? new ResizeObserver(checkOverflow) : null;
+    if (titleRef.current) observer?.observe(titleRef.current);
+    if (descriptionRef.current) observer?.observe(descriptionRef.current);
+
+    return () => observer?.disconnect();
+  }, [compact, description, portion, localizedName]);
+
+  const handleCardClick = (e) => {
+    if (
+      e.target.closest('.quantity-controls-overlay') ||
+      e.target.closest('.compact-controls') ||
+      e.target.closest('.read-more-btn')
+    ) {
+      return;
+    }
+
+    openDetail();
   };
 
   // Build image src
@@ -163,11 +199,33 @@ const FoodItem = ({id, name, nameVI, nameEN, nameHU, price, description, image, 
             <img src={imgSrc} alt={getLocalizedName()} loading="lazy" decoding="async" />
           </div>
           <div className="title-section">
-            <div className="title">{getLocalizedName()}</div>
-            {description && (
-              <div className="title-description">{description}</div>
-            )}
-            <div className="price-now">{getPriceDisplay()}</div>
+            <div className="title" ref={titleRef}>{localizedName}</div>
+            <div className="title-portion">{portion || '\u00a0'}</div>
+            <div className="title-description" ref={descriptionRef}>
+              {description || '\u00a0'}
+            </div>
+            <div className="compact-meta-row">
+              {allergenInfos.length > 0 && (
+                <div className="allergen-pill" aria-label="allergens">
+                  {allergenInfos.map((a) => (
+                    <span key={a.code} className="allergen-icon" title={a.label}>{a.icon}</span>
+                  ))}
+                </div>
+              )}
+            </div>
+            <div className="compact-footer-row">
+              <div className="price-now">{getPriceDisplay()}</div>
+              <button
+                type="button"
+                className="read-more-btn"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  openDetail();
+                }}
+              >
+                {t('food.viewDetails')}
+              </button>
+            </div>
           </div>
           <div className="compact-controls" onClick={(e) => e.stopPropagation()}>
             {!cartItems[id] ? (
@@ -244,12 +302,24 @@ const FoodItem = ({id, name, nameVI, nameEN, nameHU, price, description, image, 
           <p>{getLocalizedName()}</p>  
         </div>  
         
+        {portion && (
+          <div className="food-item-portion">{portion}</div>
+        )}
+
         {description && (
           <div className="food-item-description">
             <p>{description}</p>
           </div>
         )}
-        
+
+        {allergenInfos.length > 0 && (
+          <div className="allergen-pill" aria-label="allergens">
+            {allergenInfos.map((a) => (
+              <span key={a.code} className="allergen-icon" title={a.label}>{a.icon}</span>
+            ))}
+          </div>
+        )}
+
         <div className="food-item-stats">
           {likes > 0 && (
             <div className="stat-item">

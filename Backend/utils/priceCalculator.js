@@ -10,7 +10,7 @@ import restaurantLocationModel from "../models/restaurantLocationModel.js";
 
 /**
  * Fetch box fee từ database (admin settings)
- * @returns {Promise<number>} Box fee (EUR)
+ * @returns {Promise<number>} Box fee (HUF)
  */
 export const getBoxFeeFromDB = async () => {
   try {
@@ -184,10 +184,10 @@ export const calculateOrderTotal = async (items, deliveryFee = 0) => {
  * Validate giá từ client với giá tính toán từ server
  * @param {number} clientAmount - Giá client gửi lên
  * @param {number} serverAmount - Giá server tính được
- * @param {number} tolerance - Sai lệch cho phép (EUR)
+ * @param {number} tolerance - Sai lệch cho phép (HUF)
  * @returns {Object} { isValid, difference, clientAmount, serverAmount }
  */
-export const validatePrice = (clientAmount, serverAmount, tolerance = 1) => {
+export const validatePrice = (clientAmount, serverAmount, tolerance = 50) => {
   const client = Number(clientAmount);
   const server = Number(serverAmount);
   const diff = Math.abs(client - server);

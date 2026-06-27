@@ -96,80 +96,7 @@
   font-family: 'Cormorant Garamond', serif;
 }
 
-/* Buttons */
-.btn {
-  padding: 10px 20px;
-  border-radius: 12px;
-  font-size: 14px;
-  font-weight: 500;
-  border: none;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  letter-spacing: 0.3px;
-}
-
-.btn-primary {
-  background: #111827;
-  color: white;
-  box-shadow: 0 4px 12px rgba(17, 24, 39, 0.15);
-}
-
-.btn-primary:hover {
-  background: #374151;
-  transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(17, 24, 39, 0.2);
-}
-
-.btn-success {
-  background: #10b981;
-  color: white;
-  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.15);
-}
-
-.btn-success:hover {
-  background: #059669;
-  transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(16, 185, 129, 0.2);
-}
-
-.btn-secondary {
-  background: #f1f5f9;
-  color: #475569;
-}
-
-.btn-secondary:hover {
-  background: #e2e8f0;
-}
-
-.btn-icon {
-  background: none;
-  border: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  padding: 6px;
-  border-radius: 8px;
-  transition: all 0.2s ease;
-  color: #6b7280;
-}
-
-.btn-icon:hover {
-  color: #111827;
-}
-
-.btn-icon.btn-edit:hover {
-  background: #f1f5f9;
-}
-
-.btn-icon.btn-delete:hover {
-  background: #fee2e2;
-  color: #ef4444;
-}
+/* Buttons use global .btn system from index.css */
 
 /* Location Display */
 .location-display {
@@ -441,7 +368,7 @@
 /* Responsive */
 @media (max-width: 768px) {
   .delivery-zones-page {
-    padding: 12px;
+    padding: 0;
   }
 
   .page-header {
@@ -506,6 +433,28 @@
     gap: 12px;
   }
 
+  .modal-overlay {
+    padding: 0;
+    align-items: stretch;
+  }
+
+  .modal-content {
+    width: 100%;
+    max-width: 100%;
+    max-height: 100vh;
+    border-radius: 0;
+    margin: 0;
+  }
+
+  .modal-header {
+    padding: 16px 20px;
+    border-radius: 0;
+  }
+
+  .modal-form {
+    border-radius: 0 !important;
+    padding: 16px 20px 24px !important;
+  }
 }
 
 /* Modal Styles */

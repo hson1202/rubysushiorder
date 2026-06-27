@@ -1,7 +1,7 @@
 .delivery-zones-display {
   margin: 20px 0;
   padding: 20px;
-  background: #f9f9f9;
+  background: var(--brand-surface);
   border-radius: 12px;
 }
 
@@ -9,13 +9,13 @@
   font-size: 20px;
   font-weight: 700;
   margin-bottom: 15px;
-  color: #333;
+  color: var(--brand-text);
 }
 
 .zones-loading {
   text-align: center;
   padding: 20px;
-  color: #666;
+  color: var(--brand-muted);
 }
 
 .zones-grid {
@@ -25,17 +25,17 @@
 }
 
 .zone-card {
-  background: white;
+  background: var(--brand-surface-2);
   padding: 15px;
   border-radius: 10px;
-  border-left: 4px solid #3B82F6;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border-left: 4px solid var(--brand-accent);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .zone-card:hover {
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
 }
 
 .zone-header {
@@ -44,18 +44,18 @@
   align-items: center;
   margin-bottom: 12px;
   padding-bottom: 10px;
-  border-bottom: 1px solid #eee;
+  border-bottom: 1px solid var(--brand-border);
 }
 
 .zone-distance {
   font-size: 18px;
   font-weight: 700;
-  color: #333;
+  color: var(--brand-text);
 }
 
 .zone-time {
   font-size: 13px;
-  color: #666;
+  color: var(--brand-muted);
 }
 
 .zone-details {
@@ -72,21 +72,21 @@
 }
 
 .detail-label {
-  color: #666;
+  color: var(--brand-muted);
 }
 
 .detail-value {
   font-weight: 600;
-  color: #333;
+  color: var(--brand-text);
 }
 
 .detail-value.fee {
   font-size: 16px;
-  color: #ff6347;
+  color: var(--brand-accent);
 }
 
 .free-badge {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, var(--brand-accent) 0%, var(--brand-accent-hover) 100%);
   color: white;
   padding: 4px 12px;
   border-radius: 20px;

@@ -135,7 +135,8 @@ const getDashboardStats = async (req, res) => {
             totalProducts,
             currentMonth: {
                 orders: currentMonthOrders,
-                revenue: currentMonthRevenue
+                revenue: currentMonthRevenue,
+                completed: currentMonthCompletedOrders.length
             },
             lastMonth: {
                 orders: lastMonthOrders,
@@ -683,9 +684,35 @@ const adminLogin = async (req, res) => {
     }
 };
 
-// Admin signup
+// Chỉ cho phép tạo admin khi: admin đã đăng nhập, hoặc bootstrap lần đầu với secret
+const assertAdminSignupAllowed = async (req) => {
+    if (req.body?.isAdmin) {
+        return;
+    }
+
+    const setupSecret = process.env.ADMIN_SETUP_SECRET;
+    const providedSecret = req.headers["x-admin-setup-secret"];
+    const adminCount = await userModel.countDocuments({ role: "admin" });
+
+    if (adminCount === 0 && setupSecret && providedSecret === setupSecret) {
+        return;
+    }
+
+    const message =
+        process.env.NODE_ENV === "production"
+            ? "Admin registration is disabled. Use setup secret or login as admin."
+            : "Admin registration requires setup secret or admin authentication.";
+
+    const error = new Error(message);
+    error.status = 403;
+    throw error;
+};
+
+// Admin signup (protected — không expose public /signup)
 const adminSignup = async (req, res) => {
     try {
+        await assertAdminSignupAllowed(req);
+
         const { name, email, password, role } = req.body;
 
         // Check if all required fields are provided
@@ -748,6 +775,12 @@ const adminSignup = async (req, res) => {
             }
         });
     } catch (error) {
+        if (error.status === 403) {
+            return res.status(403).json({
+                success: false,
+                message: error.message
+            });
+        }
         console.error('Admin signup error:', error);
         res.status(500).json({
             success: false,

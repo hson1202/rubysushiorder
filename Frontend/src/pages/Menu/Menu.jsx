@@ -5,69 +5,67 @@ import FoodItem from '../../components/FoodItem/FoodItem'
 import ProductDetail from '../../components/ProductDetail/ProductDetail'
 import CartPopup from '../../components/CartPopup/CartPopup'
 import CategoryFilter from '../../components/CategoryFilter/CategoryFilter'
-import DailyMenu from '../../components/DailyMenu/DailyMenu'
 import axios from 'axios'
 import { toast } from 'react-toastify'
 import { useTranslation } from 'react-i18next'
 import config from '../../config/config'
 import { isFoodAvailable } from '../../utils/timeUtils'
 
-const DAILY_MENU_KEYWORDS = ['daily', 'daily menu', 'denné menu', 'menu hàng ngày', 'thực đơn ngày']
-
 const Menu = () => {
   const { food_list, isLoadingFood } = useContext(StoreContext)
   const { t, i18n } = useTranslation()
-  const [parentCategories, setParentCategories] = useState([])
+  const [categories, setCategories] = useState([])
   const [selectedCategory, setSelectedCategory] = useState(null)
-  const [selectedParentCategory, setSelectedParentCategory] = useState(null)
   const [searchTerm, setSearchTerm] = useState('')
   const [loading, setLoading] = useState(true)
   const [selectedProduct, setSelectedProduct] = useState(null)
   const [showCartPopup, setShowCartPopup] = useState(false)
-  const [isMobile, setIsMobile] = useState(false)
   const categoryRefs = useRef({})
 
   const getMenuStickyOffset = useCallback(() => {
-    const filterContainer = document.querySelector('.menu-filter-container')
-    if (filterContainer) {
-      const rect = filterContainer.getBoundingClientRect()
-      const styles = window.getComputedStyle(filterContainer)
-      const marginTop = parseFloat(styles.marginTop || 0)
-      const marginBottom = parseFloat(styles.marginBottom || 0)
-      return rect.height + marginTop + marginBottom
-    }
+    const rootStyles = getComputedStyle(document.documentElement)
+    return parseFloat(rootStyles.getPropertyValue('--menu-topbar-h')) || 58
+  }, [])
 
-    return isMobile ? 180 : 160
-  }, [isMobile])
+  const scrollToCategory = useCallback((categoryId, { behavior = 'smooth' } = {}) => {
+    requestAnimationFrame(() => {
+      const target =
+        categoryRefs.current[categoryId]?.current ||
+        document.getElementById(`category-${categoryId}`)
+
+      if (!target) return
+
+      const offset = getMenuStickyOffset()
+      const top = target.getBoundingClientRect().top + window.scrollY - offset
+
+      window.scrollTo({
+        top: Math.max(0, top),
+        behavior,
+      })
+    })
+  }, [getMenuStickyOffset])
 
   useEffect(() => {
     fetchMenuStructure()
   }, [])
 
   useEffect(() => {
-    const update = () => setIsMobile(window.innerWidth <= 768)
-    update()
-    window.addEventListener('resize', update)
-    return () => window.removeEventListener('resize', update)
-  }, [])
-
-  // Tự động chọn parent category đầu tiên khi menu được load
-  useEffect(() => {
-    if (parentCategories.length > 0 && selectedParentCategory === null) {
-      // Backend already sorted by sortOrder, so just use the first one
-      const firstParent = parentCategories[0]
-      const firstParentId = firstParent._id?.toString() || 'first'
-      setSelectedParentCategory(firstParentId)
+    const syncTopbarHeight = () => {
+      const navbar = document.querySelector('.navbar-wrapper')
+      const height = navbar ? Math.ceil(navbar.getBoundingClientRect().height) : 58
+      document.documentElement.style.setProperty('--menu-topbar-h', `${height}px`)
     }
-  }, [parentCategories, selectedParentCategory])
+
+    syncTopbarHeight()
+    window.addEventListener('resize', syncTopbarHeight)
+    return () => window.removeEventListener('resize', syncTopbarHeight)
+  }, [])
 
   const fetchMenuStructure = async () => {
     try {
       const response = await axios.get(`${config.BACKEND_URL}/api/category/menu-structure`)
       const menuData = response.data.data || []
-      setParentCategories(menuData)
-      
-      
+      setCategories(menuData)
       setLoading(false)
     } catch (error) {
       console.error('Error fetching menu structure:', error)
@@ -76,42 +74,14 @@ const Menu = () => {
     }
   }
 
-
   const getLocalizedName = useCallback((item, field = 'name') => {
     const currentLang = i18n.language
     const localizedField = `${field}${currentLang.toUpperCase()}`
     return item[localizedField] || item[field] || ''
   }, [i18n.language])
 
-
   const normalizeValue = (value) =>
     typeof value === 'string' ? value.trim().toLowerCase() : ''
-
-  const parentMatchesKeywords = useCallback((parent, keywords = []) => {
-    if (!parent) return false
-
-    const possibleLabels = [
-      parent.name,
-      parent.nameEN,
-      parent.nameVI,
-      parent.nameHU,
-      getLocalizedName(parent),
-    ]
-      .filter(Boolean)
-      .map(normalizeValue)
-
-    return keywords.some((keyword) => possibleLabels.includes(normalizeValue(keyword)))
-  }, [getLocalizedName])
-
-  const isDailyMenuParent = useCallback((parent) => {
-    return parentMatchesKeywords(parent, DAILY_MENU_KEYWORDS)
-  }, [parentMatchesKeywords])
-
-  const selectedParentObject = useMemo(() => {
-    return parentCategories.find(p => (p._id?.toString() || 'first') === selectedParentCategory) || null
-  }, [parentCategories, selectedParentCategory])
-
-  const isShowingDailyMenu = useMemo(() => isDailyMenuParent(selectedParentObject), [isDailyMenuParent, selectedParentObject])
 
   const doesFoodBelongToCategory = useCallback((food, category) => {
     if (!category) return false
@@ -157,134 +127,60 @@ const Menu = () => {
     })
   }, [food_list, searchTerm, getLocalizedName])
 
-  // Backend already sorts by sortOrder, so we just use the order as received
-  // No need to sort by createdAt anymore
-  const allMenuSections = useMemo(() => {
-    if (!parentCategories.length) return []
+  // Build one block per category (already sorted by the backend).
+  const menuBlocks = useMemo(() => {
+    if (!categories.length) return []
 
     const coveredFoodIds = new Set()
 
-    // Use parentCategories directly as they're already sorted by backend
-    const sections = parentCategories
-      .map((parent) => {
-        const localizedParentName = getLocalizedName(parent)
-        // Use categories directly as they're already sorted by backend
-        const categories = (parent.categories || [])
-          .map((category) => {
-            const categoryKey = category._id?.toString() || category.name || localizedParentName
-            const foods = filteredFoods.filter((food) => {
-              const belongs = doesFoodBelongToCategory(food, category)
-              if (belongs) {
-                coveredFoodIds.add(food._id)
-              }
-              return belongs
-            })
-
-            return {
-              ...category,
-              key: categoryKey,
-              localizedName: getLocalizedName(category),
-              foods,
-            }
-          })
-          .filter((category) => category.foods.length > 0)
-
-        const totalItems = categories.reduce((total, category) => total + category.foods.length, 0)
-
-        if (!categories.length) {
-          return null
-        }
+    const blocks = categories
+      .map((category) => {
+        const categoryKey = category._id?.toString() || category.name
+        const foods = filteredFoods.filter((food) => {
+          const belongs = doesFoodBelongToCategory(food, category)
+          if (belongs) {
+            coveredFoodIds.add(food._id)
+          }
+          return belongs
+        })
 
         return {
-          ...parent,
-          localizedName: localizedParentName,
-          categories,
-          totalItems,
+          ...category,
+          key: categoryKey,
+          localizedName: getLocalizedName(category),
+          foods,
         }
       })
-      .filter(Boolean)
+      .filter((block) => block.foods.length > 0)
 
     const ungroupedFoods = filteredFoods.filter((food) => !coveredFoodIds.has(food._id))
     if (ungroupedFoods.length) {
-      const fallbackGroupLabel = t('menu.miscGroup', { defaultValue: 'Chef’s picks' })
       const fallbackCategoryLabel = t('menu.miscCategory', { defaultValue: 'Popular now' })
-      sections.push({
+      blocks.push({
         _id: 'fallback',
-        localizedName: fallbackGroupLabel,
-        categories: [
-          {
-            key: 'fallback-category',
-            localizedName: fallbackCategoryLabel,
-            foods: ungroupedFoods,
-          },
-        ],
-        totalItems: ungroupedFoods.length,
+        key: 'fallback-category',
+        localizedName: fallbackCategoryLabel,
+        foods: ungroupedFoods,
       })
     }
 
-    return sections
-  }, [parentCategories, filteredFoods, t, getLocalizedName, doesFoodBelongToCategory])
+    return blocks
+  }, [categories, filteredFoods, t, getLocalizedName, doesFoodBelongToCategory])
 
-  const menuSections = useMemo(() => {
-    if (!selectedParentCategory) {
-      return allMenuSections
-    }
-
-    return allMenuSections.filter(section => section._id === selectedParentCategory)
-  }, [allMenuSections, selectedParentCategory])
-
-  useEffect(() => {
-    if (!selectedParentCategory || !parentCategories.length) return
-
-    const selectedParent = parentCategories.find(
-      (parent) => (parent._id?.toString() || 'first') === selectedParentCategory
-    )
-
-    // Never auto-switch away from the daily menu tab — DailyMenu handles its own content
-    if (isDailyMenuParent(selectedParent)) return
-
-    const hasVisibleSection = allMenuSections.some(
-      (section) => section._id === selectedParentCategory
-    )
-
-    if (hasVisibleSection) return
-
-    const preferredFallback = parentCategories.find((parent) => {
-      const parentId = parent._id?.toString() || 'first'
-      const isVisible = allMenuSections.some((section) => section._id === parentId)
-
-      return isVisible && parentMatchesKeywords(parent, ['MAIN MENU', 'HLAVNÉ MENU', 'MENU CHÍNH'])
-    })
-
-    const nextVisibleParent = preferredFallback || parentCategories.find((parent) => {
-      const parentId = parent._id?.toString() || 'first'
-      return allMenuSections.some((section) => section._id === parentId)
-    })
-
-    if (!nextVisibleParent) return
-
-    const nextParentId = nextVisibleParent._id?.toString() || 'first'
-
-    if (nextParentId !== selectedParentCategory) {
-      setSelectedParentCategory(nextParentId)
-      setSelectedCategory(null)
-    }
-  }, [selectedParentCategory, parentCategories, allMenuSections, parentMatchesKeywords, isDailyMenuParent])
+  // CategoryFilter expects a list of sections each with a `categories` array.
+  // With parent categories removed, we expose a single anonymous section.
+  const filterSections = useMemo(
+    () => [{ _id: 'all', localizedName: '', categories: menuBlocks }],
+    [menuBlocks]
+  )
 
   useEffect(() => {
     if (!selectedCategory?.id || selectedCategory?.source === 'scroll') return
-    const target = categoryRefs.current[selectedCategory.id]
-    if (!target || !target.current) return
 
-    // Offset includes: parent category filter + category carousel + some padding
-    const offset = getMenuStickyOffset()
-    const top = target.current.getBoundingClientRect().top + window.pageYOffset - offset
-
-    window.scrollTo({
-      top: Math.max(0, top),
-      behavior: 'smooth',
+    scrollToCategory(selectedCategory.id, {
+      behavior: selectedCategory.source === 'click' ? 'smooth' : 'auto',
     })
-  }, [selectedCategory, isMobile, getMenuStickyOffset])
+  }, [selectedCategory, scrollToCategory])
 
   const handleViewDetails = (product) => {
     setSelectedProduct(product)
@@ -300,53 +196,27 @@ const Menu = () => {
 
   return (
     <div className="menu-page">
-      {/* Sticky Filter Container */}
-      <div className="menu-filter-container">
-        {/* Parent Category Filter */}
-          <div className="parent-category-container">
-            {parentCategories.map((parent) => {
-              const parentId = parent._id?.toString() || 'first'
-              const isActive = selectedParentCategory === parentId
-              return (
-                <button
-                  key={parentId}
-                  className={`parent-category-btn ${isActive ? 'active' : ''}`}
-                  onClick={() => {
-                    setSelectedParentCategory(parentId)
-                    setSelectedCategory(null)
-                  }}
-                >
-                  {parent.icon && <span className="parent-category-icon">{parent.icon}</span>}
-                  {getLocalizedName(parent)}
-                </button>
-              )
-            })}
-          </div>
-          
-          {/* Separator Line */}
-          <div className="menu-filter-separator"></div>
-
-        {/* Category Filter Carousel — hidden when daily menu is active */}
-        {!isShowingDailyMenu && (
-          <CategoryFilter 
-            categories={menuSections}
+      {/* Two-pane layout: category sidebar (desktop + mobile) + content */}
+      <div className="menu-shell">
+        <aside className="menu-sidebar">
+          <CategoryFilter
+            categories={filterSections}
             onCategorySelect={setSelectedCategory}
             selectedCategory={selectedCategory}
             categoryRefs={categoryRefs}
+            onScrollToCategory={scrollToCategory}
           />
-        )}
-      </div>
+        </aside>
 
-      {/* Food Sections - Grouped by Parent Category */}
+        <div className="menu-content">
+      {/* Food Sections - one per category */}
       <div className="menu-sections-container">
         {loading || isLoadingFood ? (
           <div className="loading-container">
             <div className="loading-spinner"></div>
             <p>Loading delicious dishes...</p>
           </div>
-        ) : isShowingDailyMenu ? (
-          <DailyMenu />
-        ) : parentCategories.length === 0 ? (
+        ) : categories.length === 0 ? (
           <div className="empty-state">
             <div className="empty-icon">🍽️</div>
             <h3>No menu available</h3>
@@ -370,7 +240,7 @@ const Menu = () => {
               </button>
             )}
           </div>
-        ) : menuSections.length === 0 ? (
+        ) : menuBlocks.length === 0 ? (
           <div className="empty-state">
             <div className="empty-icon">🍱</div>
             <h3>No categories to show</h3>
@@ -378,69 +248,64 @@ const Menu = () => {
           </div>
         ) : (
           <div className="menu-categories-list">
-            {menuSections.map((section) => (
-              <div key={section._id} className="menu-parent-section">
-                <div className="menu-parent-header">
-                  {section.icon && <span className="menu-parent-icon">{section.icon}</span>}
-                  <h1 className="menu-parent-name">{section.localizedName}</h1>
+            {menuBlocks.map((category) => (
+              <article
+                key={category.key}
+                ref={(node) => {
+                  if (node) {
+                    categoryRefs.current[category.key] = { current: node }
+                  } else {
+                    delete categoryRefs.current[category.key]
+                  }
+                }}
+                data-category-id={category.key}
+                className="menu-category-block"
+                id={`category-${category.key}`}
+              >
+                <div className="menu-category-header">
+                  <h2 className="menu-category-name">{category.localizedName}</h2>
+                  {category.description && (
+                    <p className="menu-category-description">{category.description}</p>
+                  )}
                 </div>
-                
-                {section.categories.map((category) => (
-                  <article
-                    key={category.key}
-                    ref={(node) => {
-                      if (node) {
-                        categoryRefs.current[category.key] = { current: node }
-                      } else {
-                        delete categoryRefs.current[category.key]
-                      }
-                    }}
-                    data-category-id={category.key}
-                    className="menu-category-block"
-                    id={`category-${category.key}`}
-                  >
-                    <div className="menu-category-header">
-                      <h2 className="menu-category-name">{category.localizedName}</h2>
-                      {category.description && (
-                        <p className="menu-category-description">{category.description}</p>
-                      )}
-                    </div>
 
-                  <div className="menu-category-dishes">
-                    {category.foods.map((food) => (
-                      <div key={food._id} className="menu-category-item">
-                        <FoodItem 
-                          id={food._id} 
-                          name={food.name}
-                          nameVI={food.nameVI}
-                          nameEN={food.nameEN}
-                          nameHU={food.nameHU}
-                          description={food.description} 
-                          price={food.price} 
-                          image={food.image}
-                          sku={food.sku}
-                          isPromotion={food.isPromotion}
-                          originalPrice={food.originalPrice}
-                          promotionPrice={food.promotionPrice}
-                          soldCount={food.soldCount}
-                          likes={food.likes}
-                          options={food.options}
-                          availableFrom={food.availableFrom}
-                          availableTo={food.availableTo}
-                          dailyAvailability={food.dailyAvailability}
-                          weeklySchedule={food.weeklySchedule}
-                          onViewDetails={handleViewDetails}
-                          compact={isMobile}
-                        />
-                      </div>
-                    ))}
+                <div className="menu-category-dishes">
+                  {category.foods.map((food) => (
+                    <div key={food._id} className="menu-category-item">
+                      <FoodItem 
+                        id={food._id} 
+                        name={food.name}
+                        nameVI={food.nameVI}
+                        nameEN={food.nameEN}
+                        nameHU={food.nameHU}
+                        description={food.description} 
+                        price={food.price} 
+                        image={food.image}
+                        sku={food.sku}
+                        isPromotion={food.isPromotion}
+                        originalPrice={food.originalPrice}
+                        promotionPrice={food.promotionPrice}
+                        soldCount={food.soldCount}
+                        likes={food.likes}
+                        options={food.options}
+                        portion={food.portion}
+                        allergens={food.allergens}
+                        availableFrom={food.availableFrom}
+                        availableTo={food.availableTo}
+                        dailyAvailability={food.dailyAvailability}
+                        weeklySchedule={food.weeklySchedule}
+                        onViewDetails={handleViewDetails}
+                        compact={true}
+                      />
                     </div>
-                  </article>
-                ))}
-              </div>
+                  ))}
+                </div>
+              </article>
             ))}
           </div>
         )}
+      </div>
+        </div>
       </div>
 
       {/* Product Detail Popup */}

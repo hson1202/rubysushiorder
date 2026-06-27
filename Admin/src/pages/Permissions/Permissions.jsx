@@ -143,12 +143,16 @@ const Permissions = ({ url }) => {
             <tbody>
               {permissions.map((permission) => (
                 <tr key={permission.id}>
-                  <td className="permission-info">
+                  <td className="permission-info" data-label={t('perm.permission')}>
                     <div className="permission-name">{permission.name}</div>
                     <div className="permission-description">{permission.description}</div>
                   </td>
                   {roles.map((role) => (
-                    <td key={`${permission.id}-${role.id}`} className="permission-cell">
+                    <td
+                      key={`${permission.id}-${role.id}`}
+                      className="permission-cell"
+                      data-role={role.name}
+                    >
                       <label className="permission-toggle">
                         <input
                           type="checkbox"

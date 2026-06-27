@@ -1,6 +1,10 @@
 import mongoose from "mongoose";
 
 export const connectDB = async () => {
+  if (mongoose.connection.readyState === 1) {
+    return true;
+  }
+
   try {
     // Support both env names to avoid configuration mismatches
     const mongoUrl = process.env.MONGODB_URL || process.env.MONGODB_URI;

@@ -9,12 +9,12 @@
 .addresses-header h1 {
     margin: 0 0 0.5rem 0;
     font-size: 1.75rem;
-    color: #333;
+    color: var(--brand-text);
 }
 
 .addresses-header p {
     margin: 0;
-    color: #666;
+    color: var(--brand-muted);
     font-size: 0.95rem;
 }
 
@@ -34,15 +34,15 @@
 }
 
 .addresses-message.success {
-    background-color: #d4edda;
-    color: #155724;
-    border: 1px solid #c3e6cb;
+    background-color: rgba(52, 211, 153, 0.15);
+    color: #6ee7b7;
+    border: 1px solid rgba(52, 211, 153, 0.4);
 }
 
 .addresses-message.error {
-    background-color: #f8d7da;
-    color: #721c24;
-    border: 1px solid #f5c6cb;
+    background-color: rgba(239, 68, 68, 0.15);
+    color: #fca5a5;
+    border: 1px solid rgba(239, 68, 68, 0.4);
 }
 
 .addresses-actions {
@@ -52,7 +52,7 @@
 .addresses-empty {
     text-align: center;
     padding: 3rem 1rem;
-    color: #666;
+    color: var(--brand-muted);
 }
 
 .addresses-empty p {
@@ -66,28 +66,29 @@
 }
 
 .address-card {
-    border: 2px solid #e0e0e0;
+    border: 2px solid var(--brand-border);
     border-radius: 12px;
     padding: 1.5rem;
     position: relative;
     transition: all 0.2s;
+    background-color: var(--brand-surface-2);
 }
 
 .address-card:hover {
-    border-color: #ff6b35;
-    box-shadow: 0 4px 12px rgba(255, 107, 53, 0.1);
+    border-color: var(--brand-accent);
+    box-shadow: 0 4px 12px rgba(226, 55, 68, 0.2);
 }
 
 .address-card.default {
-    border-color: #ff6b35;
-    background-color: #fff5f2;
+    border-color: var(--brand-accent);
+    background-color: rgba(226, 55, 68, 0.12);
 }
 
 .address-badge {
     position: absolute;
     top: 1rem;
     right: 1rem;
-    background-color: #ff6b35;
+    background-color: var(--brand-accent);
     color: white;
     padding: 0.25rem 0.75rem;
     border-radius: 12px;
@@ -98,18 +99,18 @@
 .address-content h3 {
     margin: 0 0 0.5rem 0;
     font-size: 1.2rem;
-    color: #333;
+    color: var(--brand-text);
 }
 
 .address-content p {
     margin: 0.25rem 0;
-    color: #666;
+    color: var(--brand-muted);
     line-height: 1.6;
 }
 
 .address-content .address-name {
     font-weight: 600;
-    color: #333;
+    color: var(--brand-text);
 }
 
 .address-actions {
@@ -125,7 +126,7 @@
 
 .address-form-container h2 {
     margin-bottom: 1.5rem;
-    color: #333;
+    color: var(--brand-text);
 }
 
 .address-form {
@@ -148,22 +149,28 @@
 
 .form-group label {
     font-weight: 600;
-    color: #333;
+    color: var(--brand-text);
     font-size: 0.95rem;
 }
 
 .form-group input[type="text"],
 .form-group input[type="tel"] {
     padding: 0.75rem;
-    border: 1px solid #ddd;
+    border: 1px solid var(--brand-border);
     border-radius: 8px;
     font-size: 1rem;
     transition: border-color 0.2s;
+    background-color: var(--brand-surface-2);
+    color: var(--brand-text);
+}
+
+.form-group input::placeholder {
+    color: var(--brand-muted);
 }
 
 .form-group input:focus {
     outline: none;
-    border-color: #ff6b35;
+    border-color: var(--brand-accent);
 }
 
 .form-group input[type="checkbox"] {
@@ -177,7 +184,7 @@
 }
 
 .btn-primary {
-    background-color: #ff6b35;
+    background-color: var(--brand-accent);
     color: white;
     border: none;
     padding: 0.875rem 2rem;
@@ -189,13 +196,13 @@
 }
 
 .btn-primary:hover {
-    background-color: #e55a2b;
+    background-color: var(--brand-accent-hover);
 }
 
 .btn-secondary {
-    background-color: white;
-    color: #333;
-    border: 1px solid #ddd;
+    background-color: var(--brand-surface-2);
+    color: var(--brand-text);
+    border: 1px solid var(--brand-border);
     padding: 0.75rem 1.5rem;
     border-radius: 8px;
     font-size: 0.95rem;
@@ -205,12 +212,12 @@
 }
 
 .btn-secondary:hover {
-    border-color: #ff6b35;
-    color: #ff6b35;
+    border-color: var(--brand-accent);
+    color: var(--brand-accent);
 }
 
 .btn-danger {
-    background-color: #dc3545;
+    background-color: #ef4444;
     color: white;
     border: none;
     padding: 0.75rem 1.5rem;
@@ -222,7 +229,7 @@
 }
 
 .btn-danger:hover {
-    background-color: #c82333;
+    background-color: #dc2626;
 }
 
 @media (max-width: 768px) {
@@ -238,16 +245,3 @@
         width: 100%;
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-

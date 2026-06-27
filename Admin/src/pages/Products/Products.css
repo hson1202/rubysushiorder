@@ -42,39 +42,40 @@
 }
 
 .refresh-btn {
-  background: #ffffff;
-  color: #1d1d1f;
-  border: 1px solid #d2d2d7;
+  background: var(--color-secondary-bg);
+  color: var(--color-primary);
+  border: none;
   padding: 10px 18px;
-  border-radius: 8px;
+  border-radius: var(--radius-sm);
   font-size: 14px;
   font-weight: 500;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: background-color 0.2s ease;
   display: flex;
   align-items: center;
   gap: 6px;
+  min-height: 44px;
 }
 
 .refresh-btn:hover {
-  background: #f5f5f7;
-  border-color: #a1a1a6;
+  background: var(--color-secondary-hover);
 }
 
 .btn-add-product {
   padding: 10px 20px;
-  background: #0071e3;
+  background: var(--color-primary);
   color: white;
   border: none;
-  border-radius: 8px;
+  border-radius: var(--radius-sm);
   font-size: 14px;
   font-weight: 500;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: background-color 0.2s ease;
+  min-height: 44px;
 }
 
 .btn-add-product:hover {
-  background: #0077ed;
+  background: var(--color-primary-hover);
 }
 
 /* Bulk Actions Bar */
@@ -87,7 +88,7 @@
   align-items: center;
   justify-content: space-between;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
-  border: 2px solid #e5e5ea;
+  border: none;
 }
 
 .bulk-select-all {
@@ -141,21 +142,22 @@
 
 .bulk-btn {
   padding: 8px 16px;
-  border-radius: 6px;
+  border-radius: var(--radius-sm);
   font-size: 13px;
   font-weight: 500;
   cursor: pointer;
-  border: 1px solid #d2d2d7;
-  background: white;
-  color: #1d1d1f;
-  transition: all 0.2s;
+  border: none;
+  background: var(--color-secondary-bg);
+  color: var(--color-primary);
+  transition: background-color 0.2s ease, transform 0.2s ease;
   display: flex;
   align-items: center;
   gap: 6px;
+  min-height: 44px;
 }
 
 .bulk-btn:hover {
-  background: #f5f5f7;
+  background: var(--color-secondary-hover);
   transform: translateY(-1px);
 }
 
@@ -187,43 +189,40 @@
 }
 
 .bulk-show {
-  border-color: #10b981;
-  color: #10b981;
+  background: #ecfdf5;
+  color: #059669;
 }
 
 .bulk-show:hover {
-  background: #ecfdf5;
-  border-color: #059669;
+  background: #d1fae5;
 }
 
 .bulk-hide {
-  border-color: #f59e0b;
-  color: #f59e0b;
+  background: #fffbeb;
+  color: #d97706;
 }
 
 .bulk-hide:hover {
-  background: #fffbeb;
-  border-color: #d97706;
+  background: #fef3c7;
 }
 
 .bulk-delete {
-  border-color: #ef4444;
-  color: #ef4444;
+  background: #fef2f2;
+  color: #dc2626;
 }
 
 .bulk-delete:hover {
-  background: #fef2f2;
-  border-color: #dc2626;
+  background: #fee2e2;
 }
 
 .bulk-cancel {
-  border-color: #6b7280;
+  background: var(--color-secondary-bg);
   color: #6b7280;
 }
 
 .bulk-cancel:hover {
-  background: #f9fafb;
-  border-color: #4b5563;
+  background: var(--color-secondary-hover);
+  color: #4b5563;
 }
 
 /* Quick Edit */
@@ -280,115 +279,110 @@
 
 .quick-edit-save,
 .quick-edit-cancel {
-  width: 28px;
-  height: 28px;
-  border-radius: 6px;
-  border: 1px solid #d2d2d7;
-  background: white;
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-sm);
+  border: none;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 14px;
   font-weight: 600;
-  transition: all 0.2s;
+  transition: background-color 0.2s ease, color 0.2s ease;
   flex-shrink: 0;
 }
 
 .quick-edit-save {
-  color: #10b981;
-  border-color: #10b981;
+  color: white;
+  background: var(--color-success);
 }
 
 .quick-edit-save:hover {
-  background: #10b981;
-  color: white;
+  background: var(--color-success-hover);
 }
 
 .quick-edit-cancel {
-  color: #ef4444;
-  border-color: #ef4444;
+  color: white;
+  background: var(--color-danger);
 }
 
 .quick-edit-cancel:hover {
-  background: #ef4444;
-  color: white;
+  background: var(--color-danger-hover);
 }
 
 .regular-price-wrapper {
   display: inline-block;
 }
 
-/* Buttons */
-.btn-edit {
-  background: #ffffff;
-  color: #1d1d1f;
-  border: 1px solid #d2d2d7;
+/* Buttons — use global token system */
+.products-page .btn-edit {
+  background: var(--color-secondary-bg);
+  color: var(--color-primary);
+  border: none;
   padding: 8px 16px;
-  border-radius: 8px;
+  border-radius: var(--radius-sm);
   font-size: 13px;
   font-weight: 500;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: background-color 0.2s ease;
 }
 
-.btn-edit:hover {
-  background: #f5f5f7;
-  border-color: #a1a1a6;
+.products-page .btn-edit:hover {
+  background: var(--color-secondary-hover);
 }
 
-.btn-delete {
-  background: #ffffff;
-  color: #d70015;
-  border: 1px solid #d2d2d7;
+.products-page .btn-delete {
+  background: #fef2f2;
+  color: var(--color-danger);
+  border: none;
   padding: 8px 16px;
-  border-radius: 8px;
+  border-radius: var(--radius-sm);
   font-size: 13px;
   font-weight: 500;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: background-color 0.2s ease;
 }
 
-.btn-delete:hover {
-  background: #fff5f5;
-  border-color: #ff3b30;
+.products-page .btn-delete:hover {
+  background: #fee2e2;
 }
 
-.btn-primary {
+.products-page .btn-primary {
   padding: 10px 20px;
-  background: #0071e3;
+  background: var(--color-primary);
   color: white;
   border: none;
-  border-radius: 8px;
+  border-radius: var(--radius-sm);
   font-size: 14px;
   font-weight: 500;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: background-color 0.2s ease;
 }
 
-.btn-primary:hover {
-  background: #0077ed;
+.products-page .btn-primary:hover {
+  background: var(--color-primary-hover);
 }
 
-.btn-primary:disabled {
+.products-page .btn-primary:disabled {
   background: #d2d2d7;
   cursor: not-allowed;
 }
 
-.btn-secondary {
+.products-page .btn-secondary {
   padding: 10px 20px;
-  background: #ffffff;
-  color: #1d1d1f;
-  border: 1px solid #d2d2d7;
-  border-radius: 8px;
+  background: var(--color-secondary-bg);
+  color: var(--color-primary);
+  border: none;
+  border-radius: var(--radius-sm);
   font-size: 14px;
   font-weight: 500;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: background-color 0.2s ease;
 }
 
-.btn-secondary:hover {
-  background: #f5f5f7;
+.products-page .btn-secondary:hover {
+  background: var(--color-secondary-hover);
 }
 
 /* Status Tabs */
@@ -411,25 +405,25 @@
   align-items: center;
   gap: 6px;
   padding: 10px 16px;
-  background: #ffffff;
-  border: 1px solid #d2d2d7;
-  border-radius: 8px;
+  background: var(--color-secondary-bg);
+  border: none;
+  border-radius: var(--radius-sm);
   font-size: 14px;
   font-weight: 500;
-  color: #1d1d1f;
+  color: var(--color-primary);
   cursor: pointer;
-  transition: all 0.2s;
+  transition: background-color 0.2s ease, color 0.2s ease;
   white-space: nowrap;
+  min-height: 44px;
 }
 
 .status-tab:hover {
-  background: #f5f5f7;
+  background: var(--color-secondary-hover);
 }
 
 .status-tab.active {
-  background: #0071e3;
+  background: var(--color-primary);
   color: white;
-  border-color: #0071e3;
 }
 
 .tab-icon {
@@ -991,7 +985,7 @@
 /* Responsive - Mobile */
 @media (max-width: 768px) {
   .products-page {
-    padding: 12px;
+    padding: 0;
   }
 
   .products-header {
@@ -1043,27 +1037,24 @@
     gap: 12px;
   }
 
-  /* Mobile: Card ngang gọn - ảnh & nội dung chung một khối */
+  /* Mobile: stack image above content */
   .product-card {
-    /* Đảo chiều để HÌNH Ở BÊN PHẢI, NỘI DUNG BÊN TRÁI nhưng vẫn là 1 card thống nhất */
-	  flex-direction: row-reverse;
+    flex-direction: column;
     align-items: stretch;
     border-radius: 10px;
   }
 
   .product-image {
-	  /* Tăng kích thước hình để ăn bớt khoảng trống dư */
-	  width: 130px;
-	  min-width: 130px;
-	  height: 130px;
-    aspect-ratio: 1;
-	  /* Bo góc bên PHẢI vì hình nằm bên phải */
-	  border-radius: 0 10px 10px 0;
+    width: 100%;
+    min-width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 10;
+    border-radius: 10px 10px 0 0;
     flex-shrink: 0;
   }
 
   .product-image img {
-	  border-radius: 0 10px 10px 0;
+    border-radius: 10px 10px 0 0;
   }
 
   .product-overlay {
@@ -1146,8 +1137,8 @@
   }
 
   .product-actions {
-    flex-direction: row;
-    gap: 6px;
+    flex-direction: column;
+    gap: 8px;
     padding-top: 8px;
     border-top: 1px solid #f5f5f7;
     margin-top: 4px;
@@ -1155,9 +1146,10 @@
 
   .product-actions .btn-edit,
   .product-actions .btn-delete {
-    flex: 1;
-    padding: 6px 10px;
-    font-size: 12px;
+    width: 100%;
+    padding: 10px 14px;
+    font-size: 13px;
+    min-height: 44px;
   }
 
   .form-row {
@@ -1180,7 +1172,7 @@
 
 @media (max-width: 480px) {
   .products-page {
-    padding: 8px;
+    padding: 0;
   }
 
   .products-header {
@@ -1208,22 +1200,22 @@
     gap: 10px;
   }
 
-  /* Mobile nhỏ: Card còn compact hơn */
+  /* Mobile nhỏ: giữ layout dọc */
   .product-card {
-    flex-direction: row-reverse;
+    flex-direction: column;
     border-radius: 8px;
   }
 
   .product-image {
-	  /* Mobile rất nhỏ: hình cũng to hơn chút nhưng vẫn vừa màn */
-	  width: 110px;
-	  min-width: 110px;
-	  height: 110px;
-	  border-radius: 0 8px 8px 0;
+    width: 100%;
+    min-width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 10;
+    border-radius: 8px 8px 0 0;
   }
 
   .product-image img {
-	  border-radius: 0 8px 8px 0;
+    border-radius: 8px 8px 0 0;
   }
 
   .product-content {
@@ -1266,4 +1258,36 @@
   .products-summary {
     grid-template-columns: 1fr;
   }
+}
+
+/* ===== ALLERGEN GRID (Add product form) ===== */
+.allergen-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 8px;
+  margin-top: 6px;
+}
+
+.allergen-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 10px;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  background: #fff;
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+
+.allergen-checkbox:hover {
+  border-color: #1976d2;
+  background: #f5f9ff;
+}
+
+.allergen-checkbox input {
+  width: auto;
+  margin: 0;
+  cursor: pointer;
 }

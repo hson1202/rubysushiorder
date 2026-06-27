@@ -239,21 +239,21 @@ const ErrorLogs = ({ url }) => {
                         <tbody>
                             {filteredLogs.map((error) => (
                                 <tr key={error._id} onClick={() => setSelectedError(error)}>
-                                    <td>{formatDate(error.createdAt)}</td>
-                                    <td>
+                                    <td data-label={t('errorLogs.time') || 'Time'}>{formatDate(error.createdAt)}</td>
+                                    <td data-label={t('errorLogs.level') || 'Level'}>
                                         <span className="level-badge" style={{ backgroundColor: getLevelColor(error.level) }}>
                                             {error.level}
                                         </span>
                                     </td>
-                                    <td>{error.source}</td>
-                                    <td className="message-cell">{error.message}</td>
-                                    <td className="url-cell">{error.url || '-'}</td>
-                                    <td>
+                                    <td data-label={t('errorLogs.source') || 'Source'}>{error.source}</td>
+                                    <td data-label={t('errorLogs.message') || 'Message'} className="message-cell">{error.message}</td>
+                                    <td data-label={t('errorLogs.url') || 'URL/Path'} className="url-cell">{error.url || '-'}</td>
+                                    <td data-label={t('errorLogs.status') || 'Status'}>
                                         <span className={`status-badge ${error.resolved ? 'resolved' : 'unresolved'}`}>
                                             {error.resolved ? t('errorLogs.resolved') || 'Resolved' : t('errorLogs.unresolved') || 'Unresolved'}
                                         </span>
                                     </td>
-                                    <td>
+                                    <td data-label={t('common.actions') || 'Actions'}>
                                         <div className="action-buttons">
                                             {!error.resolved && (
                                                 <button

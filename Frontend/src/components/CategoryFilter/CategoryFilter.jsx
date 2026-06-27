@@ -3,11 +3,13 @@ import './CategoryFilter.css'
 import PropTypes from 'prop-types'
 import { useTranslation } from 'react-i18next'
 
-const CategoryFilter = ({
-  categories = [],
+const MOBILE_BREAKPOINT = 768
+
+const CategoryFilter = ({  categories = [],
   onCategorySelect,
   selectedCategory,
   categoryRefs = {},
+  onScrollToCategory,
 }) => {
   const { t } = useTranslation()
   const scrollContainerRef = useRef(null)
@@ -15,8 +17,10 @@ const CategoryFilter = ({
   const [activeCategoryId, setActiveCategoryId] = useState(null)
   const activeCategoryIdRef = useRef(null)
   const isScrollingRef = useRef(false)
-  const [scrollState, setScrollState] = useState({
-    hasPrev: false,
+  const [isMobile, setIsMobile] = useState(() =>
+    typeof window !== 'undefined' ? window.innerWidth <= MOBILE_BREAKPOINT : false
+  )
+  const [scrollState, setScrollState] = useState({    hasPrev: false,
     hasNext: false,
     isOverflowing: false,
   })
@@ -31,16 +35,8 @@ const CategoryFilter = ({
   )
 
   const getStickyHeaderHeight = useCallback(() => {
-    const filterContainer = document.querySelector('.menu-filter-container')
-    if (filterContainer) {
-      const rect = filterContainer.getBoundingClientRect()
-      const styles = window.getComputedStyle(filterContainer)
-      const marginTop = parseFloat(styles.marginTop || 0)
-      const marginBottom = parseFloat(styles.marginBottom || 0)
-      return rect.height + marginTop + marginBottom
-    }
-
-    return window.innerWidth <= 768 ? 180 : 160
+    const rootStyles = getComputedStyle(document.documentElement)
+    return parseFloat(rootStyles.getPropertyValue('--menu-topbar-h')) || 58
   }, [])
 
   const updateScrollIndicators = useCallback(() => {
@@ -57,41 +53,93 @@ const CategoryFilter = ({
     })
   }, [])
 
-  // Scroll category button into view in the carousel
-  const scrollCategoryIntoView = useCallback(
-    (categoryId) => {
+  const getSidebarScrollParent = useCallback(() => {
+    const container = scrollContainerRef.current
+    if (!container) return null
+    return container.closest('.menu-sidebar') || container
+  }, [])
+
+  const alignActiveCategoryMobile = useCallback((categoryId, { animate = true } = {}) => {
+    const container = scrollContainerRef.current
+    const buttonRef = categoryButtonRefs.current[categoryId]
+    const sidebar = getSidebarScrollParent()
+    if (!container || !buttonRef || !sidebar) return
+
+    const visibleHeight = sidebar.clientHeight
+    const containerHeight = container.scrollHeight
+    const offsetTop = buttonRef.offsetTop
+    const buttonHeight = buttonRef.offsetHeight
+    const buttonCenter = offsetTop + buttonHeight / 2
+    const sidebarCenter = visibleHeight / 2
+    const minY = Math.min(0, visibleHeight - containerHeight)
+    const centeredY = sidebarCenter - buttonCenter
+    const nextY = Math.max(minY, Math.min(0, centeredY))
+
+    container.classList.toggle('is-instant', !animate)
+    container.style.transform = `translateY(${nextY}px)`
+
+    if (!animate) {
+      requestAnimationFrame(() => {
+        container.classList.remove('is-instant')
+      })
+    }
+  }, [getSidebarScrollParent])
+
+  const resetMobileSidebarTransform = useCallback(() => {
+    const container = scrollContainerRef.current
+    if (!container) return
+    container.style.transform = ''
+    container.classList.remove('is-instant')
+  }, [])
+
+  // Desktop: keep active category visible inside the sticky sidebar scroll area
+  const scrollCategoryIntoView = useCallback(    (categoryId, { behavior = 'auto' } = {}) => {
       const buttonRef = categoryButtonRefs.current[categoryId]
-      if (buttonRef && scrollContainerRef.current) {
-        const container = scrollContainerRef.current
-        const buttonRect = buttonRef.getBoundingClientRect()
-        const containerRect = container.getBoundingClientRect()
+      const scrollParent = getSidebarScrollParent()
+      if (!buttonRef || !scrollParent) return
 
-        const scrollLeft = container.scrollLeft
-        const buttonLeft = buttonRect.left - containerRect.left + scrollLeft
-        const buttonRight = buttonLeft + buttonRect.width
-        const containerWidth = containerRect.width
+      const parentRect = scrollParent.getBoundingClientRect()
+      const buttonRect = buttonRef.getBoundingClientRect()
+      const margin = 16
 
-        // Scroll if button is outside visible area
-        if (buttonLeft < scrollLeft) {
-          container.scrollTo({
-            left: buttonLeft - 16,
-            behavior: 'smooth',
-          })
-          requestAnimationFrame(updateScrollIndicators)
-        } else if (buttonRight > scrollLeft + containerWidth) {
-          container.scrollTo({
-            left: buttonRight - containerWidth + 16,
-            behavior: 'smooth',
-          })
-          requestAnimationFrame(updateScrollIndicators)
-        }
+      const isFullyVisible =
+        buttonRect.top >= parentRect.top + margin &&
+        buttonRect.bottom <= parentRect.bottom - margin
+
+      if (isFullyVisible) return
+
+      let nextScrollTop = scrollParent.scrollTop
+      if (buttonRect.top < parentRect.top + margin) {
+        nextScrollTop -= parentRect.top + margin - buttonRect.top
+      } else if (buttonRect.bottom > parentRect.bottom - margin) {
+        nextScrollTop += buttonRect.bottom - (parentRect.bottom - margin)
       }
+
+      scrollParent.scrollTo({
+        top: Math.max(0, nextScrollTop),
+        behavior,
+      })
+
+      requestAnimationFrame(updateScrollIndicators)
     },
-    [updateScrollIndicators]
+    [getSidebarScrollParent, updateScrollIndicators]
   )
 
-  const handleCarouselScroll = useCallback(() => {
-    updateScrollIndicators()
+  const alignActiveCategory = useCallback(
+    (categoryId, { behavior = 'auto' } = {}) => {
+      if (!categoryId) return
+
+      if (window.innerWidth <= MOBILE_BREAKPOINT) {
+        alignActiveCategoryMobile(categoryId, { animate: behavior === 'smooth' })
+        return
+      }
+
+      scrollCategoryIntoView(categoryId, { behavior })
+    },
+    [alignActiveCategoryMobile, scrollCategoryIntoView]
+  )
+
+  const handleCarouselScroll = useCallback(() => {    updateScrollIndicators()
   }, [updateScrollIndicators])
 
   const categoryKeySignature = useMemo(
@@ -110,7 +158,22 @@ const CategoryFilter = ({
   }, [allCategories])
 
   useEffect(() => {
-    updateScrollIndicators()
+    const updateViewport = () => {
+      const nextIsMobile = window.innerWidth <= MOBILE_BREAKPOINT
+      setIsMobile((prev) => {
+        if (prev && !nextIsMobile) {
+          resetMobileSidebarTransform()
+        }
+        return nextIsMobile
+      })
+    }
+
+    updateViewport()
+    window.addEventListener('resize', updateViewport)
+    return () => window.removeEventListener('resize', updateViewport)
+  }, [resetMobileSidebarTransform])
+
+  useEffect(() => {    updateScrollIndicators()
 
     const container = scrollContainerRef.current
     if (!container) return
@@ -131,6 +194,7 @@ const CategoryFilter = ({
 
     const observedHeaders = new Set()
     let observer
+    let rafId = null
 
     const cleanupObserverTargets = () => {
       observedHeaders.forEach((header) => {
@@ -148,16 +212,18 @@ const CategoryFilter = ({
         (entries) => {
           if (isScrollingRef.current) return
 
-          const visibleEntries = entries
-            .filter((entry) => entry.isIntersecting)
-            .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top)
+          if (rafId) cancelAnimationFrame(rafId)
+          rafId = requestAnimationFrame(() => {
+            const visibleEntries = entries
+              .filter((entry) => entry.isIntersecting)
+              .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top)
 
-          const nextCategory = visibleEntries[0]?.target?.dataset?.categoryId
-          if (nextCategory && nextCategory !== activeCategoryIdRef.current) {
+            const nextCategory = visibleEntries[0]?.target?.dataset?.categoryId
+            if (!nextCategory || nextCategory === activeCategoryIdRef.current) return
+
             activeCategoryIdRef.current = nextCategory
             setActiveCategoryId(nextCategory)
-            scrollCategoryIntoView(nextCategory)
-
+            alignActiveCategory(nextCategory, { behavior: 'auto' })
             const meta = categoryMetaById.get(nextCategory)
             if (meta && onCategorySelect) {
               onCategorySelect({
@@ -166,12 +232,12 @@ const CategoryFilter = ({
                 source: 'scroll',
               })
             }
-          }
+          })
         },
         {
           root: null,
-          rootMargin: `-${stickyHeaderHeight + 4}px 0px -70% 0px`,
-          threshold: [0, 0.25, 0.5, 0.75, 1],
+          rootMargin: `-${stickyHeaderHeight}px 0px -55% 0px`,
+          threshold: 0,
         }
       )
 
@@ -194,12 +260,12 @@ const CategoryFilter = ({
     window.addEventListener('resize', handleResize)
 
     return () => {
+      if (rafId) cancelAnimationFrame(rafId)
       window.removeEventListener('resize', handleResize)
       cleanupObserverTargets()
       observer?.disconnect()
     }
-  }, [categoryRefs, categoryKeySignature, scrollCategoryIntoView, getStickyHeaderHeight, categoryMetaById, onCategorySelect])
-
+  }, [categoryRefs, categoryKeySignature, alignActiveCategory, getStickyHeaderHeight, categoryMetaById, onCategorySelect])
   const handleCategoryClick = (category) => {
     isScrollingRef.current = true
     activeCategoryIdRef.current = category.key
@@ -209,23 +275,14 @@ const CategoryFilter = ({
       onCategorySelect({ id: category.key, label: category.localizedName, source: 'click' })
     }
 
-    const refs = categoryRefs?.current || categoryRefs
-    const target = refs?.[category.key]
-    if (target && target.current) {
-      const offset = getStickyHeaderHeight()
-      const top = target.current.getBoundingClientRect().top + window.pageYOffset - offset
-
-      window.scrollTo({
-        top: Math.max(0, top),
-        behavior: 'smooth',
-      })
-    }
+    alignActiveCategory(category.key, { behavior: 'smooth' })
+    onScrollToCategory?.(category.key, { behavior: 'smooth' })
 
     requestAnimationFrame(updateScrollIndicators)
 
-    setTimeout(() => {
+    window.setTimeout(() => {
       isScrollingRef.current = false
-    }, 1000)
+    }, 900)
   }
 
   const handleNavClick = (direction) => {
@@ -243,10 +300,15 @@ const CategoryFilter = ({
     if (selectedCategory?.id && selectedCategory.id !== activeCategoryId) {
       activeCategoryIdRef.current = selectedCategory.id
       setActiveCategoryId(selectedCategory.id)
-      scrollCategoryIntoView(selectedCategory.id)
+      const behavior = selectedCategory.source === 'click' ? 'smooth' : 'auto'
+      alignActiveCategory(selectedCategory.id, { behavior })
     }
-  }, [selectedCategory, activeCategoryId, scrollCategoryIntoView])
+  }, [selectedCategory, activeCategoryId, alignActiveCategory])
 
+  useEffect(() => {
+    if (!isMobile || !activeCategoryId) return
+    alignActiveCategoryMobile(activeCategoryId, { animate: false })
+  }, [isMobile, allCategories.length, activeCategoryId, alignActiveCategoryMobile])
   useEffect(() => {
     updateScrollIndicators()
   }, [allCategories.length, updateScrollIndicators])
@@ -297,7 +359,7 @@ const CategoryFilter = ({
         {scrollState.hasPrev && <span className="fade-edge left" aria-hidden="true" />}
         <div className="category-carousel-container" ref={scrollContainerRef}>
           {allCategories.map((category) => {
-            const isActive = activeCategoryId === category.key || selectedCategory?.id === category.key
+            const isActive = activeCategoryId === category.key
 
             return (
               <button
@@ -345,4 +407,5 @@ CategoryFilter.propTypes = {
     label: PropTypes.string,
   }),
   categoryRefs: PropTypes.object,
+  onScrollToCategory: PropTypes.func,
 }

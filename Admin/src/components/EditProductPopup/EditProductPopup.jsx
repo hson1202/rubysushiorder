@@ -1,6 +1,7 @@
 import React, { useState, useCallback, useMemo } from 'react';
 import './EditProductPopup.css';
 import { useTranslation } from 'react-i18next';
+import { ALLERGEN_OPTIONS } from '../../utils/allergens';
 
 const EditProductPopup = ({ 
   isOpen, 
@@ -393,6 +394,42 @@ const EditProductPopup = ({
                     rows="3"
                     placeholder={t('products.descriptionPlaceholder')}
                   />
+                </div>
+
+                <div className="form-group full-width">
+                  <label>{t('editProduct.portion', 'Portion / serving')}</label>
+                  <input
+                    type="text"
+                    name="portion"
+                    value={editForm.portion || ''}
+                    onChange={onInputChange}
+                    placeholder="2 PCS / 2 DB"
+                  />
+                </div>
+
+                <div className="form-group full-width">
+                  <label>{t('editProduct.allergens', 'Allergens')}</label>
+                  <div className="allergen-grid">
+                    {ALLERGEN_OPTIONS.map((a) => {
+                      const checked = (editForm.allergens || []).includes(a.code)
+                      return (
+                        <label key={a.code} className="allergen-checkbox">
+                          <input
+                            type="checkbox"
+                            checked={checked}
+                            onChange={(e) => {
+                              const current = Array.isArray(editForm.allergens) ? editForm.allergens : []
+                              const next = e.target.checked
+                                ? [...current, a.code]
+                                : current.filter((c) => c !== a.code)
+                              onInputChange({ target: { name: 'allergens', value: next } })
+                            }}
+                          />
+                          <span>{a.icon} {a.label}</span>
+                        </label>
+                      )
+                    })}
+                  </div>
                 </div>
 
                 {/* Image Upload - Inline */}
@@ -828,8 +865,8 @@ const EditProductPopup = ({
                   </div>
                   <div className="price-preview-compact">
                     <strong>Final Price: </strong>
-                    {new Intl.NumberFormat('hu-HU', { style: 'currency', currency: 'HUF', minimumFractionDigits: 0, maximumFractionDigits: 0 }).format(Math.round((Number(editForm.price) || 0) + (editForm.disableBoxFee ? 0 : 30)))}
-                    {!editForm.disableBoxFee && <small>(+30 Ft box)</small>}
+                    {new Intl.NumberFormat('hu-HU', { style: 'currency', currency: 'HUF', minimumFractionDigits: 0, maximumFractionDigits: 0 }).format(Math.round((Number(editForm.price) || 0) + (editForm.disableBoxFee ? 0 : 160)))}
+                    {!editForm.disableBoxFee && <small>(+160 Ft box)</small>}
                   </div>
                 </div>
 

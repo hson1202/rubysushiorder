@@ -12,16 +12,22 @@
 .address-input {
   width: 100%;
   padding: 12px 40px 12px 15px;
-  border: 1px solid #ddd;
+  border: 1px solid var(--brand-border);
   border-radius: 8px;
   font-size: 14px;
   transition: all 0.3s ease;
+  background: var(--brand-surface-2);
+  color: var(--brand-text);
+}
+
+.address-input::placeholder {
+  color: var(--brand-muted);
 }
 
 .address-input:focus {
   outline: none;
-  border-color: #ff6347;
-  box-shadow: 0 0 0 3px rgba(255, 99, 71, 0.1);
+  border-color: var(--brand-accent);
+  box-shadow: 0 0 0 3px rgba(226, 55, 68, 0.2);
 }
 
 .loading-spinner {
@@ -47,10 +53,10 @@
   top: calc(100% + 5px);
   left: 0;
   right: 0;
-  background: white;
-  border: 1px solid #ddd;
+  background: var(--brand-surface);
+  border: 1px solid var(--brand-border);
   border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
   max-height: 300px;
   overflow-y: auto;
   z-index: 1000;
@@ -62,7 +68,7 @@
   padding: 12px 15px;
   cursor: pointer;
   transition: background-color 0.2s ease;
-  border-bottom: 1px solid #f0f0f0;
+  border-bottom: 1px solid var(--brand-border);
 }
 
 .suggestion-item:last-child {
@@ -70,7 +76,7 @@
 }
 
 .suggestion-item:hover {
-  background-color: #f8f8f8;
+  background-color: var(--brand-surface-2);
 }
 
 .suggestion-icon {
@@ -85,13 +91,13 @@
 
 .suggestion-main {
   font-weight: 600;
-  color: #333;
+  color: var(--brand-text);
   margin-bottom: 4px;
 }
 
 .suggestion-detail {
   font-size: 12px;
-  color: #666;
+  color: var(--brand-muted);
 }
 
 /* Warning styles for addresses without house number */
@@ -211,14 +217,14 @@
 .manual-pin-trigger {
   margin-top: 12px;
   width: 100%;
-  border: 1px solid #d0d0d0;
+  border: 1px solid var(--brand-border);
   border-radius: 8px;
   padding: 12px 16px;
   font-weight: 500;
   font-size: 0.9rem;
   cursor: pointer;
-  background: #fafafa;
-  color: #1a1a1a;
+  background: var(--brand-surface-2);
+  color: var(--brand-text);
   transition: all 0.15s ease;
   display: flex;
   align-items: center;
@@ -228,14 +234,14 @@
 }
 
 .manual-pin-trigger:hover {
-  background: #f5f5f5;
-  border-color: #1a1a1a;
-  color: #1a1a1a;
+  background: var(--brand-surface);
+  border-color: var(--brand-text);
+  color: var(--brand-text);
 }
 
 .manual-pin-trigger:active {
   transform: scale(0.98);
-  background: #f0f0f0;
+  background: var(--brand-surface);
 }
 
 /* Village / surrounding area hint banner */
@@ -278,7 +284,7 @@
 /* Prominent blue pin button */
 .manual-pin-trigger.manual-pin-prominent {
   margin-top: 10px;
-  background: #2563eb;
+  background: var(--brand-accent);
   color: #fff;
   border: none;
   font-size: 0.95rem;
@@ -286,19 +292,19 @@
   border-radius: 10px;
   padding: 13px 18px;
   gap: 8px;
-  box-shadow: 0 3px 10px rgba(37, 99, 235, 0.3);
+  box-shadow: 0 3px 10px rgba(226, 55, 68, 0.3);
 }
 
 .manual-pin-trigger.manual-pin-prominent:hover {
-  background: #1d4ed8;
+  background: var(--brand-accent-hover);
   color: #fff;
   border: none;
-  box-shadow: 0 4px 14px rgba(37, 99, 235, 0.45);
+  box-shadow: 0 4px 14px rgba(226, 55, 68, 0.45);
   transform: translateY(-1px);
 }
 
 .manual-pin-trigger.manual-pin-prominent:active {
-  background: #1e40af;
+  background: var(--brand-accent-hover);
   transform: scale(0.99) translateY(0);
 }
 

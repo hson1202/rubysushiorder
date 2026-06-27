@@ -93,6 +93,7 @@ const resources = {
       'food.originalPrice': 'Giá gốc',
       'food.promotionPrice': 'Giá khuyến mãi',
       'food.viewDetails': 'Xem chi tiết',
+      'food.readMore': 'Xem thêm',
       'food.customizable': 'Đa dạng',
 
       // Product Detail
@@ -734,6 +735,7 @@ const resources = {
       'food.originalPrice': 'Original Price',
       'food.promotionPrice': 'Promotion Price',
       'food.viewDetails': 'View Details',
+      'food.readMore': 'Read more',
       'food.customizable': 'Options',
 
       // Product Detail
@@ -1377,6 +1379,7 @@ const resources = {
       'food.originalPrice': 'Eredeti ár',
       'food.promotionPrice': 'Akciós ár',
       'food.viewDetails': 'Részletek',
+      'food.readMore': 'Tovább',
       'food.customizable': 'Opciók',
 
       // Product Detail

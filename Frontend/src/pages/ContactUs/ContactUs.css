@@ -1,11 +1,11 @@
 .contact-page {
   min-height: 100vh;
-  background: #f8f9fa;
+  background: var(--brand-bg);
 }
 
 /* Hero Section */
 .contact-hero {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, var(--brand-accent) 0%, var(--brand-accent-hover) 100%);
   padding: 100px 20px;
   text-align: center;
   color: white;
@@ -71,7 +71,7 @@
 /* Contact Content */
 .contact-content {
   padding: 80px 0;
-  background: white;
+  background: var(--brand-surface);
 }
 
 .contact-grid {
@@ -84,14 +84,14 @@
 /* Contact Info */
 .contact-info h2 {
   font-size: 2.5rem;
-  color: #333;
+  color: var(--brand-text);
   margin-bottom: 20px;
   font-weight: 700;
 }
 
 .contact-info > p {
   font-size: 1.1rem;
-  color: #666;
+  color: var(--brand-muted);
   line-height: 1.8;
   margin-bottom: 40px;
 }
@@ -115,18 +115,18 @@
   flex-shrink: 0;
   width: 60px;
   height: 60px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, var(--brand-accent) 0%, var(--brand-accent-hover) 100%);
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   color: white;
-  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+  box-shadow: 0 4px 15px rgba(226, 55, 68, 0.3);
 }
 
 .info-content h3 {
   font-size: 1.3rem;
-  color: #333;
+  color: var(--brand-text);
   margin-bottom: 8px;
   font-weight: 600;
   line-height: 1.2;
@@ -134,7 +134,7 @@
 
 .info-content p {
   font-size: 1rem;
-  color: #666;
+  color: var(--brand-muted);
   line-height: 1.5;
   margin: 0;
   word-wrap: break-word;
@@ -142,15 +142,15 @@
 
 /* Contact Form */
 .contact-form {
-  background: #f8f9fa;
+  background: var(--brand-surface);
   padding: 40px;
   border-radius: 20px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.4);
 }
 
 .contact-form h2 {
   font-size: 2.5rem;
-  color: #333;
+  color: var(--brand-text);
   margin-bottom: 30px;
   font-weight: 700;
 }
@@ -162,7 +162,7 @@
 .form-group label {
   display: block;
   font-size: 1rem;
-  color: #333;
+  color: var(--brand-text);
   margin-bottom: 8px;
   font-weight: 500;
 }
@@ -172,19 +172,20 @@
 .form-group textarea {
   width: 100%;
   padding: 15px;
-  border: 2px solid #e0e0e0;
+  border: 1px solid var(--brand-border);
   border-radius: 10px;
   font-size: 1rem;
   transition: all 0.3s ease;
-  background: white;
+  background: var(--brand-surface-2);
+  color: var(--brand-text);
 }
 
 .form-group input:focus,
 .form-group select:focus,
 .form-group textarea:focus {
   outline: none;
-  border-color: #667eea;
-  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+  border-color: var(--brand-accent);
+  box-shadow: 0 0 0 3px rgba(226, 55, 68, 0.2);
 }
 
 .form-group textarea {
@@ -193,7 +194,7 @@
 }
 
 .submit-btn {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, var(--brand-accent) 0%, var(--brand-accent-hover) 100%);
   color: white;
   border: none;
   padding: 15px 30px;
@@ -207,19 +208,19 @@
 
 .submit-btn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+  box-shadow: 0 10px 25px rgba(226, 55, 68, 0.3);
 }
 
 /* Map Section */
 .map-section {
   padding: 80px 0;
-  background: #f8f9fa;
+  background: var(--brand-bg);
   text-align: center;
 }
 
 .map-section h2 {
   font-size: 2.5rem;
-  color: #333;
+  color: var(--brand-text);
   margin-bottom: 40px;
   font-weight: 700;
 }
@@ -227,8 +228,8 @@
 .map-container {
   border-radius: 20px;
   overflow: hidden;
-  box-shadow: 0 20px 40px rgba(0,0,0,0.1);
-  background: white;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+  background: var(--brand-surface);
 }
 
 .map-container iframe {
@@ -241,12 +242,12 @@
 /* FAQ Section */
 .faq-section {
   padding: 80px 0;
-  background: white;
+  background: var(--brand-surface);
 }
 
 .faq-section h2 {
   font-size: 2.5rem;
-  color: #333;
+  color: var(--brand-text);
   margin-bottom: 50px;
   text-align: center;
   font-weight: 700;
@@ -259,7 +260,7 @@
 }
 
 .faq-item {
-  background: #f8f9fa;
+  background: var(--brand-surface-2);
   padding: 30px;
   border-radius: 15px;
   transition: all 0.3s ease;
@@ -267,28 +268,28 @@
 
 .faq-item:hover {
   transform: translateY(-5px);
-  box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+  box-shadow: 0 15px 30px rgba(0,0,0,0.4);
 }
 
 .faq-item h3 {
   font-size: 1.2rem;
-  color: #333;
+  color: var(--brand-text);
   margin-bottom: 15px;
   font-weight: 600;
 }
 
 .faq-item p {
   font-size: 1rem;
-  color: #666;
+  color: var(--brand-muted);
   line-height: 1.6;
   margin: 0;
 }
 
 /* Tab Navigation */
 .tab-navigation {
-  background: #f8f9fa;
+  background: var(--brand-bg);
   padding: 20px 0;
-  border-bottom: 1px solid #e9ecef;
+  border-bottom: 1px solid var(--brand-border);
 }
 
 .tab-buttons {
@@ -299,9 +300,9 @@
 
 .tab-btn {
   padding: 12px 24px;
-  border: 2px solid #28a745;
+  border: 2px solid var(--brand-accent);
   background: transparent;
-  color: #28a745;
+  color: var(--brand-accent);
   border-radius: 25px;
   font-size: 16px;
   font-weight: 600;
@@ -310,12 +311,12 @@
 }
 
 .tab-btn:hover {
-  background: #28a745;
+  background: var(--brand-accent);
   color: white;
 }
 
 .tab-btn.active {
-  background: #28a745;
+  background: var(--brand-accent);
   color: white;
 }
 
@@ -328,13 +329,13 @@
 }
 
 .reservation-info h2 {
-  color: #333;
+  color: var(--brand-text);
   margin-bottom: 20px;
   font-size: 28px;
 }
 
 .reservation-info p {
-  color: #666;
+  color: var(--brand-muted);
   line-height: 1.6;
   margin-bottom: 30px;
 }
@@ -357,27 +358,27 @@
 }
 
 .detail-content h3 {
-  color: #333;
+  color: var(--brand-text);
   margin-bottom: 8px;
   font-size: 18px;
 }
 
 .detail-content p {
-  color: #666;
+  color: var(--brand-muted);
   line-height: 1.5;
   margin: 0;
 }
 
 /* Reservation Form */
 .reservation-form {
-  background: white;
+  background: var(--brand-surface);
   padding: 30px;
   border-radius: 10px;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
 }
 
 .reservation-form h2 {
-  color: #333;
+  color: var(--brand-text);
   margin-bottom: 25px;
   text-align: center;
   font-size: 24px;
@@ -588,15 +589,15 @@
 
 /* Enhanced Form Styles */
 .reservation-form {
-  background: #ffffff;
+  background: var(--brand-surface);
   padding: 30px;
   border-radius: 12px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-  border: 1px solid #e9ecef;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+  border: 1px solid var(--brand-border);
 }
 
 .reservation-form h2 {
-  color: #2c3e50;
+  color: var(--brand-text);
   margin-bottom: 25px;
   font-size: 24px;
   font-weight: 600;
@@ -610,7 +611,7 @@
 .form-group label {
   display: block;
   margin-bottom: 8px;
-  color: #2c3e50;
+  color: var(--brand-text);
   font-weight: 600;
   font-size: 14px;
 }
@@ -620,24 +621,25 @@
 .form-group textarea {
   width: 100%;
   padding: 12px 16px;
-  border: 2px solid #e9ecef;
+  border: 1px solid var(--brand-border);
   border-radius: 8px;
   font-size: 14px;
   transition: all 0.3s ease;
-  background: #ffffff;
+  background: var(--brand-surface-2);
+  color: var(--brand-text);
 }
 
 .form-group input:focus,
 .form-group select:focus,
 .form-group textarea:focus {
   outline: none;
-  border-color: #007bff;
-  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+  border-color: var(--brand-accent);
+  box-shadow: 0 0 0 0.2rem rgba(226, 55, 68, 0.25);
 }
 
 .form-group input::placeholder,
 .form-group textarea::placeholder {
-  color: #6c757d;
+  color: var(--brand-muted);
   opacity: 0.7;
 }
 
@@ -657,7 +659,7 @@
 .submit-btn {
   width: 100%;
   padding: 14px 20px;
-  background: linear-gradient(135deg, #007bff, #0056b3);
+  background: linear-gradient(135deg, var(--brand-accent), var(--brand-accent-hover));
   color: white;
   border: none;
   border-radius: 8px;
@@ -669,9 +671,9 @@
 }
 
 .submit-btn:hover:not(.loading) {
-  background: linear-gradient(135deg, #0056b3, #004085);
+  background: linear-gradient(135deg, var(--brand-accent-hover), var(--brand-accent-hover));
   transform: translateY(-2px);
-  box-shadow: 0 4px 15px rgba(0, 123, 255, 0.3);
+  box-shadow: 0 4px 15px rgba(226, 55, 68, 0.3);
 }
 
 .submit-btn:active:not(.loading) {
@@ -680,21 +682,21 @@
 
 /* Enhanced Reservation Info */
 .reservation-info {
-  background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+  background: var(--brand-surface-2);
   padding: 30px;
   border-radius: 12px;
-  border: 1px solid #dee2e6;
+  border: 1px solid var(--brand-border);
 }
 
 .reservation-info h2 {
-  color: #2c3e50;
+  color: var(--brand-text);
   margin-bottom: 15px;
   font-size: 24px;
   font-weight: 600;
 }
 
 .reservation-info > p {
-  color: #6c757d;
+  color: var(--brand-muted);
   line-height: 1.6;
   margin-bottom: 25px;
 }
@@ -710,32 +712,32 @@
   align-items: flex-start;
   gap: 15px;
   padding: 15px;
-  background: #ffffff;
+  background: var(--brand-surface-2);
   border-radius: 8px;
-  border: 1px solid #e9ecef;
+  border: 1px solid var(--brand-border);
   transition: all 0.3s ease;
 }
 
 .detail-item:hover {
   transform: translateY(-2px);
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
 }
 
 .detail-icon {
   font-size: 24px;
-  color: #007bff;
+  color: var(--brand-accent);
   flex-shrink: 0;
 }
 
 .detail-content h3 {
-  color: #2c3e50;
+  color: var(--brand-text);
   margin: 0 0 8px 0;
   font-size: 16px;
   font-weight: 600;
 }
 
 .detail-content p {
-  color: #6c757d;
+  color: var(--brand-muted);
   margin: 0;
   line-height: 1.5;
   font-size: 14px;
@@ -914,7 +916,7 @@
 /* Enhanced Form Validation */
 .form-group input:disabled,
 .form-group select:disabled {
-  background-color: #f5f5f5;
+  background-color: var(--brand-surface-2);
   cursor: not-allowed;
   opacity: 0.6;
 } 

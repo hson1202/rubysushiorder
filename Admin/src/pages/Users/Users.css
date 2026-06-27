@@ -4,7 +4,7 @@
   --border-color: #e4e7ec;
   --text-main: #0f172a;
   --text-muted: #6b7280;
-  --primary: #2563eb;
+  --primary: #111827;
   --success: #22c55e;
   --danger: #ef4444;
   --warning: #f97316;
@@ -293,19 +293,19 @@
 
 .btn-edit.ghost,
 .btn-delete.ghost {
-  background: transparent;
-  border: 1px solid var(--border-color);
+  background: var(--color-secondary-bg);
+  border: none;
   color: var(--text-main);
 }
 
 .btn-edit.ghost:hover,
 .btn-delete.ghost:hover {
-  border-color: var(--primary);
+  background: var(--color-secondary-hover);
   color: var(--primary);
 }
 
 .btn-delete.ghost:hover {
-  border-color: var(--danger);
+  background: #fee2e2;
   color: var(--danger);
 }
 
@@ -402,21 +402,23 @@
 }
 
 .btn-cancel {
-  border: 1px solid var(--border-color);
-  background: transparent;
+  border: none;
+  background: var(--color-secondary-bg);
   color: var(--text-main);
   padding: 10px 16px;
-  border-radius: 8px;
+  border-radius: var(--radius-sm);
   cursor: pointer;
+  min-height: 44px;
 }
 
 .btn-save {
   border: none;
-  background: var(--primary);
+  background: var(--color-primary);
   color: #fff;
   padding: 10px 18px;
-  border-radius: 8px;
+  border-radius: var(--radius-sm);
   cursor: pointer;
+  min-height: 44px;
 }
 
 @media (max-width: 900px) {

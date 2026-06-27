@@ -14,7 +14,6 @@ import cartRouter from "./routes/cartRoute.js"
 import orderRouter from "./routes/orderRoute.js"
 import adminRouter from "./routes/adminRoute.js"
 import categoryRouter from "./routes/categoryRoute.js"
-import parentCategoryRouter from "./routes/parentCategoryRoute.js"
 import blogRouter from "./routes/blogRoute.js"
 import reservationRouter from "./routes/reservationRoute.js"
 import contactMessageRouter from "./routes/contactMessageRoute.js"
@@ -100,27 +99,22 @@ app.use("/api/admin/login", authLimiter)
 app.use("/api/order", writeLimiter)
 app.use("/api/contact", writeLimiter)
 
-connectDB();
-// Database connection state
 let isConnected = false
 
 const ensureDbConnection = async () => {
+  if (mongoose.connection.readyState === 1) {
+    isConnected = true
+    return
+  }
   if (!isConnected) {
-    try {
-      await connectDB()
-      isConnected = true
-      console.log("✅ Database connected successfully")
-    } catch (error) {
-      console.error("❌ Database connection failed:", error.message)
-      throw error
+    const ok = await connectDB()
+    if (!ok) {
+      throw new Error("Database connection failed")
     }
+    isConnected = true
+    console.log("✅ Database connected successfully")
   }
 }
-
-// Database connection - initialize once at startup
-ensureDbConnection().catch(error => {
-  console.error("Initial database connection failed:", error.message)
-})
 
 // Optional: Database middleware for critical routes only (commented out for now)
 // app.use(async (req, res, next) => {
@@ -154,7 +148,6 @@ app.use("/api/cart", cartRouter)
 app.use("/api/order", orderRouter)
 app.use("/api/admin", adminRouter)
 app.use("/api/category", categoryRouter)
-app.use("/api/parent-category", parentCategoryRouter)
 app.use("/api/blog", blogRouter)
 app.use("/api/reservation", reservationRouter)
 app.use("/api/contact", contactMessageRouter)
@@ -270,7 +263,6 @@ app.get("/api", (req, res) => {
       "/api/order",
       "/api/admin",
       "/api/category",
-      "/api/parent-category",
       "/api/blog",
       "/api/reservation",
       "/api/contact",
@@ -477,7 +469,6 @@ app.use("*", (req, res) => {
       "/api/order",
       "/api/admin",
       "/api/category",
-      "/api/parent-category",
       "/api/restaurant-info"
     ]
   })
@@ -491,7 +482,17 @@ const port = process.env.PORT || 4000
 
 // Start server for both development and production (Render needs this)
 if (process.env.VERCEL !== "1") {
-  app.listen(port, async () => {
+  const startServer = async () => {
+    try {
+      await ensureDbConnection()
+    } catch (error) {
+      console.error("Initial database connection failed:", error.message)
+      if (process.env.NODE_ENV !== "production") {
+        process.exit(1)
+      }
+    }
+
+    app.listen(port, async () => {
     console.log(`🚀 Server running on port ${port}`)
     console.log(`Environment: ${process.env.NODE_ENV || "development"}`)
 
@@ -526,6 +527,8 @@ if (process.env.VERCEL !== "1") {
     }
     console.log('') // Empty line for readability
   })
+  }
+  startServer()
 }
 
 // Export for Vercel serverless function

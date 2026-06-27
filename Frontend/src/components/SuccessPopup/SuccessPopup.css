@@ -28,14 +28,14 @@
 }
 
 .success-popup {
-  background: white;
+  background: var(--brand-surface);
   border-radius: 20px;
   padding: 0;
   max-width: 500px;
   width: 90%;
   max-height: 90vh;
   overflow-y: auto;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
   animation: slideIn 0.4s ease-out;
   /* Đảm bảo popup không bị ảnh hưởng bởi parent elements */
   position: relative !important;
@@ -75,7 +75,7 @@
 .success-title {
   font-size: 28px;
   font-weight: 700;
-  color: #2c3e50;
+  color: var(--brand-text);
   margin-bottom: 10px;
   animation: slideInUp 0.5s ease-out 0.3s both;
 }
@@ -83,7 +83,7 @@
 /* Success Message */
 .success-message {
   font-size: 16px;
-  color: #7f8c8d;
+  color: var(--brand-muted);
   margin-bottom: 30px;
   line-height: 1.5;
   animation: slideInUp 0.5s ease-out 0.4s both;
@@ -125,7 +125,7 @@
 
 /* Order Details */
 .order-details {
-  background: #f8f9fa;
+  background: var(--brand-surface-2);
   border-radius: 12px;
   padding: 20px;
   margin-bottom: 25px;
@@ -137,7 +137,7 @@
   justify-content: space-between;
   align-items: center;
   padding: 8px 0;
-  border-bottom: 1px solid #e9ecef;
+  border-bottom: 1px solid var(--brand-border);
 }
 
 .detail-item:last-child {
@@ -146,18 +146,18 @@
 
 .detail-label {
   font-weight: 500;
-  color: #495057;
+  color: var(--brand-muted);
   font-size: 14px;
 }
 
 .detail-value {
   font-weight: 600;
-  color: #2c3e50;
+  color: var(--brand-text);
   font-size: 14px;
-  background: white;
+  background: var(--brand-surface);
   padding: 4px 12px;
   border-radius: 8px;
-  border: 1px solid #dee2e6;
+  border: 1px solid var(--brand-border);
 }
 
 /* Action Buttons */
@@ -181,25 +181,26 @@
 }
 
 .btn-track {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: var(--brand-accent);
   color: white;
 }
 
 .btn-track:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+  background: var(--brand-accent-hover);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
 }
 
 .btn-home {
-  background: #f8f9fa;
-  color: #495057;
-  border: 2px solid #dee2e6;
+  background: var(--brand-surface-2);
+  color: var(--brand-text);
+  border: 2px solid var(--brand-border);
 }
 
 .btn-home:hover {
-  background: #e9ecef;
+  background: var(--brand-border);
   transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
 }
 
 /* Close Button */
@@ -210,7 +211,7 @@
   background: none;
   border: none;
   font-size: 24px;
-  color: #adb5bd;
+  color: var(--brand-muted);
   cursor: pointer;
   width: 30px;
   height: 30px;
@@ -222,8 +223,8 @@
 }
 
 .close-button:hover {
-  background: #f8f9fa;
-  color: #495057;
+  background: var(--brand-surface-2);
+  color: var(--brand-text);
 }
 
 /* Animations */

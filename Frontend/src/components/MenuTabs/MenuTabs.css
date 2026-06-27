@@ -1,18 +1,15 @@
-:root {
-  --menu-border: #e5dfd2;
-  --menu-card: #ffffff;
-  --menu-text: #1f1d1a;
-  --menu-accent: #111827;
-}
-
 .menu-tabs-container {
+  --menu-border: var(--brand-border);
+  --menu-card: var(--brand-surface);
+  --menu-text: var(--brand-text);
+  --menu-accent: var(--brand-accent);
   width: 100%;
   background: var(--menu-card);
   border-bottom: 1px solid var(--menu-border);
   position: sticky;
   top: 0;
   z-index: 40;
-  box-shadow: 0 2px 6px rgba(15, 23, 42, 0.04);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
 }
 
 .menu-tabs {
@@ -35,7 +32,7 @@
   min-width: 140px;
   border: none;
   background: transparent;
-  color: rgba(17, 24, 39, 0.65);
+  color: var(--brand-muted);
   font-size: 0.95rem;
   font-weight: 600;
   text-transform: none;
@@ -53,7 +50,7 @@
 
 .menu-tab:hover {
   color: var(--menu-text);
-  background: rgba(17, 24, 39, 0.04);
+  background: rgba(255, 255, 255, 0.04);
 }
 
 .menu-tab:focus-visible {

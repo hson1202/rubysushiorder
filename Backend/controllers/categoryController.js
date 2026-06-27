@@ -1,19 +1,5 @@
 import categoryModel from "../models/categoryModel.js";
-import parentCategoryModel from "../models/parentCategoryModel.js";
 import fs from 'fs';
-
-const normalizeParentCategoryValue = (value) => {
-    if (value === undefined) return undefined;
-    if (value === null) return null;
-    if (typeof value === 'string') {
-        const trimmed = value.trim();
-        if (!trimmed || trimmed.toLowerCase() === 'null' || trimmed.toLowerCase() === 'undefined') {
-            return null;
-        }
-        return trimmed;
-    }
-    return value;
-};
 
 // Get all categories
 const getAllCategories = async (req, res) => {
@@ -42,7 +28,7 @@ const getAllCategoriesAdmin = async (req, res) => {
 // Add new category
 const addCategory = async (req, res) => {
     try {
-        const { name, description, sortOrder, language, parentCategory } = req.body;
+        const { name, description, sortOrder, language } = req.body;
         // Use Cloudinary URL or local filename
         let image_url = '';
         
@@ -65,17 +51,6 @@ const addCategory = async (req, res) => {
             ...(language ? { language } : {})
         };
 
-        const normalizedParent = normalizeParentCategoryValue(parentCategory);
-        if (normalizedParent !== undefined) {
-            if (normalizedParent) {
-                const parentExists = await parentCategoryModel.exists({ _id: normalizedParent });
-                if (!parentExists) {
-                    return res.status(400).json({ success: false, message: "Parent category not found" });
-                }
-            }
-            categoryData.parentCategory = normalizedParent;
-        }
-
         const category = new categoryModel(categoryData);
         await category.save();
         
@@ -94,7 +69,7 @@ const addCategory = async (req, res) => {
 const updateCategory = async (req, res) => {
     try {
         const { id } = req.params;
-        const { name, description, sortOrder, isActive, parentCategory } = req.body;
+        const { name, description, sortOrder, isActive } = req.body;
         let image_url = '';
         
         if (req.file) {
@@ -108,17 +83,6 @@ const updateCategory = async (req, res) => {
             sortOrder: Number(sortOrder) || 0,
             isActive: isActive !== undefined ? isActive : true
         };
-
-        const normalizedParent = normalizeParentCategoryValue(parentCategory);
-        if (normalizedParent !== undefined) {
-            if (normalizedParent) {
-                const parentExists = await parentCategoryModel.exists({ _id: normalizedParent });
-                if (!parentExists) {
-                    return res.status(400).json({ success: false, message: "Parent category not found" });
-                }
-            }
-            updateData.parentCategory = normalizedParent;
-        }
 
         if (image_url) {
             updateData.image = image_url;
@@ -228,19 +192,13 @@ const clearAllCategories = async (_req, res) => {
     }
 };
 
-// Get menu structure (parent categories with their child categories)
+// Get menu structure (flat list of active categories, sorted)
 const getMenuStructure = async (req, res) => {
     try {
-        const parentCategories = await parentCategoryModel.find({ isActive: true })
-            .sort({ sortOrder: 1, name: 1 })
-            .populate({
-                path: 'categories',
-                match: { isActive: true },
-                select: 'name description image sortOrder',
-                options: { sort: { sortOrder: 1, name: 1 } }
-            });
-        
-        res.json({ success: true, data: parentCategories });
+        const categories = await categoryModel.find({ isActive: true })
+            .sort({ sortOrder: 1, name: 1 });
+
+        res.json({ success: true, data: categories });
     } catch (error) {
         console.error('Error fetching menu structure:', error);
         res.status(500).json({ success: false, message: "Error fetching menu structure" });

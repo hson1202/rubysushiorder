@@ -49,7 +49,7 @@
 }
 
 .booking-btn {
-    background-color: #ff6b35 !important;
+    background-color: var(--brand-accent) !important;
     color: white !important;
 }
 

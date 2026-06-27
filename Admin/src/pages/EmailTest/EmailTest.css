@@ -19,18 +19,18 @@
 
 .refresh-btn {
   padding: 10px 20px;
-  background: #3498db;
+  background: var(--color-primary);
   color: white;
   border: none;
-  border-radius: 6px;
+  border-radius: var(--radius-sm);
   cursor: pointer;
   font-size: 14px;
-  transition: all 0.3s ease;
+  transition: background-color 0.2s ease;
+  min-height: 44px;
 }
 
 .refresh-btn:hover {
-  background: #2980b9;
-  transform: translateY(-1px);
+  background: var(--color-primary-hover);
 }
 
 .refresh-btn:disabled {
@@ -158,21 +158,20 @@
 .test-btn,
 .send-btn {
   padding: 12px 30px;
-  background: #27ae60;
+  background: var(--color-primary);
   color: white;
   border: none;
-  border-radius: 6px;
+  border-radius: var(--radius-sm);
   cursor: pointer;
   font-size: 16px;
-  transition: all 0.3s ease;
+  transition: background-color 0.2s ease;
   font-weight: 600;
+  min-height: 44px;
 }
 
 .test-btn:hover,
 .send-btn:hover {
-  background: #229954;
-  transform: translateY(-1px);
-  box-shadow: 0 4px 8px rgba(39, 174, 96, 0.3);
+  background: var(--color-primary-hover);
 }
 
 .test-btn:disabled,
@@ -268,17 +267,17 @@
 .help-links a {
   display: inline-block;
   padding: 10px 20px;
-  background: #3498db;
+  background: var(--color-primary);
   color: white;
   text-decoration: none;
-  border-radius: 6px;
+  border-radius: var(--radius-sm);
   font-size: 14px;
-  transition: all 0.3s ease;
+  transition: background-color 0.2s ease;
+  min-height: 44px;
 }
 
 .help-links a:hover {
-  background: #2980b9;
-  transform: translateY(-1px);
+  background: var(--color-primary-hover);
 }
 
 .usage-info {

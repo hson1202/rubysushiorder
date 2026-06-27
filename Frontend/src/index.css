@@ -1,6 +1,20 @@
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap');
 
+:root {
+  /* ===== Global Ruby Sushi dark/red theme tokens ===== */
+  --brand-bg: #0b0b0c;
+  --brand-surface: #161617;
+  --brand-surface-2: #1c1c1e;
+  --brand-border: #2a2a2c;
+  --brand-text: #f4f4f5;
+  --brand-muted: #9a9a9e;
+  --brand-accent: #e23744;
+  --brand-accent-hover: #c52b37;
+  --brand-radius: 16px;
+  --brand-radius-small: 12px;
+}
+
 *{
   padding: 0;
   margin: 0;
@@ -34,12 +48,8 @@ html {
 body{
   min-height: 100vh;
   overflow-x: hidden;
-  background-color: #fcfcfc;
-  background-image: url('https://res.cloudinary.com/dypybd75u/image/upload/v1764300377/background_uqptuj.svg');
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-attachment: fixed;
+  background-color: var(--brand-bg);
+  color: var(--brand-text);
 }
 a{
   text-decoration: none;

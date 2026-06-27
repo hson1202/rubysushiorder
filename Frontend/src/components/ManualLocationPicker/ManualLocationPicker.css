@@ -11,9 +11,10 @@
 
 .manual-picker {
   width: min(700px, 100%);
-  background: #fff;
+  background: var(--brand-surface);
+  color: var(--brand-text);
   border-radius: 16px;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
   display: flex;
   flex-direction: column;
   gap: 1rem;
@@ -38,6 +39,7 @@
   background: transparent;
   font-size: 1.2rem;
   cursor: pointer;
+  color: var(--brand-text);
 }
 
 .manual-picker-search-wrapper {
@@ -56,16 +58,22 @@
   width: 100%;
   padding: 0.75rem 1rem;
   padding-right: 2.5rem;
-  border: 2px solid #e0e0e0;
+  border: 1px solid var(--brand-border);
   border-radius: 10px;
   font-size: 0.95rem;
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
   outline: none;
+  background: var(--brand-surface-2);
+  color: var(--brand-text);
+}
+
+.manual-picker-search-input::placeholder {
+  color: var(--brand-muted);
 }
 
 .manual-picker-search-input:focus {
-  border-color: #ff7f50;
-  box-shadow: 0 0 0 3px rgba(255, 127, 80, 0.1);
+  border-color: var(--brand-accent);
+  box-shadow: 0 0 0 3px rgba(226, 55, 68, 0.2);
 }
 
 .manual-picker-search-loading {
@@ -89,14 +97,14 @@
   top: 100%;
   left: 0;
   right: 0;
-  background: #fff;
-  border: 2px solid #e0e0e0;
+  background: var(--brand-surface);
+  border: 1px solid var(--brand-border);
   border-top: none;
   border-radius: 0 0 10px 10px;
   max-height: 250px;
   overflow-y: auto;
   z-index: 1001;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
   margin-top: -2px;
 }
 
@@ -104,7 +112,7 @@
   padding: 0.85rem 1rem;
   cursor: pointer;
   transition: background-color 0.15s ease;
-  border-bottom: 1px solid #f0f0f0;
+  border-bottom: 1px solid var(--brand-border);
 }
 
 .manual-picker-suggestion-item:last-child {
@@ -112,16 +120,16 @@
 }
 
 .manual-picker-suggestion-item:hover {
-  background-color: #f8f8f8;
+  background-color: var(--brand-surface-2);
 }
 
 .manual-picker-suggestion-item:active {
-  background-color: #f0f0f0;
+  background-color: var(--brand-surface-2);
 }
 
 .manual-picker-suggestion-address {
   font-size: 0.9rem;
-  color: #333;
+  color: var(--brand-text);
   line-height: 1.4;
 }
 
@@ -161,14 +169,14 @@
 }
 
 .manual-picker-actions button.primary {
-  background: linear-gradient(135deg, #ff7f50, #ffb347);
+  background: linear-gradient(135deg, var(--brand-accent), var(--brand-accent-hover));
   color: #fff;
-  box-shadow: 0 10px 20px rgba(255, 126, 80, 0.3);
+  box-shadow: 0 10px 20px rgba(226, 55, 68, 0.3);
 }
 
 .manual-picker-actions button.secondary {
-  background: #f2f2f6;
-  color: #333;
+  background: var(--brand-surface-2);
+  color: var(--brand-text);
 }
 
 .manual-picker-actions button:active {
@@ -177,8 +185,8 @@
 }
 
 .manual-picker-error {
-  background: #fff3f3;
-  color: #c62828;
+  background: rgba(198, 40, 40, 0.15);
+  color: #ff6b6b;
   padding: 0.85rem 1rem;
   border-radius: 10px;
   font-size: 0.9rem;

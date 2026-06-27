@@ -1,6 +1,29 @@
 import foodModel from "../models/foodModel.js";
 import fs from "fs";
 
+// Parse allergens from FormData. Accepts a JSON array string (e.g. '["gluten","fish"]')
+// or a comma-separated string (e.g. "gluten, fish") for backwards compatibility with import scripts.
+const parseAllergens = (value, fallback = []) => {
+  if (value === undefined || value === null) return fallback;
+  if (Array.isArray(value)) {
+    return value.map((a) => String(a).trim()).filter(Boolean);
+  }
+  if (typeof value === "string") {
+    const trimmed = value.trim();
+    if (!trimmed) return [];
+    try {
+      const parsed = JSON.parse(trimmed);
+      if (Array.isArray(parsed)) {
+        return parsed.map((a) => String(a).trim()).filter(Boolean);
+      }
+    } catch (e) {
+      // Not JSON — treat as comma-separated string
+    }
+    return trimmed.split(",").map((a) => a.trim()).filter(Boolean);
+  }
+  return fallback;
+};
+
 const addFood = async (req, res) => {
   try {
     const {
@@ -9,6 +32,7 @@ const addFood = async (req, res) => {
       isPromotion, promotionPrice,
       soldCount, quantity, slug, options, disableBoxFee,
       isRecommended, recommendPriority,
+      portion, allergens,
       availableFrom, availableTo,
       dailyAvailabilityEnabled, dailyTimeFrom, dailyTimeTo,
       weeklyScheduleEnabled, weeklyScheduleDays
@@ -98,6 +122,8 @@ const addFood = async (req, res) => {
       disableBoxFee: disableBoxFeeBool,
       isRecommended: isRecommendedBool,
       recommendPriority: recommendPriorityNum,
+      portion: portion?.trim() || "",
+      allergens: parseAllergens(allergens, []),
       // Time-based availability
       availableFrom: availableFrom || null,
       availableTo: availableTo || null,
@@ -338,6 +364,7 @@ const updateFood = async (req, res) => {
       isPromotion, promotionPrice,
       soldCount, quantity, slug, options, disableBoxFee,
       isRecommended, recommendPriority,
+      portion, allergens,
       availableFrom, availableTo,
       dailyAvailabilityEnabled, dailyTimeFrom, dailyTimeTo,
       weeklyScheduleEnabled, weeklyScheduleDays
@@ -448,7 +475,11 @@ const updateFood = async (req, res) => {
         : Number(existingFood.soldCount || 0),
       disableBoxFee: Boolean(disableBoxFeeBool), // Ensure it's always a boolean, explicitly set
       isRecommended: Boolean(isRecommendedBool),
-      recommendPriority: recommendPriorityNum
+      recommendPriority: recommendPriorityNum,
+      portion: hasField('portion') ? (portion?.trim() || "") : existingFood.portion,
+      allergens: hasField('allergens')
+        ? parseAllergens(allergens, [])
+        : (existingFood.allergens || [])
     }
 
     // Time-based availability - only update when fields are explicitly provided

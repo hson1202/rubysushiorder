@@ -2,6 +2,7 @@ import React, { useContext, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import { StoreContext } from '../../Context/StoreContext'
 import CartPopup from '../CartPopup/CartPopup'
+import { formatHuf } from '../../utils/currency'
 import './FloatingCartBtn.css'
 
 const FloatingCartBtn = () => {
@@ -30,16 +31,7 @@ const FloatingCartBtn = () => {
     setShowCartPopup(false)
   }
 
-  const formatPrice = (price) => {
-    const n = Number(price);
-    if (isNaN(n) || n < 0) return '0 Ft';
-    return new Intl.NumberFormat('hu-HU', {
-      style: 'currency',
-      currency: 'HUF',
-      minimumFractionDigits: 0,
-      maximumFractionDigits: 0
-    }).format(n);
-  }
+  const formatPrice = (price) => formatHuf(price);
 
   // Chỉ hiển thị khi có items trong cart, mobile menu không mở, và không ở trang order
   if (getTotalCartItems() === 0 || isOnOrderPage) {

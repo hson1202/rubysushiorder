@@ -3,7 +3,6 @@
   align-items: center;
   justify-content: space-between;
   padding: 0 1.5rem;
-  /* Reduced padding */
   height: 100%;
   max-width: 1600px;
   margin: 0 auto;
@@ -17,28 +16,28 @@
 
 .menu-button {
   background: transparent;
-  border: 1px solid transparent;
+  border: none;
   cursor: pointer;
-  padding: 8px;
-  border-radius: 8px;
-  color: #64748b;
+  padding: 10px;
+  border-radius: var(--radius-sm);
+  color: var(--color-text-muted);
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.2s ease;
+  transition: background-color 0.2s ease, color 0.2s ease;
+  min-width: 44px;
+  min-height: 44px;
 }
 
 .menu-button:hover {
-  background-color: #f1f5f9;
-  color: #0f172a;
+  background-color: var(--color-secondary-bg);
+  color: var(--color-text);
 }
 
 .menu-button:active {
-  background-color: #e2e8f0;
+  background-color: var(--color-secondary-hover);
 }
 
-/* Check if we need to show/hide based on MainLayout logic. 
-   Usually we show this on mobile only if sidebar mimics a drawer. */
 @media (min-width: 1025px) {
   .menu-button {
     display: none;
@@ -49,7 +48,6 @@
   display: flex;
   align-items: center;
   gap: 1rem;
-  /* Tighter gap */
 }
 
 .navbar-item {
@@ -57,7 +55,6 @@
   align-items: center;
 }
 
-/* User Profile */
 .user-profile {
   position: relative;
 }
@@ -67,28 +64,23 @@
   align-items: center;
   gap: 8px;
   cursor: pointer;
-  padding: 4px 6px;
-  /* Compact */
-  padding-right: 8px;
+  padding: 4px 8px;
   border-radius: 20px;
-  /* Pill shape */
-  transition: all 0.2s ease;
+  transition: background-color 0.2s ease;
   user-select: none;
-  border: 1px solid transparent;
+  border: none;
+  background: transparent;
 }
 
 .profile-trigger:hover {
-  background-color: #f1f5f9;
-  border-color: #e2e8f0;
+  background-color: var(--color-secondary-bg);
 }
 
 .profile-avatar {
   width: 32px;
-  /* Smaller avatar */
   height: 32px;
   border-radius: 50%;
   object-fit: cover;
-  border: 2px solid #fff;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
 }
 
@@ -96,28 +88,26 @@
   font-weight: 600;
   color: #334155;
   font-size: 0.85rem;
-  /* Smaller font */
   margin-right: 2px;
 }
 
 .profile-chevron {
   color: #94a3b8;
-  transition: transform 0.2s ease;
+  transition: color 0.2s ease;
 }
 
 .profile-trigger:hover .profile-chevron {
-  color: #64748b;
+  color: var(--color-text-muted);
 }
 
-/* Dropdown */
 .profile-dropdown {
   position: absolute;
   top: calc(100% + 4px);
   right: 0;
   background: white;
-  border-radius: 12px;
+  border-radius: var(--radius-md);
   box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-  border: 1px solid #e2e8f0;
+  border: 1px solid var(--color-border);
   min-width: 180px;
   padding: 6px;
   animation: slideDown 0.15s ease-out;
@@ -130,7 +120,6 @@
     opacity: 0;
     transform: scale(0.95) translateY(-5px);
   }
-
   to {
     opacity: 1;
     transform: scale(1) translateY(0);
@@ -147,19 +136,19 @@
   background: none;
   text-align: left;
   cursor: pointer;
-  border-radius: 8px;
+  border-radius: var(--radius-sm);
   font-size: 0.9rem;
   color: #475569;
-  transition: all 0.15s ease;
+  transition: background-color 0.15s ease, color 0.15s ease;
 }
 
 .dropdown-item:hover {
-  background-color: #f8fafc;
-  color: #0f172a;
+  background-color: var(--color-secondary-bg);
+  color: var(--color-text);
 }
 
 .dropdown-item.danger {
-  color: #ef4444;
+  color: var(--color-danger);
 }
 
 .dropdown-item.danger:hover {
@@ -174,7 +163,11 @@
 
 @media (max-width: 768px) {
   .navbar-container {
-    padding: 0 1rem;
+    padding: 0 0.75rem;
+  }
+
+  .navbar-end {
+    gap: 0.5rem;
   }
 
   .profile-name {
@@ -184,6 +177,9 @@
   .profile-trigger {
     padding: 0;
     border-radius: 50%;
+    min-width: 44px;
+    min-height: 44px;
+    justify-content: center;
   }
 
   .profile-avatar {
@@ -192,5 +188,16 @@
 
   .profile-chevron {
     display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .navbar-container {
+    padding: 0 0.625rem;
+  }
+
+  .profile-dropdown {
+    min-width: calc(100vw - 2rem);
+    right: -0.5rem;
   }
 }

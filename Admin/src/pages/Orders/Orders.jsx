@@ -56,7 +56,6 @@ const Orders = () => {
   const [showDetailsModal, setShowDetailsModal] = useState(false);
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [isMobile, setIsMobile] = useState(() => window.innerWidth <= 720);
   const audioRef = useRef(null);
 
   const fetchAllOrders = useCallback(
@@ -235,12 +234,6 @@ const Orders = () => {
   useEffect(() => {
     fetchAllOrders();
   }, [fetchAllOrders]);
-
-  useEffect(() => {
-    const onResize = () => setIsMobile(window.innerWidth <= 720);
-    window.addEventListener('resize', onResize);
-    return () => window.removeEventListener('resize', onResize);
-  }, []);
 
   useEffect(() => {
     const eventsUrl = `${config.BACKEND_URL}/api/events?channel=orders`;
@@ -439,7 +432,6 @@ const Orders = () => {
                   <OrderRow
                     key={order._id}
                     order={order}
-                    isMobile={isMobile}
                     onStatusChange={statusHandler}
                     onDetails={() => showOrderDetails(order)}
                   />
@@ -457,7 +449,7 @@ const Orders = () => {
   );
 };
 
-const OrderRow = React.memo(({ order, onStatusChange, onDetails, isMobile }) => {
+const OrderRow = React.memo(({ order, onStatusChange, onDetails }) => {
   const { t } = useTranslation();
   const createdAt = order.createdAt ? new Date(order.createdAt) : null;
   const prettyDate = createdAt
@@ -473,75 +465,17 @@ const OrderRow = React.memo(({ order, onStatusChange, onDetails, isMobile }) => 
   const showDeliveryFee = deliveryFee > 0;
   const fulfillmentType = order.fulfillmentType || 'delivery';
   const fulfillmentLabel = getFulfillmentLabel(fulfillmentType, t);
-  const itemsText =
-    items.length === 0
-      ? t('orders.noItems', 'No items')
-      : items.length <= 2
-        ? items.map((i) => `${i.name || 'Item'} ×${i.quantity || 1}`).join(', ')
-        : `${items[0].name || 'Item'} ×${items[0].quantity || 1}, ${items[1].name || 'Item'} ×${items[1].quantity || 1}, +${items.length - 2} more`;
   const orderCode = `#${order.shortOrderId || (order._id ? order._id.slice(-6) : 'N/A')}`;
 
   // Check if order is new (within last 10 minutes)
   const isNew = createdAt && (Date.now() - createdAt.getTime()) < 10 * 60 * 1000;
-
-  if (isMobile) {
-    return (
-      <tr className="mobile-order-card">
-        <td className="mobile-order-header">
-          <div className="order-headline">
-            <span className="order-code">{orderCode}</span>
-            {isNew && <span className="new-badge">NEW</span>}
-            <span className="order-date">
-              {prettyDate} · {prettyTime}
-            </span>
-            <span className={`fulfillment-badge fulfillment-${fulfillmentType}`}>
-              {fulfillmentLabel}
-            </span>
-          </div>
-          {order.trackingCode && <span className="order-meta">#{order.trackingCode}</span>}
-        </td>
-        <td className="mobile-customer-cell">
-          <p className="customer-line">
-            {order.customerInfo?.name || t('orders.customerName', 'Customer')} ·{' '}
-            {order.customerInfo?.phone || '—'}
-          </p>
-          {order.address?.city && <p className="customer-city">{order.address.city}</p>}
-        </td>
-        <td className="mobile-items-cell">
-          <span className="items-text">{itemsText}</span>
-        </td>
-        <td className="mobile-total-cell">
-          <span className="total-amount">{formatMoney(order.amount)}</span>
-        </td>
-        <td className="mobile-status-cell">
-          <div className="status-cell inline">
-            <select
-              className="status-select"
-              value={order.status}
-              onChange={(e) => onStatusChange(e.target.value, order._id)}
-            >
-              <option value="Pending">{t('orders.pending', 'Pending')}</option>
-              <option value="Out for delivery">{t('orders.outForDelivery', 'Out for delivery')}</option>
-              <option value="Delivered">{t('orders.delivered', 'Delivered')}</option>
-            </select>
-          </div>
-        </td>
-        <td className="mobile-details-cell">
-          <button className="ghost-btn slim full-width" onClick={onDetails}>
-            {t('orders.viewDetails', 'Details')}
-          </button>
-        </td>
-      </tr>
-    );
-  }
 
   return (
     <tr className={isNew ? 'new-order-row' : ''}>
       <td data-label={t('orders.orderId', 'Order')}>
         <div className="order-id-block">
           <p className="order-code">
-            #{order.shortOrderId || (order._id ? order._id.slice(-6) : 'N/A')}
-            #{order.shortOrderId || (order._id ? order._id.slice(-6) : 'N/A')}
+            {orderCode}
             {isNew && <span className="new-badge">NEW</span>}
           </p>
           <span className="order-date">
@@ -618,7 +552,6 @@ OrderRow.propTypes = {
   order: PropTypes.object.isRequired,
   onStatusChange: PropTypes.func.isRequired,
   onDetails: PropTypes.func.isRequired,
-  isMobile: PropTypes.bool,
 };
 
 const OrderSummary = React.memo(({ amount, deliveryFee }) => {

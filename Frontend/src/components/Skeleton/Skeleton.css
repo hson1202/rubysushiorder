@@ -2,10 +2,10 @@
 .skeleton {
   background: linear-gradient(
     90deg,
-    #f0f0f0 0%,
-    #e8e8e8 20%,
-    #e8e8e8 40%,
-    #f0f0f0 100%
+    var(--brand-surface) 0%,
+    #232325 20%,
+    #232325 40%,
+    var(--brand-surface) 100%
   );
   background-size: 200% 100%;
   animation: skeleton-loading 1.5s infinite ease-in-out;
@@ -23,11 +23,11 @@
 
 /* Skeleton Card */
 .skeleton-card {
-  border: 1px solid #e0e0e0;
+  border: 1px solid var(--brand-border);
   border-radius: 8px;
   overflow: hidden;
-  background: white;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  background: var(--brand-surface);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
 }
 
 .skeleton-image {
@@ -97,8 +97,8 @@
   gap: 15px;
   align-items: center;
   padding: 15px;
-  border-bottom: 1px solid #e0e0e0;
-  background: white;
+  border-bottom: 1px solid var(--brand-border);
+  background: var(--brand-surface);
 }
 
 .skeleton-list-image {
@@ -133,10 +133,10 @@
   display: flex;
   flex-direction: column;
   gap: 0;
-  background: white;
+  background: var(--brand-surface);
   border-radius: 8px;
   overflow: hidden;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
 }
 
 /* Skeleton Categories */

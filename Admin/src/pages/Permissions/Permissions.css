@@ -353,6 +353,10 @@
 }
 
 @media (max-width: 768px) {
+  .permissions-page {
+    padding: 0;
+  }
+
   .permissions-header,
   .roles-overview,
   .permissions-matrix,
@@ -375,19 +379,62 @@
   }
   
   .matrix-container {
-    overflow-x: scroll;
+    overflow-x: visible;
   }
-  
+
   .permissions-table {
-    min-width: 600px;
+    min-width: 100%;
+  }
+
+  .permissions-table thead {
+    display: none;
+  }
+
+  .permissions-table,
+  .permissions-table tbody,
+  .permissions-table tr,
+  .permissions-table td {
+    display: block;
+    width: 100%;
+  }
+
+  .permissions-table tr {
+    margin-bottom: 16px;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    background: #ffffff;
+    padding: 16px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+  }
+
+  .permissions-table td {
+    border: none;
+    padding: 10px 0;
+  }
+
+  .permissions-table td.permission-info {
+    padding-top: 0;
+    border-bottom: 1px solid #f1f5f9;
+    margin-bottom: 8px;
+    padding-bottom: 12px;
+  }
+
+  .permissions-table td.permission-cell {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .permissions-table td.permission-cell::before {
+    content: attr(data-role);
+    font-weight: 600;
+    color: #64748b;
+    font-size: 13px;
   }
 }
 
 @media (max-width: 480px) {
-  .permissions-page {
-    padding: 12px;
-  }
-  
   .permissions-header,
   .roles-overview,
   .permissions-matrix,

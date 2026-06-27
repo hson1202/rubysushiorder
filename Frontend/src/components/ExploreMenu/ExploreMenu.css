@@ -1,13 +1,11 @@
-:root {
-  --menu-border: #e5dfd2;
-  --menu-card: #ffffff;
-  --menu-muted: #5e574c;
-  --menu-text: #1f1d1a;
-  --menu-accent: #111827;
-  --menu-soft: #d5ccc0;
-}
-
 .explore-menu {
+  /* Scope these tokens locally so they never clobber the global dark theme */
+  --menu-border: var(--brand-border);
+  --menu-card: var(--brand-surface);
+  --menu-muted: var(--brand-muted);
+  --menu-text: var(--brand-text);
+  --menu-accent: var(--brand-accent);
+  --menu-soft: var(--brand-surface-2);
   display: flex;
   flex-direction: column;
   gap: 12px;

@@ -9,6 +9,7 @@ import SuccessPopup from '../../components/SuccessPopup/SuccessPopup'
 import DeliveryAddressInput from '../../components/DeliveryAddressInput/DeliveryAddressInput'
 import DeliveryZoneDisplay from '../../components/DeliveryZoneDisplay/DeliveryZoneDisplay'
 import '../../i18n'
+import { formatHuf } from '../../utils/currency'
 
 const PlaceOrder = () => {
   const { t, i18n } = useTranslation();
@@ -43,16 +44,7 @@ const PlaceOrder = () => {
 
   const isDelivery = fulfillmentType === 'delivery';
 
-  const formatPrice = (price) => {
-    const n = Number(price);
-    if (isNaN(n) || n < 0) return '0 Ft';
-    return new Intl.NumberFormat('hu-HU', {
-      style: 'currency',
-      currency: 'HUF',
-      minimumFractionDigits: 0,
-      maximumFractionDigits: 0
-    }).format(n);
-  }
+  const formatPrice = (price) => formatHuf(price);
 
   // Helper function to check if box fee is disabled for an item
   const isBoxFeeDisabled = (item) => {

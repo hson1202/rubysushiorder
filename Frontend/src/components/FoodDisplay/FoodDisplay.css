@@ -9,7 +9,7 @@
 .food-display h2{  
     font-size: max(2.5vw, 28px);  
     font-weight: 700;
-    color: #2c3e50;
+    color: var(--brand-text);
     text-align: center;
     margin-bottom: 10px;
     position: relative;
@@ -23,7 +23,7 @@
     transform: translateX(-50%);
     width: 60px;
     height: 3px;
-    background: linear-gradient(135deg, #28a745, #20c997);
+    background: var(--brand-accent);
     border-radius: 2px;
 }
 
@@ -38,7 +38,7 @@
     scroll-behavior: smooth;
     -webkit-overflow-scrolling: touch;
     scrollbar-width: thin;
-    scrollbar-color: #28a745 #f1f1f1;
+    scrollbar-color: var(--brand-accent) #1f1f22;
     /* Ẩn scrollbar mặc định trên webkit browsers */
     scrollbar-width: none;
     -ms-overflow-style: none;
@@ -83,7 +83,7 @@
 }
 
 .carousel-btn {
-    background: linear-gradient(135deg, #28a745, #20c997);
+    background: var(--brand-accent);
     color: white;
     border: none;
     padding: 12px 20px;
@@ -92,7 +92,7 @@
     font-weight: 600;
     cursor: pointer;
     transition: all 0.3s ease;
-    box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3);
+    box-shadow: 0 4px 15px rgba(226, 55, 68, 0.3);
     display: flex;
     align-items: center;
     gap: 8px;
@@ -101,21 +101,22 @@
 }
 
 .carousel-btn:hover {
-    background: linear-gradient(135deg, #20c997, #17a2b8);
+    background: var(--brand-accent-hover);
     transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(40, 167, 69, 0.4);
+    box-shadow: 0 8px 25px rgba(226, 55, 68, 0.4);
 }
 
 .carousel-btn:active {
     transform: translateY(0);
-    box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3);
+    box-shadow: 0 4px 15px rgba(226, 55, 68, 0.3);
 }
 
 .carousel-btn:disabled {
-    background: #95a5a6;
+    background: #4a4a4d;
+    color: var(--brand-muted);
     cursor: not-allowed;
     transform: none;
-    box-shadow: 0 2px 8px rgba(149, 165, 166, 0.3);
+    box-shadow: none;
 }
 
 .carousel-btn img {
@@ -132,7 +133,7 @@
     top: 0;
     bottom: 0;
     width: 30px;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.8));
+    background: linear-gradient(90deg, transparent, rgba(11, 11, 12, 0.9));
     pointer-events: none;
     opacity: 0;
     transition: opacity 0.3s ease;
@@ -150,7 +151,7 @@
     top: 0;
     bottom: 0;
     width: 30px;
-    background: linear-gradient(270deg, transparent, rgba(255, 255, 255, 0.8));
+    background: linear-gradient(270deg, transparent, rgba(11, 11, 12, 0.9));
     pointer-events: none;
     opacity: 0;
     transition: opacity 0.3s ease;

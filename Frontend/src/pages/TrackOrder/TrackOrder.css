@@ -1,7 +1,7 @@
 /* Track Order Page */
 .track-order {
   min-height: 100vh;
-  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+  background: var(--brand-bg);
   padding: 40px 20px;
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
 }
@@ -20,9 +20,9 @@
 .track-order-header h1 {
   font-size: 2.5rem;
   font-weight: 700;
-  color: #1f2937;
+  color: var(--brand-text);
   margin-bottom: 10px;
-  background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%);
+  background: linear-gradient(135deg, var(--brand-accent) 0%, var(--brand-accent-hover) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -30,18 +30,18 @@
 
 .track-order-header p {
   font-size: 1.1rem;
-  color: #6b7280;
+  color: var(--brand-muted);
   margin: 0;
 }
 
 /* Track Form Section */
 .track-form-section {
-  background: linear-gradient(135deg, #ffffff 0%, #fefefe 100%);
+  background: var(--brand-surface);
   border-radius: 20px;
   padding: 40px;
   margin-bottom: 30px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.8);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+  border: 1px solid var(--brand-border);
 }
 
 .track-form {
@@ -60,29 +60,34 @@
 
 .form-group label {
   font-weight: 600;
-  color: #374151;
+  color: var(--brand-text);
   font-size: 0.95rem;
 }
 
 .track-input {
   padding: 12px 16px;
-  border: 2px solid #e5e7eb;
+  border: 2px solid var(--brand-border);
   border-radius: 12px;
   font-size: 1rem;
   transition: all 0.3s ease;
-  background: #f9fafb;
+  background: var(--brand-surface-2);
+  color: var(--brand-text);
+}
+
+.track-input::placeholder {
+  color: var(--brand-muted);
 }
 
 .track-input:focus {
   outline: none;
-  border-color: #ff6b35;
-  background: white;
-  box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.1);
+  border-color: var(--brand-accent);
+  background: var(--brand-surface-2);
+  box-shadow: 0 0 0 3px rgba(226, 55, 68, 0.2);
 }
 
 .track-btn {
   padding: 14px 24px;
-  background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%);
+  background: linear-gradient(135deg, var(--brand-accent) 0%, var(--brand-accent-hover) 100%);
   color: white;
   border: none;
   border-radius: 12px;
@@ -90,12 +95,12 @@
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 12px rgba(255, 107, 53, 0.3);
+  box-shadow: 0 4px 12px rgba(226, 55, 68, 0.3);
 }
 
 .track-btn:hover:not(:disabled) {
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(255, 107, 53, 0.4);
+  box-shadow: 0 6px 20px rgba(226, 55, 68, 0.4);
 }
 
 .track-btn:disabled {
@@ -105,9 +110,9 @@
 
 /* Error Message */
 .error-message {
-  background: #fef2f2;
-  border: 1px solid #fecaca;
-  color: #dc2626;
+  background: rgba(239, 68, 68, 0.15);
+  border: 1px solid rgba(239, 68, 68, 0.4);
+  color: #fca5a5;
   padding: 16px;
   border-radius: 12px;
   text-align: center;
@@ -117,11 +122,11 @@
 
 /* Order Result */
 .order-result {
-  background: linear-gradient(135deg, #ffffff 0%, #fefefe 100%);
+  background: var(--brand-surface);
   border-radius: 20px;
   padding: 40px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.8);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+  border: 1px solid var(--brand-border);
 }
 
 .order-header {
@@ -130,24 +135,24 @@
   align-items: center;
   margin-bottom: 30px;
   padding-bottom: 20px;
-  border-bottom: 2px solid #f3f4f6;
+  border-bottom: 2px solid var(--brand-border);
 }
 
 .order-header h2 {
   font-size: 1.8rem;
   font-weight: 700;
-  color: #1f2937;
+  color: var(--brand-text);
   margin: 0;
 }
 
 .tracking-code {
   font-size: 1.1rem;
-  color: #6b7280;
+  color: var(--brand-muted);
 }
 
 .tracking-code span {
   font-weight: 700;
-  color: #ff6b35;
+  color: var(--brand-accent);
   font-size: 1.2rem;
 }
 
@@ -160,22 +165,22 @@
 }
 
 .order-info-card {
-  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+  background: var(--brand-surface-2);
   border-radius: 16px;
   padding: 24px;
-  border: 1px solid #e2e8f0;
+  border: 1px solid var(--brand-border);
   transition: all 0.3s ease;
 }
 
 .order-info-card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
 }
 
 .order-info-card h3 {
   font-size: 1.2rem;
   font-weight: 600;
-  color: #1f2937;
+  color: var(--brand-text);
   margin: 0 0 16px 0;
 }
 
@@ -184,7 +189,7 @@
   justify-content: space-between;
   align-items: center;
   padding: 8px 0;
-  border-bottom: 1px solid #f3f4f6;
+  border-bottom: 1px solid var(--brand-border);
 }
 
 .info-item:last-child {
@@ -193,25 +198,25 @@
 
 .info-item .label {
   font-weight: 500;
-  color: #6b7280;
+  color: var(--brand-muted);
 }
 
 .info-item .value {
   font-weight: 600;
-  color: #1f2937;
+  color: var(--brand-text);
 }
 
 .info-item .value.price {
-  color: #10b981;
+  color: #34d399;
   font-size: 1.1rem;
 }
 
 .info-item .value.paid {
-  color: #10b981;
+  color: #34d399;
 }
 
 .info-item .value.unpaid {
-  color: #ef4444;
+  color: #f87171;
 }
 
 /* Status Card */
@@ -232,12 +237,12 @@
 
 .order-type {
   font-size: 0.9rem;
-  color: #6b7280;
+  color: var(--brand-muted);
 }
 
 .order-type span {
   font-weight: 600;
-  color: #1f2937;
+  color: var(--brand-text);
 }
 
 /* Order Items */
@@ -248,7 +253,7 @@
 .order-items h3 {
   font-size: 1.3rem;
   font-weight: 600;
-  color: #1f2937;
+  color: var(--brand-text);
   margin: 0 0 20px 0;
 }
 
@@ -263,28 +268,28 @@
   justify-content: space-between;
   align-items: center;
   padding: 16px;
-  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+  background: var(--brand-surface-2);
   border-radius: 12px;
-  border: 1px solid #e2e8f0;
+  border: 1px solid var(--brand-border);
 }
 
 .item-info h4 {
   font-size: 1rem;
   font-weight: 600;
-  color: #1f2937;
+  color: var(--brand-text);
   margin: 0 0 4px 0;
 }
 
 .item-price {
   font-size: 0.9rem;
-  color: #10b981;
+  color: #34d399;
   font-weight: 600;
   margin: 0;
 }
 
 .item-quantity {
   font-size: 0.9rem;
-  color: #6b7280;
+  color: var(--brand-muted);
   font-weight: 500;
 }
 
@@ -292,24 +297,24 @@
 .order-notes {
   margin-top: 30px;
   padding-top: 20px;
-  border-top: 2px solid #f3f4f6;
+  border-top: 2px solid var(--brand-border);
 }
 
 .order-notes h3 {
   font-size: 1.2rem;
   font-weight: 600;
-  color: #1f2937;
+  color: var(--brand-text);
   margin: 0 0 12px 0;
 }
 
 .order-notes p {
-  color: #6b7280;
+  color: var(--brand-muted);
   line-height: 1.6;
   margin: 0;
   padding: 16px;
-  background: #f9fafb;
+  background: var(--brand-surface-2);
   border-radius: 8px;
-  border-left: 4px solid #ff6b35;
+  border-left: 4px solid var(--brand-accent);
 }
 
 /* Responsive Design */

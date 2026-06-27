@@ -1,7 +1,7 @@
 .account-layout {
     min-height: calc(100vh - 200px);
     padding: 2rem 1rem;
-    background-color: #f5f5f5;
+    background-color: var(--brand-bg);
 }
 
 .account-container {
@@ -13,10 +13,10 @@
 
 .account-sidebar {
     width: 280px;
-    background: white;
+    background: var(--brand-surface);
     border-radius: 12px;
     padding: 1.5rem;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
     height: fit-content;
     position: sticky;
     top: 100px;
@@ -27,7 +27,7 @@
     align-items: center;
     gap: 1rem;
     padding-bottom: 1.5rem;
-    border-bottom: 1px solid #e0e0e0;
+    border-bottom: 1px solid var(--brand-border);
     margin-bottom: 1.5rem;
 }
 
@@ -36,20 +36,20 @@
     height: 60px;
     border-radius: 50%;
     object-fit: cover;
-    border: 2px solid #e0e0e0;
+    border: 2px solid var(--brand-border);
 }
 
 .account-user-info h3 {
     margin: 0;
     font-size: 1.1rem;
-    color: #333;
+    color: var(--brand-text);
     font-weight: 600;
 }
 
 .account-user-info p {
     margin: 0.25rem 0 0 0;
     font-size: 0.9rem;
-    color: #666;
+    color: var(--brand-muted);
 }
 
 .account-nav {
@@ -65,7 +65,7 @@
     padding: 0.875rem 1rem;
     border-radius: 8px;
     text-decoration: none;
-    color: #666;
+    color: var(--brand-muted);
     font-weight: 500;
     transition: all 0.2s;
 }
@@ -77,12 +77,12 @@
 }
 
 .account-nav-item:hover {
-    background-color: #f5f5f5;
-    color: #333;
+    background-color: var(--brand-surface-2);
+    color: var(--brand-text);
 }
 
 .account-nav-item.active {
-    background-color: #ff6b35;
+    background-color: var(--brand-accent);
     color: white;
 }
 
@@ -93,10 +93,10 @@
 
 .account-content {
     flex: 1;
-    background: white;
+    background: var(--brand-surface);
     border-radius: 12px;
     padding: 2rem;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
     min-height: 500px;
 }
 
@@ -126,16 +126,3 @@
         padding: 1.5rem;
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-

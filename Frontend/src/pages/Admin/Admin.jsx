@@ -219,13 +219,6 @@ const Admin = () => {
     }))
   }
 
-  const getParentLabel = (category) => {
-    const parent = category?.parentCategory
-    if (!parent) return 'Danh mục gốc'
-    if (typeof parent === 'object') return parent.name || parent._id || 'Danh mục cha'
-    return parent
-  }
-
   const handleSaveCategoryName = async (category) => {
     const currentValue = category.name || ''
     const draftValue = (categoryRenameValues[category._id] ?? '').trim()
@@ -248,8 +241,7 @@ const Admin = () => {
         name: draftValue,
         description: category.description || '',
         sortOrder: category.sortOrder ?? 0,
-        isActive: category.isActive,
-        parentCategory: category.parentCategory?._id || category.parentCategory || null
+        isActive: category.isActive
       }
 
       const response = await fetch(`${config.BACKEND_URL}/api/category/${category._id}`, {
@@ -547,7 +539,6 @@ const Admin = () => {
                         {category.language?.toUpperCase() || 'VI'} ·{' '}
                         {category.isActive ? 'Đang hiển thị' : 'Đang ẩn'}
                       </p>
-                      <p className="category-parent">{getParentLabel(category)}</p>
                     </div>
                     <span className="category-id">ID: {category._id}</span>
                   </div>

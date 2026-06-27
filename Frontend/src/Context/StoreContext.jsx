@@ -16,7 +16,7 @@ const StoreContextProvider =(props)=>{
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const [isLoadingFood, setIsLoadingFood] = useState(false);
     const [foodPagination, setFoodPagination] = useState(null);
-    const [boxFee, setBoxFee] = useState(0.3); // Default box fee, will be fetched from backend
+    const [boxFee, setBoxFee] = useState(160); // Default box fee in HUF, fetched from backend
     const [restaurantInfo, setRestaurantInfo] = useState(null);
     const [restaurantInfoLoading, setRestaurantInfoLoading] = useState(true);
 
@@ -106,7 +106,7 @@ const StoreContextProvider =(props)=>{
                         basePrice = 0;
                     }
                     
-                    // Thêm tiền hộp 0.3€ nếu không tắt
+                    // Thêm tiền hộp nếu không tắt
                     // Check rõ ràng: chỉ tắt khi disableBoxFee === true (explicitly true)
                     // Xử lý nhiều trường hợp: boolean true, string "true", number 1, hoặc bất kỳ truthy value nào
                     const isBoxFeeDisabled = itemInfo.disableBoxFee === true || 
@@ -183,7 +183,7 @@ const StoreContextProvider =(props)=>{
             }
         } catch (error) {
             console.error('Error fetching box fee:', error);
-            // Keep default 0.3 if fetch fails
+            // Keep default 160 HUF if fetch fails
         }
     }
     

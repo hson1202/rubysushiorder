@@ -4,6 +4,8 @@ import './ProductDetail.css'
 import { assets } from '../../assets/assets'
 import { StoreContext } from '../../Context/StoreContext'
 import { useTranslation } from 'react-i18next'
+import { normalizeAllergens, getAllergenInfo } from '../../utils/allergens'
+import { formatHuf } from '../../utils/currency'
 
 // ---- Pricing helpers ----
 const hasOverrideOpt = (product) =>
@@ -153,20 +155,13 @@ const ProductDetail = ({ product, onClose }) => {
     }
   };
 
-  const formatPrice = (price) => {
-    const n = Number(price);
-    if (isNaN(n) || n < 0) return '0 Ft';
-    return new Intl.NumberFormat('hu-HU', {
-      style: 'currency',
-      currency: 'HUF',
-      minimumFractionDigits: 0,
-      maximumFractionDigits: 0
-    }).format(n);
-  };
+  const formatPrice = (price) => formatHuf(price);
 
   const calculateDiscount = () => {
-    if (!product.isPromotion || !product.originalPrice || !product.promotionPrice) return 0;
-    return Math.round(((product.originalPrice - product.promotionPrice) / product.originalPrice) * 100);
+    if (!product.isPromotion || !product.promotionPrice) return 0;
+    const basePrice = Number(product.originalPrice || product.price);
+    if (!basePrice) return 0;
+    return Math.round(((basePrice - product.promotionPrice) / basePrice) * 100);
   };
 
   const handleOptionChange = (optionName, choiceCode) => {
@@ -246,6 +241,10 @@ const ProductDetail = ({ product, onClose }) => {
 
   if (!product) return null
 
+  const allergenInfos = normalizeAllergens(product.allergens)
+    .map((code) => getAllergenInfo(code, i18n.language))
+    .filter(Boolean)
+
   return (
     <div className="product-detail-overlay" onClick={handleOverlayClick}>
       <div className="product-detail-modal">
@@ -278,6 +277,9 @@ const ProductDetail = ({ product, onClose }) => {
           <div className="product-detail-info">
             <div className="product-header">
               <h2>{getLocalizedName()}</h2>
+              {product.portion && (
+                <div className="product-portion">{product.portion}</div>
+              )}
               <div className="product-sku">
                 {t('productDetail.sku')}: <span className="sku">{product.sku || t('productDetail.notAvailable')}</span>
               </div>
@@ -286,6 +288,20 @@ const ProductDetail = ({ product, onClose }) => {
             <div className="product-description">
               <p>{product.description || t('productDetail.noDescription')}</p>
             </div>
+
+            {allergenInfos.length > 0 && (
+              <div className="product-allergens">
+                <h4>{t('productDetail.allergens', 'Allergens')}</h4>
+                <div className="product-allergen-list">
+                  {allergenInfos.map((a) => (
+                    <span key={a.code} className="product-allergen-item" title={a.label}>
+                      <span className="product-allergen-icon">{a.icon}</span>
+                      <span className="product-allergen-label">{a.label}</span>
+                    </span>
+                  ))}
+                </div>
+              </div>
+            )}
 
             {/* Product Options */}
             {product.options && product.options.length > 0 && (
@@ -442,6 +458,8 @@ ProductDetail.propTypes = {
     status: PropTypes.string,
     likes: PropTypes.number,
     soldCount: PropTypes.number,
+    portion: PropTypes.string,
+    allergens: PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number])),
     options: PropTypes.arrayOf(
       PropTypes.shape({
         name: PropTypes.string,

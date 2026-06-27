@@ -4,6 +4,7 @@ import { assets } from '../../assets/assets'
 import { StoreContext } from '../../Context/StoreContext'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
+import { formatHuf } from '../../utils/currency'
 
 // ---- Pricing helpers ----
 const hasOverrideOpt = (product) =>
@@ -102,16 +103,7 @@ const CartPopup = ({ onClose }) => {
     }
   };
 
-  const formatPrice = (price) => {
-    const n = Number(price);
-    if (isNaN(n) || n < 0) return '0 Ft';
-    return new Intl.NumberFormat('hu-HU', {
-      style: 'currency',
-      currency: 'HUF',
-      minimumFractionDigits: 0,
-      maximumFractionDigits: 0
-    }).format(n);
-  };
+  const formatPrice = (price) => formatHuf(price);
 
   // Helper function to check if box fee is disabled for an item
   const isBoxFeeDisabled = (item) => {

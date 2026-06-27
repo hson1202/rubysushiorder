@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next'
 import i18n from '../../i18n'
 import EditProductPopup from '../../components/EditProductPopup/EditProductPopup'
 import config from '../../config/config'
+import { ALLERGEN_OPTIONS } from '../../utils/allergens'
 
 const createInitialEditForm = () => ({
   sku: '',
@@ -23,6 +24,8 @@ const createInitialEditForm = () => ({
   disableBoxFee: false,
   isRecommended: false,
   recommendPriority: 999,
+  portion: '',
+  allergens: [],
   image: null,
   imagePreview: null,
   options: [],
@@ -116,6 +119,8 @@ const Products = ({ url }) => {
     disableBoxFee: false,
     isRecommended: false,
     recommendPriority: 999,
+    portion: '',
+    allergens: [],
     options: [], // Thêm options array
     // Time-based availability
     availableFrom: '',
@@ -164,6 +169,8 @@ const Products = ({ url }) => {
       disableBoxFee: Boolean(product.disableBoxFee),
       isRecommended: Boolean(product.isRecommended),
       recommendPriority: Number.isFinite(Number(product.recommendPriority)) ? Number(product.recommendPriority) : 999,
+      portion: product.portion || '',
+      allergens: Array.isArray(product.allergens) ? [...product.allergens] : [],
       options: cloneOptions(product.options),
       availableFrom: toDateTimeLocalValue(product.availableFrom),
       availableTo: toDateTimeLocalValue(product.availableTo),
@@ -551,7 +558,8 @@ const handleQuickEditCancel = () => {
           key === 'dailyTimeFrom' ||
           key === 'dailyTimeTo' ||
           key === 'weeklyScheduleEnabled' ||
-          key === 'weeklyScheduleDays'
+          key === 'weeklyScheduleDays' ||
+          key === 'allergens'
         ) {
           return;
         }
@@ -588,6 +596,8 @@ const handleQuickEditCancel = () => {
       formData.set('disableBoxFee', String(!!editForm.disableBoxFee));    // boolean -> "true"/"false"
       formData.set('isRecommended', String(!!editForm.isRecommended));    // boolean -> "true"/"false"
       formData.set('recommendPriority', String(Number(editForm.recommendPriority) || 999));
+      formData.set('portion', editForm.portion || '');
+      formData.set('allergens', JSON.stringify(Array.isArray(editForm.allergens) ? editForm.allergens : []));
       
       // Time-based availability fields
       if (editForm.availableFrom) {
@@ -764,6 +774,8 @@ const handleQuickEditCancel = () => {
             if (newProduct.isPromotion) {
               formData.append('promotionPrice', String(Number(newProduct.promotionPrice) || 0));
             }
+            formData.append('portion', newProduct.portion || '');
+            formData.append('allergens', JSON.stringify(Array.isArray(newProduct.allergens) ? newProduct.allergens : []));
     
     if (newProduct.image) {
       formData.append('image', newProduct.image)
@@ -841,6 +853,8 @@ const handleQuickEditCancel = () => {
           disableBoxFee: false,
           isRecommended: false,
           recommendPriority: 999,
+          portion: '',
+          allergens: [],
           options: [] // Reset options
         })
         setShowAddForm(false)
@@ -1343,7 +1357,7 @@ const handleQuickEditCancel = () => {
                     checked={newProduct.disableBoxFee}
                     onChange={(e) => setNewProduct({ ...newProduct, disableBoxFee: e.target.checked })}
                   />
-                  Tắt tiền hộp (30 Ft)
+                  Tắt tiền hộp (160 Ft)
                 </label>
                 <div style={{ 
                   marginTop: '10px', 
@@ -1355,10 +1369,10 @@ const handleQuickEditCancel = () => {
                 }}>
                   <strong>Giá hiển thị cho khách hàng:</strong>
                   <div style={{ fontSize: '18px', fontWeight: 'bold', color: '#1976d2', marginTop: '5px' }}>
-                    {new Intl.NumberFormat('hu-HU', { style: 'currency', currency: 'HUF', minimumFractionDigits: 0, maximumFractionDigits: 0 }).format(Math.round((Number(newProduct.price) || 0) + (newProduct.disableBoxFee ? 0 : 30)))}
+                    {new Intl.NumberFormat('hu-HU', { style: 'currency', currency: 'HUF', minimumFractionDigits: 0, maximumFractionDigits: 0 }).format(Math.round((Number(newProduct.price) || 0) + (newProduct.disableBoxFee ? 0 : 160)))}
                     {!newProduct.disableBoxFee && newProduct.price && (
                       <span style={{ fontSize: '12px', color: '#666', fontWeight: 'normal', marginLeft: '5px' }}>
-                        (Giá gốc: {new Intl.NumberFormat('hu-HU', { style: 'currency', currency: 'HUF', minimumFractionDigits: 0, maximumFractionDigits: 0 }).format(Number(newProduct.price) || 0)} + Phí hộp: 30 Ft)
+                        (Giá gốc: {new Intl.NumberFormat('hu-HU', { style: 'currency', currency: 'HUF', minimumFractionDigits: 0, maximumFractionDigits: 0 }).format(Number(newProduct.price) || 0)} + Phí hộp: 160 Ft)
                       </span>
                     )}
                     {newProduct.disableBoxFee && newProduct.price && (
@@ -1397,6 +1411,47 @@ const handleQuickEditCancel = () => {
                   )}
                 </div>
               )}
+            </div>
+
+            {/* Portion & Allergens Section */}
+            <div className="form-section">
+              <h3>🍽️ {t('editProduct.portionAllergens', 'Portion & Allergens')}</h3>
+
+              <div className="form-group">
+                <label htmlFor="portion">{t('editProduct.portion', 'Portion / serving')}</label>
+                <input
+                  type="text"
+                  id="portion"
+                  value={newProduct.portion || ''}
+                  onChange={(e) => setNewProduct({ ...newProduct, portion: e.target.value })}
+                  placeholder="2 PCS / 2 DB"
+                />
+              </div>
+
+              <div className="form-group">
+                <label>{t('editProduct.allergens', 'Allergens')}</label>
+                <div className="allergen-grid">
+                  {ALLERGEN_OPTIONS.map((a) => {
+                    const checked = (newProduct.allergens || []).includes(a.code)
+                    return (
+                      <label key={a.code} className="allergen-checkbox">
+                        <input
+                          type="checkbox"
+                          checked={checked}
+                          onChange={(e) => {
+                            const current = Array.isArray(newProduct.allergens) ? newProduct.allergens : []
+                            const next = e.target.checked
+                              ? [...current, a.code]
+                              : current.filter((c) => c !== a.code)
+                            setNewProduct({ ...newProduct, allergens: next })
+                          }}
+                        />
+                        <span>{a.icon} {a.label}</span>
+                      </label>
+                    )
+                  })}
+                </div>
+              </div>
             </div>
 
             {/* Recommendations Section */}

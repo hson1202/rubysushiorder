@@ -4,6 +4,7 @@ import {StoreContext} from '../../Context/StoreContext'
 import { food_list } from '../../assets/assets';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { formatHuf } from '../../utils/currency';
 
 
 
@@ -14,17 +15,7 @@ const Cart = () => {
   const navigate= useNavigate();
   const { t } = useTranslation();
 
-  // Format price helper
-  const formatPrice = (price) => {
-    const n = Number(price);
-    if (isNaN(n) || n < 0) return '0 Ft';
-    return new Intl.NumberFormat('hu-HU', {
-      style: 'currency',
-      currency: 'HUF',
-      minimumFractionDigits: 0,
-      maximumFractionDigits: 0
-    }).format(n);
-  }
+  const formatPrice = (price) => formatHuf(price);
 
   // Helper function to check if box fee is disabled for an item
   const isBoxFeeDisabled = (item) => {

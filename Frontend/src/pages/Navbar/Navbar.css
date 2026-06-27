@@ -1,9 +1,10 @@
 .navbar-wrapper {
     width: 100%;
-    background-color: #ffffff;
-    position: relative;
+    background-color: #000000;
+    position: sticky;
+    top: 0;
     z-index: 1000;
-    border-bottom: 1px solid rgba(17, 24, 39, 0.08);
+    border-bottom: 1px solid var(--brand-border);
 }
 
 .navbar{
@@ -65,7 +66,7 @@
     display: flex;
     list-style: none;
     gap: 20px;
-    color: #49557e;
+    color: var(--brand-muted);
     font-size: 18px;
     flex-wrap: wrap;
     margin: 0;
@@ -80,7 +81,7 @@
 }
 
 .navbar-menu a:hover {
-    color: tomato;
+    color: var(--brand-accent);
 }
 
 .navbar-right{
@@ -96,8 +97,8 @@
 .navbar button{
     background: transparent;
     font-size: 16px;
-    color: #49557e;
-    border: 1px solid tomato;
+    color: var(--brand-accent);
+    border: 1px solid var(--brand-accent);
     padding: 10px 30px;
     border-radius: 50px;
     cursor: pointer;
@@ -107,12 +108,14 @@
 }
 
 .navbar button:hover{
-    background-color: #fff4f2;
+    background-color: var(--brand-accent);
+    color: #ffffff;
 }
 
 .navbar .active{
     padding-bottom: 2px;
-    border-bottom: 2px solid #49557e;
+    color: var(--brand-accent);
+    border-bottom: 2px solid var(--brand-accent);
 }
 
 .navbar li{
@@ -146,7 +149,7 @@
 .navbar-user-name {
     font-size: 0.9rem;
     font-weight: 500;
-    color: #333;
+    color: var(--brand-text);
     max-width: 120px;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -165,13 +168,13 @@
     right: 0;
     top: 100%;
     z-index: 1002;
-    background-color: #fff2ef;
+    background-color: var(--brand-surface);
+    color: var(--brand-text);
     padding: 12px 25px;
-    border-radius: 4px;
-    border: 1px solid tomato;
-    outline: 2px solid white;
+    border-radius: 8px;
+    border: 1px solid var(--brand-border);
     list-style: none;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
     min-width: 150px;
 }
 
@@ -195,7 +198,7 @@
 }
 
 .nav-profile-dropdown li:hover{
-    color: tomato;
+    color: var(--brand-accent);
 }
 
 /* Hamburger Menu */
@@ -218,14 +221,14 @@
 }
 
 .hamburger-menu:hover {
-    background: #f8f9fa !important;
+    background: rgba(255, 255, 255, 0.08) !important;
 }
 
 .hamburger-menu span {
     display: block;
     width: 100%;
     height: 3px;
-    background: #49557e !important;
+    background: var(--brand-text) !important;
     border-radius: 2px;
     transition: all 0.3s ease;
     transform-origin: center;
@@ -233,12 +236,12 @@
 }
 
 .hamburger-menu.active {
-    background: #f0f0f0 !important;
+    background: rgba(255, 255, 255, 0.08) !important;
 }
 
 .hamburger-menu.active span:nth-child(1) {
     transform: rotate(45deg) translate(6px, 6px);
-    background: tomato !important;
+    background: var(--brand-accent) !important;
 }
 
 .hamburger-menu.active span:nth-child(2) {
@@ -247,7 +250,7 @@
 
 .hamburger-menu.active span:nth-child(3) {
     transform: rotate(-45deg) translate(6px, -6px);
-    background: tomato !important;
+    background: var(--brand-accent) !important;
 }
 
 /* Mobile Menu Overlay */
@@ -275,12 +278,13 @@
     right: -300px;
     width: 280px;
     height: 100vh;
-    background: white;
+    background: var(--brand-surface);
+    color: var(--brand-text);
     flex-direction: column;
     padding: 80px 30px 30px;
     gap: 20px;
     transition: right 0.3s ease;
-    box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1);
+    box-shadow: -2px 0 10px rgba(0, 0, 0, 0.5);
     overflow-y: auto;
     z-index: 1002;
 }
@@ -292,7 +296,7 @@
 .mobile-menu a {
     font-size: 18px;
     padding: 15px 0;
-    border-bottom: 1px solid #f0f0f0;
+    border-bottom: 1px solid var(--brand-border);
     width: 100%;
     text-align: left;
 }
@@ -303,14 +307,14 @@
 
 .mobile-account-divider {
     height: 1px;
-    background: #e0e0e0;
+    background: var(--brand-border);
     margin: 20px 0;
 }
 
 .mobile-account-title {
     font-size: 14px;
     font-weight: 600;
-    color: #666;
+    color: var(--brand-muted);
     text-transform: uppercase;
     letter-spacing: 0.5px;
     margin-bottom: 15px;
@@ -319,7 +323,7 @@
 .mobile-login-btn {
     width: 100%;
     padding: 12px 20px;
-    background: tomato;
+    background: var(--brand-accent);
     color: white;
     border: none;
     border-radius: 8px;
@@ -330,7 +334,7 @@
 }
 
 .mobile-login-btn:hover {
-    background: #e63946;
+    background: var(--brand-accent-hover);
 }
 
 .mobile-account-options {
@@ -345,19 +349,19 @@
     gap: 12px;
     width: 100%;
     padding: 12px 16px;
-    background: #f8f9fa;
-    border: 1px solid #e9ecef;
+    background: var(--brand-surface-2);
+    border: 1px solid var(--brand-border);
     border-radius: 8px;
     font-size: 14px;
-    color: #49557e;
+    color: var(--brand-text);
     cursor: pointer;
     transition: all 0.2s ease;
     text-align: left;
 }
 
 .mobile-account-btn:hover {
-    background: #e9ecef;
-    border-color: #dee2e6;
+    background: var(--brand-border);
+    border-color: var(--brand-accent);
 }
 
 .mobile-account-btn img {

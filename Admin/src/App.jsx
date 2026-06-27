@@ -4,7 +4,6 @@ import axios from 'axios'
 import Dashboard from './pages/Dashboard/Dashboard'
 import Orders from './pages/Orders/Orders'
 import Category from './pages/Category/Category'
-import ParentCategory from './pages/ParentCategory/ParentCategory'
 import Products from './pages/Products/Products'
 import Users from './pages/Users/Users'
 import Permissions from './pages/Permissions/Permissions'
@@ -12,7 +11,6 @@ import Blog from './pages/Blog/Blog'
 import Reservations from './pages/Reservations/Reservations'
 import Messages from './pages/Messages/Messages'
 import EmailTest from './pages/EmailTest/EmailTest'
-import Add from './pages/Add/Add'
 import Login from './pages/Login/Login'
 import DeliveryZones from './pages/DeliveryZones/DeliveryZones'
 import RestaurantInfo from './pages/RestaurantInfo/RestaurantInfo'
@@ -113,7 +111,6 @@ const App = () => {
           <Route path='/admin' element={<Dashboard url={url} />} />
           <Route path='/admin/orders' element={<Orders url={url} />} />
           <Route path='/admin/category' element={<Category url={url} />} />
-          <Route path='/admin/parent-category' element={<ParentCategory url={url} />} />
           <Route path='/admin/products' element={<Products url={url} />} />
           <Route path='/admin/users' element={<Users url={url} />} />
           <Route path='/admin/permissions' element={<Permissions url={url} />} />
@@ -124,7 +121,6 @@ const App = () => {
           <Route path='/admin/messages' element={<Messages url={url} />} />
           <Route path='/admin/email-test' element={<EmailTest url={url} />} />
           <Route path='/admin/error-logs' element={<ErrorLogs url={url} />} />
-          <Route path='/admin/add' element={<Add url={url} />} />
           <Route path='/admin/login' element={<Navigate to="/admin" replace />} />
           <Route path='*' element={<Navigate to="/admin" replace />} />
         </Routes>

@@ -423,7 +423,7 @@ const DeliveryZones = ({ url }) => {
               <div className="info-item">
                 <span className="label">{t('dz.boxFee')}:</span>
                 <span className="value" style={{ fontWeight: 'bold', color: '#ff6b35' }}>
-                  {new Intl.NumberFormat('hu-HU', { style: 'currency', currency: 'HUF', minimumFractionDigits: 0, maximumFractionDigits: 0 }).format(restaurantLocation.boxFee !== undefined ? restaurantLocation.boxFee : 30)}
+                  {new Intl.NumberFormat('hu-HU', { style: 'currency', currency: 'HUF', minimumFractionDigits: 0, maximumFractionDigits: 0 }).format(restaurantLocation.boxFee !== undefined ? restaurantLocation.boxFee : 160)}
                 </span>
               </div>
             </div>

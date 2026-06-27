@@ -20,6 +20,10 @@ const foodSchema = new mongoose.Schema({
   disableBoxFee: { type: Boolean, default: false }, // Tắt tiền hộp (0.3E) cho sản phẩm này
   isRecommended: { type: Boolean, default: false }, // Đánh dấu sản phẩm được recommend trong cart
   recommendPriority: { type: Number, default: 999 }, // Priority cho recommendations (số nhỏ hơn = ưu tiên cao hơn)
+  // Portion / serving info (e.g. "2 PCS / 2 DB")
+  portion: { type: String, trim: true, default: "" },
+  // EU allergen codes (e.g. "gluten", "crustaceans", "egg", ...)
+  allergens: { type: [String], default: [] },
   // Variant Options
   options: [{
     name: { type: String, required: true, trim: true },

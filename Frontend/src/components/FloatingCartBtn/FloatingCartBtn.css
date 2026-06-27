@@ -2,13 +2,13 @@
   position: fixed;
   bottom: 30px;
   right: 30px;
-  background: linear-gradient(135deg, #28a745, #20c997);
+  background: var(--brand-accent);
   color: white;
   border: none;
   padding: 15px 20px;
   border-radius: 25px;
   cursor: pointer;
-  box-shadow: 0 8px 25px rgba(40, 167, 69, 0.4);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
   transition: all 0.3s ease;
   z-index: 1002;
   display: flex;
@@ -32,7 +32,8 @@
 
 .floating-cart-btn:hover {
   transform: scale(1.1) translateY(-2px);
-  box-shadow: 0 12px 35px rgba(40, 167, 69, 0.5);
+  background: var(--brand-accent-hover);
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.6);
 }
 
 .cart-icon {
@@ -55,7 +56,7 @@
 
 .cart-count {
   background: rgba(255, 255, 255, 0.9);
-  color: #28a745;
+  color: var(--brand-accent);
   font-weight: 700;
   font-size: 0.8rem;
   padding: 2px 8px;
@@ -93,7 +94,7 @@
     /* Ensure visibility on mobile */
     z-index: 1003;
     /* Add mobile-specific shadow */
-    box-shadow: 0 4px 15px rgba(40, 167, 69, 0.6);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.6);
     /* Force display on mobile */
     display: flex !important;
     /* Ensure button is visible */
