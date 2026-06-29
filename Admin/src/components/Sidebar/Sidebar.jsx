@@ -1,40 +1,12 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import './Sidebar.css'
 import { NavLink } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import axios from 'axios'
-import config from '../../config/config'
+import useRestaurantBranding from '../../hooks/useRestaurantBranding'
 
 const Sidebar = ({ isOpen, onClose }) => {
   const { t } = useTranslation();
-  const [restaurantName, setRestaurantName] = useState('');
-  const [logoUrl, setLogoUrl] = useState('');
-
-  const loadRestaurantBranding = () => {
-    axios.get(`${config.BACKEND_URL}/api/restaurant-info`)
-      .then(res => {
-        if (res.data.success && res.data.data) {
-          const { restaurantName: name, logoUrl: logo, updatedAt } = res.data.data;
-          if (name) {
-            setRestaurantName(name);
-            document.title = `${name} Admin`;
-          }
-          if (logo) {
-            const version = updatedAt ? new Date(updatedAt).getTime() : Date.now();
-            setLogoUrl(`${logo}${logo.includes('?') ? '&' : '?'}v=${version}`);
-          } else {
-            setLogoUrl('');
-          }
-        }
-      })
-      .catch(() => {});
-  };
-
-  useEffect(() => {
-    loadRestaurantBranding();
-    window.addEventListener('restaurantInfoUpdated', loadRestaurantBranding);
-    return () => window.removeEventListener('restaurantInfoUpdated', loadRestaurantBranding);
-  }, []);
+  const { restaurantName, logoUrl } = useRestaurantBranding();
 
   const menuItems = [
     {

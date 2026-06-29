@@ -4,11 +4,13 @@ import { assets } from '../../assets/assets'
 import LanguageSwitcher from '../LanguageSwitcher/LanguageSwitcher'
 import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
+import useRestaurantBranding from '../../hooks/useRestaurantBranding'
 import '../../i18n'
 
 const Navbar = ({ setIsAuthenticated, onMenuToggle, isSidebarOpen }) => {
   const navigate = useNavigate();
   const { t } = useTranslation();
+  const { restaurantName, logoUrl } = useRestaurantBranding();
   const [showProfileMenu, setShowProfileMenu] = useState(false);
 
   const handleLogout = () => {
@@ -32,7 +34,20 @@ const Navbar = ({ setIsAuthenticated, onMenuToggle, isSidebarOpen }) => {
             <line x1="3" y1="18" x2="21" y2="18"></line>
           </svg>
         </button>
-        {/* Breadcrumbs or Page Title could go here */}
+        {(logoUrl || restaurantName) && (
+          <div className="navbar-brand">
+            {logoUrl && (
+              <img
+                src={logoUrl}
+                alt={restaurantName || 'Restaurant'}
+                className="navbar-brand-logo"
+              />
+            )}
+            {restaurantName && (
+              <span className="navbar-brand-name">{restaurantName}</span>
+            )}
+          </div>
+        )}
       </div>
 
       <div className="navbar-end">

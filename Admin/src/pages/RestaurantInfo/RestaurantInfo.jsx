@@ -3,6 +3,7 @@ import './RestaurantInfo.css';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { useTranslation } from 'react-i18next';
+import { resolveMediaUrl } from '../../utils/mediaUrl';
 
 const emptyTranslation = () => ({
   restaurantName: '',
@@ -77,7 +78,7 @@ const RestaurantInfo = ({ url }) => {
       if (response.data.success) {
         const d = response.data.data;
         setInfo(d);
-        setLogoPreview(d.logoUrl || '');
+        setLogoPreview(resolveMediaUrl(d.logoUrl || ''));
         setFormData({
           restaurantName: d.restaurantName || '',
           logoUrl: d.logoUrl || '',
@@ -200,16 +201,16 @@ const RestaurantInfo = ({ url }) => {
       if (res.data.success) {
         const newLogoUrl = res.data.url || res.data.data?.logoUrl || '';
         setFormData(prev => ({ ...prev, logoUrl: newLogoUrl }));
-        setLogoPreview(newLogoUrl);
+        setLogoPreview(resolveMediaUrl(newLogoUrl));
         if (res.data.data) setInfo(res.data.data);
-        window.dispatchEvent(new CustomEvent('restaurantInfoUpdated'));
+        window.dispatchEvent(new CustomEvent('restaurantInfoUpdated', { detail: res.data.data }));
         toast.success('Logo đã được cập nhật!');
       } else {
         toast.error(res.data.message || 'Upload failed');
       }
     } catch (err) {
       toast.error(err.response?.data?.message || 'Logo upload failed');
-      setLogoPreview(formData.logoUrl || '');
+      setLogoPreview(resolveMediaUrl(formData.logoUrl || ''));
     } finally {
       setIsUploadingLogo(false);
       if (logoInputRef.current) logoInputRef.current.value = '';
@@ -231,9 +232,9 @@ const RestaurantInfo = ({ url }) => {
         setInfo(saved);
         if (saved?.logoUrl !== undefined) {
           setFormData(prev => ({ ...prev, logoUrl: saved.logoUrl }));
-          setLogoPreview(saved.logoUrl || '');
+          setLogoPreview(resolveMediaUrl(saved.logoUrl || ''));
         }
-        window.dispatchEvent(new CustomEvent('restaurantInfoUpdated'));
+        window.dispatchEvent(new CustomEvent('restaurantInfoUpdated', { detail: saved }));
       } else {
         toast.error(response.data.message || 'Cập nhật thất bại');
       }
@@ -253,6 +254,7 @@ const RestaurantInfo = ({ url }) => {
       if (response.data.success) {
         toast.success('Đã reset về giá trị mặc định!');
         await fetchRestaurantInfo();
+        window.dispatchEvent(new CustomEvent('restaurantInfoUpdated', { detail: response.data.data }));
       }
     } catch (error) {
       toast.error('Không thể reset thông tin');
@@ -381,7 +383,7 @@ const RestaurantInfo = ({ url }) => {
               </div>
               <small>Or paste a URL directly:</small>
               <input type="url" name="logoUrl" value={formData.logoUrl}
-                onChange={(e) => { handleInputChange(e); setLogoPreview(e.target.value); }}
+                onChange={(e) => { handleInputChange(e); setLogoPreview(resolveMediaUrl(e.target.value)); }}
                 placeholder="https://..." style={{ marginTop: '6px' }} />
             </div>
 

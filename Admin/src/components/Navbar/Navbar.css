@@ -38,8 +38,37 @@
   background-color: var(--color-secondary-hover);
 }
 
+.navbar-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+
+.navbar-brand-logo {
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+  border-radius: 6px;
+  flex-shrink: 0;
+  background: #fff;
+}
+
+.navbar-brand-name {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--color-text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 @media (min-width: 1025px) {
   .menu-button {
+    display: none;
+  }
+
+  .navbar-brand {
     display: none;
   }
 }
