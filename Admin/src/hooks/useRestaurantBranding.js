@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from 'react'
 import axios from 'axios'
 import config from '../config/config'
-import { resolveMediaUrl, withCacheBust } from '../utils/mediaUrl'
+import { resolveMediaUrl, withCacheBust, updateDocumentBranding } from '../utils/mediaUrl'
 
 const useRestaurantBranding = () => {
   const [restaurantName, setRestaurantName] = useState('')
@@ -11,32 +11,15 @@ const useRestaurantBranding = () => {
   const applyBranding = useCallback((data) => {
     if (!data) return
 
-    const name = data.restaurantName || ''
     const logo = data.logoUrl || ''
     const favicon = data.faviconUrl || ''
     const version = data.updatedAt
-
-    setRestaurantName(name)
-
-    if (name) {
-      document.title = `${name} Admin`
-    }
-
-    setLogoUrl(logo ? withCacheBust(resolveMediaUrl(logo), version) : '')
-
     const iconSource = logo || favicon
-    setFaviconUrl(iconSource ? withCacheBust(resolveMediaUrl(iconSource), version) : '')
 
-    if (iconSource) {
-      let link = document.getElementById('admin-favicon')
-      if (!link) {
-        link = document.createElement('link')
-        link.id = 'admin-favicon'
-        link.rel = 'icon'
-        document.head.appendChild(link)
-      }
-      link.href = withCacheBust(resolveMediaUrl(iconSource), version)
-    }
+    setRestaurantName(data.restaurantName || '')
+    setLogoUrl(logo ? withCacheBust(resolveMediaUrl(logo), version) : '')
+    setFaviconUrl(iconSource ? withCacheBust(resolveMediaUrl(iconSource), version) : '')
+    updateDocumentBranding(data)
   }, [])
 
   const loadRestaurantBranding = useCallback(() => {

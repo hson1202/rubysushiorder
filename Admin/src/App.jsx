@@ -20,11 +20,13 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import './i18n';
 import config from './config/config';
+import useRestaurantBranding from './hooks/useRestaurantBranding';
 
 const App = () => {
   const url = config.BACKEND_URL
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [loading, setLoading] = useState(true);
+  useRestaurantBranding();
 
   useEffect(() => {
     let isMounted = true;
