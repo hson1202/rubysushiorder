@@ -1357,7 +1357,7 @@ const handleQuickEditCancel = () => {
                     checked={newProduct.disableBoxFee}
                     onChange={(e) => setNewProduct({ ...newProduct, disableBoxFee: e.target.checked })}
                   />
-                  Tắt tiền hộp (160 Ft)
+                  Tắt phí hệ thống (160 Ft)
                 </label>
                 <div style={{ 
                   marginTop: '10px', 
@@ -1372,12 +1372,12 @@ const handleQuickEditCancel = () => {
                     {new Intl.NumberFormat('hu-HU', { style: 'currency', currency: 'HUF', minimumFractionDigits: 0, maximumFractionDigits: 0 }).format(Math.round((Number(newProduct.price) || 0) + (newProduct.disableBoxFee ? 0 : 160)))}
                     {!newProduct.disableBoxFee && newProduct.price && (
                       <span style={{ fontSize: '12px', color: '#666', fontWeight: 'normal', marginLeft: '5px' }}>
-                        (Giá gốc: {new Intl.NumberFormat('hu-HU', { style: 'currency', currency: 'HUF', minimumFractionDigits: 0, maximumFractionDigits: 0 }).format(Number(newProduct.price) || 0)} + Phí hộp: 160 Ft)
+                        (Giá gốc: {new Intl.NumberFormat('hu-HU', { style: 'currency', currency: 'HUF', minimumFractionDigits: 0, maximumFractionDigits: 0 }).format(Number(newProduct.price) || 0)} + Phí hệ thống: 160 Ft)
                       </span>
                     )}
                     {newProduct.disableBoxFee && newProduct.price && (
                       <span style={{ fontSize: '12px', color: '#4caf50', fontWeight: 'normal', marginLeft: '5px' }}>
-                        (Đã tắt phí hộp)
+                        (Đã tắt phí hệ thống)
                       </span>
                     )}
                   </div>

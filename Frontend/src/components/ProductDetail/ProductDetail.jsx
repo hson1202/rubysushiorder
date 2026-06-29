@@ -6,6 +6,7 @@ import { StoreContext } from '../../Context/StoreContext'
 import { useTranslation } from 'react-i18next'
 import { normalizeAllergens, getAllergenInfo } from '../../utils/allergens'
 import { formatHuf } from '../../utils/currency'
+import { formatProductDisplayName } from '../../utils/productDisplay'
 
 // ---- Pricing helpers ----
 const hasOverrideOpt = (product) =>
@@ -244,6 +245,8 @@ const ProductDetail = ({ product, onClose }) => {
 
   if (!product) return null
 
+  const displayName = formatProductDisplayName(product, getLocalizedName())
+
   const allergenInfos = normalizeAllergens(product.allergens)
     .map((code) => getAllergenInfo(code, i18n.language))
     .filter(Boolean)
@@ -264,7 +267,7 @@ const ProductDetail = ({ product, onClose }) => {
                 const resolved = resolveImageUrl(candidate, url);
                 return resolved || 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMzAwIiBoZWlnaHQ9IjIwMCIgZmlsbD0iI2Y1ZjVmNSIvPjx0ZXh0IHg9IjE1MCIgeT0iMTAwIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IiM5OTkiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj7wn42dIE5vIEltYWdlPC90ZXh0Pjwvc3ZnPg==';
               })()}
-              alt={getLocalizedName()}
+              alt={displayName}
               onError={(e) => {
                 e.target.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMzAwIiBoZWlnaHQ9IjIwMCIgZmlsbD0iI2Y1ZjVmNSIvPjx0ZXh0IHg9IjE1MCIgeT0iMTAwIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IiM5OTkiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj7wn5qrIEVycm9yPC90ZXh0Pjwvc3ZnPg==';
                 e.target.onerror = null;
@@ -279,13 +282,10 @@ const ProductDetail = ({ product, onClose }) => {
 
           <div className="product-detail-info">
             <div className="product-header">
-              <h2>{getLocalizedName()}</h2>
+              <h2>{displayName}</h2>
               {product.portion && (
                 <div className="product-portion">{product.portion}</div>
               )}
-              <div className="product-sku">
-                {t('productDetail.sku')}: <span className="sku">{product.sku || t('productDetail.notAvailable')}</span>
-              </div>
             </div>
 
             <div className="product-description">

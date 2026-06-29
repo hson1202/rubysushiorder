@@ -4,7 +4,7 @@
  * Usage (from Backend folder):
  *   node scripts/importMenu.js              # upsert by SKU (default)
  *   node scripts/importMenu.js --dry-run      # preview only
- *   node scripts/importMenu.js --replace-all  # delete all foods + hu categories first
+ *   node scripts/importMenu.js --replace-all  # delete all foods + all categories first
  */
 import mongoose from 'mongoose'
 import dotenv from 'dotenv'
@@ -72,59 +72,6 @@ function parseDualSizePrice(priceStr, item) {
   return null
 }
 
-function buildVariantOptions(variants) {
-  if (!Array.isArray(variants) || variants.length === 0) return []
-
-  const choices = variants.map((v) => ({
-    code: v.sku || v.id || String(v.label?.hu || v.label?.en || '').toLowerCase().replace(/\s+/g, '-'),
-    label: v.label?.hu || v.label?.en || v.sku || 'Option',
-    labelEN: v.label?.en || v.label?.hu || '',
-    labelHU: v.label?.hu || v.label?.en || '',
-    price: parseSimplePrice(v.price),
-    image: v.image || '',
-  }))
-
-  return [{
-    name: 'Választás',
-    nameEN: 'Choice',
-    nameHU: 'Választás',
-    type: 'select',
-    defaultChoiceCode: choices[0].code,
-    pricingMode: 'override',
-    choices,
-  }]
-}
-
-function buildDualSizeOptions(item, dual) {
-  const baseSku = item.sku || item.id
-  return [{
-    name: 'Méret',
-    nameEN: 'Size',
-    nameHU: 'Méret',
-    type: 'select',
-    defaultChoiceCode: `${baseSku}-4`,
-    pricingMode: 'override',
-    choices: [
-      {
-        code: `${baseSku}-4`,
-        label: '4 db',
-        labelEN: '4 pcs',
-        labelHU: '4 db',
-        price: dual.small,
-        image: item.image || '',
-      },
-      {
-        code: `${baseSku}-8`,
-        label: '8 db',
-        labelEN: '8 pcs',
-        labelHU: '8 db',
-        price: dual.large,
-        image: item.image || '',
-      },
-    ],
-  }]
-}
-
 function resolvePriceAndOptions(item) {
   let options = []
   let price = 0
@@ -132,15 +79,13 @@ function resolvePriceAndOptions(item) {
   let description = item.description?.hu || item.description?.en || ''
 
   if (Array.isArray(item.variants) && item.variants.length > 0) {
-    options = buildVariantOptions(item.variants)
-    price = options[0]?.choices[0]?.price || 0
-    return { price, options, portion, description }
+    warn(`Unexpected variants for ${item.sku} (${item.id}) - flatten menu data before import`)
   }
 
   const dual = parseDualSizePrice(item.price, item)
   if (dual) {
-    options = buildDualSizeOptions(item, dual)
     price = dual.small
+    warn(`Unexpected dual-size price for ${item.sku} (${item.id}) - flatten menu data before import`)
     return { price, options, portion, description }
   }
 
@@ -159,6 +104,140 @@ function resolvePriceAndOptions(item) {
   }
 
   return { price, options, portion, description }
+}
+
+function normalizeSlug(value) {
+  return String(value || '')
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '')
+}
+
+function normalizeForCompare(value) {
+  return normalizeSlug(value).replace(/-/g, '')
+}
+
+function composeName(baseName, label) {
+  if (!label) return baseName
+  if (!baseName) return label
+
+  const base = normalizeForCompare(baseName)
+  const variant = normalizeForCompare(label)
+  return variant.includes(base) ? label : `${baseName} - ${label}`
+}
+
+function stripCombinedPortionName(name) {
+  return String(name || '')
+    .replace(/\s*\((?:4\s*(?:db|pcs)\s*\/\s*8\s*(?:db|pcs)|4db\s*\/\s*8db|4\s*pcs\s*\/\s*8\s*pcs)\)\s*/i, '')
+    .trim()
+}
+
+function priceSegments(priceStr) {
+  if (!priceStr || typeof priceStr !== 'string' || !priceStr.includes('/')) return []
+
+  return priceStr
+    .split('/')
+    .map((segment) => {
+      const priceMatch = segment.match(/(\d{3,})\s*Ft/i)
+      if (!priceMatch) return null
+
+      const label = segment
+        .replace(priceMatch[0], '')
+        .trim()
+        .replace(/^\(|\)$/g, '')
+
+      return {
+        label,
+        price: `${priceMatch[1]} Ft`,
+        amount: parseInt(priceMatch[1], 10),
+      }
+    })
+    .filter(Boolean)
+}
+
+function deriveSegmentLabels(item, segments) {
+  const huName = item.name?.hu || ''
+  const enName = item.name?.en || ''
+  const combined = `${huName} ${enName}`
+
+  if (segments.length === 2 && /4\s*(db|pcs)\s*\/\s*8\s*(db|pcs)|4db\s*\/\s*8db/i.test(combined)) {
+    return [
+      { hu: '4 db', en: '4 pcs', skuSuffix: '4', portion: '4 pcs / 4 db' },
+      { hu: '8 db', en: '8 pcs', skuSuffix: '8', portion: '8 pcs / 8 db' },
+    ]
+  }
+
+  return segments.map((segment, index) => {
+    const label = segment.label || `${index + 1}`
+    return {
+      hu: label,
+      en: label,
+      skuSuffix: normalizeSlug(label) || `${index + 1}`,
+      portion: label,
+    }
+  })
+}
+
+function expandVariantItem(item) {
+  return item.variants.map((variant, index) => {
+    const labelHU = variant.label?.hu || variant.label?.en || variant.sku || `${index + 1}`
+    const labelEN = variant.label?.en || variant.label?.hu || variant.sku || `${index + 1}`
+    const sku = variant.sku || `${item.sku}-${index + 1}`
+
+    const expanded = {
+      ...item,
+      id: `${item.id}-${normalizeSlug(labelEN || labelHU || sku)}`,
+      nameKey: variant.labelKey || item.nameKey,
+      price: variant.price || item.price,
+      allergenCodes: variant.allergenCodes || item.allergenCodes || [],
+      image: variant.image || item.image,
+      sku,
+      name: {
+        hu: composeName(item.name?.hu, labelHU),
+        en: composeName(item.name?.en, labelEN),
+      },
+      description: variant.description || item.description,
+      portion: variant.portion || item.portion || '',
+    }
+
+    delete expanded.variants
+    return expanded
+  })
+}
+
+function expandSegmentedPriceItem(item) {
+  const segments = priceSegments(item.price)
+  if (segments.length < 2) return [item]
+
+  const labels = deriveSegmentLabels(item, segments)
+  return segments.map((segment, index) => {
+    const label = labels[index]
+    const baseHu = stripCombinedPortionName(item.name?.hu || item.id)
+    const baseEn = stripCombinedPortionName(item.name?.en || item.name?.hu || item.id)
+    const skuSuffix = label.skuSuffix || `${index + 1}`
+
+    return {
+      ...item,
+      id: `${item.id}-${skuSuffix}`,
+      sku: `${item.sku}-${skuSuffix.toUpperCase()}`,
+      name: {
+        hu: `${baseHu} (${label.hu})`,
+        en: `${baseEn} (${label.en})`,
+      },
+      price: segment.price,
+      portion: label.portion,
+    }
+  })
+}
+
+function expandMenuItem(item) {
+  if (Array.isArray(item.variants) && item.variants.length > 0) {
+    return expandVariantItem(item).flatMap(expandSegmentedPriceItem)
+  }
+
+  return expandSegmentedPriceItem(item)
 }
 
 function transformItem(item, categoryId, categoryImage) {
@@ -240,7 +319,7 @@ async function importMenu() {
 
   console.log(`📂 Loaded menu.json: ${categories.length} categories`)
   if (DRY_RUN) console.log('🔍 DRY RUN – no database writes\n')
-  if (REPLACE_ALL && !DRY_RUN) console.log('⚠️  REPLACE ALL – deleting existing foods and hu categories\n')
+  if (REPLACE_ALL && !DRY_RUN) console.log('⚠️  REPLACE ALL – deleting existing foods and all categories\n')
 
   const cleanMongoUrl = mongoUrl.replace(/[?&]appName=[^&]*/g, '').replace(/[?&]$/, '')
   await mongoose.connect(cleanMongoUrl, { retryWrites: true, w: 'majority' })
@@ -248,8 +327,8 @@ async function importMenu() {
 
   if (REPLACE_ALL && !DRY_RUN) {
     const foodDel = await foodModel.deleteMany({})
-    const catDel = await categoryModel.deleteMany({ language: 'hu' })
-    console.log(`🗑️  Deleted ${foodDel.deletedCount} foods, ${catDel.deletedCount} hu categories\n`)
+    const catDel = await categoryModel.deleteMany({})
+    console.log(`🗑️  Deleted ${foodDel.deletedCount} foods, ${catDel.deletedCount} categories\n`)
   }
 
   const categoryIdBySlug = {}
@@ -268,7 +347,7 @@ async function importMenu() {
 
   for (const cat of categories) {
     const categoryId = categoryIdBySlug[cat.id]
-    const items = cat.items || []
+    const items = (cat.items || []).flatMap(expandMenuItem)
 
     for (const item of items) {
       if (!item.sku) {

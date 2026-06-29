@@ -4,6 +4,7 @@ import axios from 'axios';
 import config from '../../config/config';
 import { assets } from '../../assets/assets';
 import { useTranslation } from 'react-i18next';
+import { formatProductDisplayName } from '../../utils/productDisplay';
 import './MyOrders.css'
 
 const MyOrders = () => {
@@ -181,7 +182,7 @@ const MyOrders = () => {
                                             <p className="order-items">
                                                 {order.items.map((item, idx) => (
                                                     <span key={idx}>
-                                                        {item.name} × {item.quantity}
+                                                        {formatProductDisplayName(item)} × {item.quantity}
                                                         {idx < order.items.length - 1 ? ', ' : ''}
                                                     </span>
                                                 ))}
@@ -212,7 +213,7 @@ const MyOrders = () => {
                                                     {order.items.map((item, idx) => (
                                                         <div key={idx} className="details-item-row">
                                                             <div className="details-item-main">
-                                                                <span className="details-item-name">{item.name}</span>
+                                                                <span className="details-item-name">{formatProductDisplayName(item)}</span>
                                                                 {Array.isArray(item.options) && item.options.length > 0 && (
                                                                     <span className="details-item-options">
                                                                         {formatOptionText(item.options)}

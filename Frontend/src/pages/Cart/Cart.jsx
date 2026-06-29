@@ -1,10 +1,10 @@
 import React, { useContext } from 'react'
 import './Cart.css'
 import {StoreContext} from '../../Context/StoreContext'
-import { food_list } from '../../assets/assets';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { formatHuf } from '../../utils/currency';
+import { formatProductDisplayName } from '../../utils/productDisplay';
 
 
 
@@ -59,7 +59,7 @@ const Cart = () => {
                   <div className="cart-item-thumb food-image-container">
                     <img src={(item.image && item.image.startsWith('http')) ? item.image : (url+"/images/"+item.image)} alt=''/>
                   </div>
-                  <p>{item.name}</p>
+                  <p>{formatProductDisplayName(item)}</p>
                   <p>{formatPrice(item.isPromotion && item.promotionPrice ? item.promotionPrice : item.price)}</p>
                   <p>{cartItems[item._id]}</p>
                   <p>{formatPrice((item.isPromotion && item.promotionPrice ? item.promotionPrice : item.price)*cartItems[item._id])}</p>

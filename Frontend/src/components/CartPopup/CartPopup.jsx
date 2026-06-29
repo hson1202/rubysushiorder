@@ -5,6 +5,7 @@ import { StoreContext } from '../../Context/StoreContext'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 import { formatHuf } from '../../utils/currency'
+import { formatProductDisplayName } from '../../utils/productDisplay'
 
 // ---- Pricing helpers ----
 const hasOverrideOpt = (product) =>
@@ -103,6 +104,8 @@ const CartPopup = ({ onClose }) => {
     }
   };
 
+  const getDisplayName = (food) => formatProductDisplayName(food, getLocalizedName(food));
+
   const formatPrice = (price) => formatHuf(price);
 
   // Helper function to check if box fee is disabled for an item
@@ -119,13 +122,14 @@ const CartPopup = ({ onClose }) => {
     const items = []
     for (const itemId in cartItems) {
       if (cartItems[itemId] > 0) {
-        // Try to get item from cartItemsData first (for items with options)
-        let itemInfo = cartItemsData[itemId];
+        const actualProductId = itemId.split('_')[0];
+        const sourceItem = food_list.find((product) => product._id === actualProductId);
+        const cartItemData = cartItemsData[itemId];
         
-        // If not in cartItemsData, fall back to food_list
-        if (!itemInfo) {
-          itemInfo = food_list.find((product) => product._id === itemId)
-        }
+        // Merge with source product so cart rows keep SKU/localized names even when cart data is partial.
+        const itemInfo = cartItemData
+          ? { ...sourceItem, ...cartItemData }
+          : sourceItem;
         
         if (itemInfo) {
           items.push({
@@ -314,13 +318,13 @@ const CartPopup = ({ onClose }) => {
                             return (
                               <img 
                                 src={imgSrc}
-                                alt={getLocalizedName(item)} 
+                                alt={getDisplayName(item)} 
                               />
                             );
                           })()}
                         </div>
                         <div className="cart-item-info">
-                          <h4>{getLocalizedName(item)}</h4>
+                          <h4>{getDisplayName(item)}</h4>
                           {item.selectedOptions && Object.keys(item.selectedOptions).length > 0 && (
                             <div className="cart-item-options">
                               <span className="options-text">{formatSelectedOptions(item)}</span>
@@ -398,7 +402,7 @@ const CartPopup = ({ onClose }) => {
                                     ? item.image
                                     : `${url}/images/${item.image}`
                                 }
-                                alt={getLocalizedName(item)}
+                                alt={getDisplayName(item)}
                               />
                               {item.isPromotion && !hasOverrideOpt(item) && (
                                 <span className="recommend-badge">
@@ -413,7 +417,7 @@ const CartPopup = ({ onClose }) => {
                             </div>
 
                             <div className="recommend-card-body">
-                              <h5 className="recommend-title">{getLocalizedName(item)}</h5>
+                              <h5 className="recommend-title">{getDisplayName(item)}</h5>
 
                               <div className="recommend-price">
                                 {isSinglePrice ? (

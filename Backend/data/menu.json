@@ -10,7 +10,7 @@
           "id": "spring-roll",
           "nameKey": "menu.item.springRoll.name",
           "portion": "2 pcs / 2 db",
-          "price": "2290 Ft",
+          "price": "2490 Ft",
           "allergenCodes": [
             "A",
             "C",
@@ -28,7 +28,7 @@
           "nameKey": "menu.item.summerRoll.name",
           "descriptionKey": "menu.item.summerRoll.desc",
           "portion": "2 pcs / 2 db",
-          "price": "2690 Ft",
+          "price": "2890 Ft",
           "allergenCodes": [
             "A",
             "B",
@@ -49,7 +49,7 @@
           "id": "vegetable-spring-roll-small",
           "nameKey": "menu.item.vegSpringRoll.name",
           "portion": "6 pcs / 6 db",
-          "price": "2190 Ft",
+          "price": "2390 Ft",
           "allergenCodes": [
             "A"
           ],
@@ -64,7 +64,7 @@
           "id": "tempura-shrimp",
           "nameKey": "menu.item.tempuraShrimp.name",
           "portion": "5 pcs / 5 db",
-          "price": "2690 Ft",
+          "price": "2890 Ft",
           "allergenCodes": [
             "A",
             "B"
@@ -81,7 +81,7 @@
           "nameKey": "menu.item.rubyTempura.name",
           "descriptionKey": "menu.item.rubyTempura.desc",
           "portion": "5 pcs / 5 db",
-          "price": "4890 Ft",
+          "price": "5090 Ft",
           "allergenCodes": [
             "A",
             "B",
@@ -110,7 +110,7 @@
           "id": "steamed-shrimp-dimsum",
           "nameKey": "menu.item.steamedShrimpDimsum.name",
           "portion": "5 pcs / 5 db",
-          "price": "2590 Ft",
+          "price": "2790 Ft",
           "allergenCodes": [
             "A",
             "B"
@@ -126,7 +126,7 @@
           "id": "fried-pork-dimsum",
           "nameKey": "menu.item.friedPorkDimsum.name",
           "portion": "5 pcs / 5 db",
-          "price": "2890 Ft",
+          "price": "3090 Ft",
           "allergenCodes": [
             "A"
           ],
@@ -141,7 +141,7 @@
           "id": "vegetarian-fried-dimsum",
           "nameKey": "menu.item.vegetarianFriedDimsum.name",
           "portion": "5 pcs / 5 db",
-          "price": "2590 Ft",
+          "price": "2790 Ft",
           "allergenCodes": [
             "A"
           ],
@@ -153,56 +153,55 @@
           }
         },
         {
-          "id": "miso-soup",
-          "nameKey": "menu.item.misoSoup.name",
+          "id": "miso-soup-tofu",
+          "nameKey": "menu.variant.tofu",
           "descriptionKey": "menu.item.misoSoup.desc",
-          "variants": [
-            {
-              "labelKey": "menu.variant.tofu",
-              "price": "2290 Ft",
-              "allergenCodes": [
-                "A",
-                "E",
-                "F"
-              ],
-              "sku": "09A",
-              "label": {
-                "hu": "Tofu",
-                "en": "Tofu"
-              }
-            },
-            {
-              "labelKey": "menu.variant.salmon",
-              "price": "2890 Ft",
-              "allergenCodes": [
-                "A",
-                "D",
-                "E",
-                "F"
-              ],
-              "sku": "09K",
-              "label": {
-                "hu": "Lazac",
-                "en": "Salmon"
-              }
-            }
-          ],
           "image": "https://pub-e3da109533764cb29410b35fc1bd8b42.r2.dev/ruby/9.png",
-          "sku": "09",
+          "sku": "09A",
           "name": {
-            "hu": "Miso",
-            "en": "Miso soup"
+            "hu": "Miso - Tofu",
+            "en": "Miso soup - Tofu"
           },
           "description": {
             "hu": "Algával és újhagymával.",
             "en": "With seaweed and spring onions."
-          }
+          },
+          "price": "2490 Ft",
+          "allergenCodes": [
+            "A",
+            "E",
+            "F"
+          ],
+          "portion": ""
+        },
+        {
+          "id": "miso-soup-salmon",
+          "nameKey": "menu.variant.salmon",
+          "descriptionKey": "menu.item.misoSoup.desc",
+          "image": "https://pub-e3da109533764cb29410b35fc1bd8b42.r2.dev/ruby/9.png",
+          "sku": "09K",
+          "name": {
+            "hu": "Miso - Lazac",
+            "en": "Miso soup - Salmon"
+          },
+          "description": {
+            "hu": "Algával és újhagymával.",
+            "en": "With seaweed and spring onions."
+          },
+          "price": "3090 Ft",
+          "allergenCodes": [
+            "A",
+            "D",
+            "E",
+            "F"
+          ],
+          "portion": ""
         },
         {
           "id": "tom-yum-soup",
           "nameKey": "menu.item.tomYum.name",
           "descriptionKey": "menu.item.tomYum.desc",
-          "price": "2890 Ft",
+          "price": "3090 Ft",
           "allergenCodes": [
             "A",
             "B",
@@ -223,7 +222,7 @@
           "id": "tempura-salmon",
           "nameKey": "menu.item.tempuraSalmon.name",
           "portion": "3 pcs / 3 db",
-          "price": "3290 Ft",
+          "price": "3490 Ft",
           "allergenCodes": [
             "A",
             "C",
@@ -239,7 +238,7 @@
         {
           "id": "tempura-chicken",
           "nameKey": "menu.item.tempuraChicken.name",
-          "price": "2790 Ft",
+          "price": "2990 Ft",
           "allergenCodes": [
             "A",
             "C"
@@ -254,7 +253,7 @@
         {
           "id": "tempura-avocado",
           "nameKey": "menu.item.tempuraAvocado.name",
-          "price": "2590 Ft",
+          "price": "2790 Ft",
           "allergenCodes": [
             "A",
             "C"
@@ -269,7 +268,7 @@
         {
           "id": "french-fries",
           "nameKey": "menu.item.frenchFries.name",
-          "price": "1890 Ft",
+          "price": "2090 Ft",
           "allergenCodes": [],
           "image": "https://pub-e3da109533764cb29410b35fc1bd8b42.r2.dev/ruby/14.png",
           "sku": "14",
@@ -281,7 +280,7 @@
         {
           "id": "wakame-salad-starter",
           "nameKey": "menu.item.wakameSalad.name",
-          "price": "2290 Ft",
+          "price": "2490 Ft",
           "allergenCodes": [
             "A",
             "K"
@@ -296,7 +295,7 @@
         {
           "id": "edamame",
           "nameKey": "menu.item.edamame.name",
-          "price": "2190 Ft",
+          "price": "2390 Ft",
           "allergenCodes": [
             "H"
           ],
@@ -327,7 +326,7 @@
           "id": "vegetarian-salad",
           "nameKey": "menu.item.vegetarianSalad.name",
           "descriptionKey": "menu.item.saigonMangoSalad.desc",
-          "price": "2990 Ft",
+          "price": "3190 Ft",
           "allergenCodes": [
             "A",
             "D",
@@ -349,7 +348,7 @@
           "id": "beef-salad",
           "nameKey": "menu.item.beefSalad.name",
           "descriptionKey": "menu.item.saigonMangoSalad.desc",
-          "price": "3590 Ft",
+          "price": "3790 Ft",
           "allergenCodes": [
             "A",
             "D",
@@ -370,7 +369,7 @@
           "id": "chicken-salad",
           "nameKey": "menu.item.chickenSalad.name",
           "descriptionKey": "menu.item.saigonMangoSalad.desc",
-          "price": "3290 Ft",
+          "price": "3490 Ft",
           "allergenCodes": [
             "A",
             "D",
@@ -391,7 +390,7 @@
           "id": "shrimp-salad",
           "nameKey": "menu.item.shrimpSalad.name",
           "descriptionKey": "menu.item.saigonMangoSalad.desc",
-          "price": "3890 Ft",
+          "price": "4090 Ft",
           "allergenCodes": [
             "A",
             "B",
@@ -413,7 +412,7 @@
           "id": "surimi-salad",
           "nameKey": "menu.item.surimiSalad.name",
           "descriptionKey": "menu.item.sakuraMayoSalad.desc",
-          "price": "2990 Ft",
+          "price": "3190 Ft",
           "allergenCodes": [
             "A",
             "B",
@@ -436,7 +435,7 @@
           "id": "salmon-salad",
           "nameKey": "menu.item.salmonSalad.name",
           "descriptionKey": "menu.item.sakuraMayoSalad.desc",
-          "price": "3590 Ft",
+          "price": "3790 Ft",
           "allergenCodes": [
             "A",
             "D",
@@ -459,7 +458,7 @@
           "id": "tuna-salad",
           "nameKey": "menu.item.tunaSalad.name",
           "descriptionKey": "menu.item.sakuraMayoSalad.desc",
-          "price": "3590 Ft",
+          "price": "3790 Ft",
           "allergenCodes": [
             "A",
             "B",
@@ -482,7 +481,7 @@
           "id": "tempura-shrimp-salad",
           "nameKey": "menu.item.tempuraShrimpSalad.name",
           "descriptionKey": "menu.item.sakuraMayoSalad.desc",
-          "price": "3690 Ft",
+          "price": "3890 Ft",
           "allergenCodes": [
             "A",
             "B",
@@ -518,202 +517,264 @@
       "image": "https://pub-e3da109533764cb29410b35fc1bd8b42.r2.dev/ruby/20.png",
       "items": [
         {
-          "id": "pho",
-          "nameKey": "menu.item.pho.name",
+          "id": "pho-pho-special-small",
+          "nameKey": "menu.variant.phoSpecialSmall",
           "descriptionKey": "menu.item.pho.desc",
-          "variants": [
-            {
-              "labelKey": "menu.variant.phoSpecialSmall",
-              "price": "3290 Ft",
-              "allergenCodes": [
-                "A",
-                "B",
-                "C"
-              ],
-              "sku": "20a",
-              "label": {
-                "hu": "Pho Special - kicsi",
-                "en": "Pho Special - small"
-              }
-            },
-            {
-              "labelKey": "menu.variant.phoBeefSmall",
-              "price": "2990 Ft",
-              "allergenCodes": [
-                "A"
-              ],
-              "sku": "20b",
-              "label": {
-                "hu": "Pho marha - kicsi",
-                "en": "Pho beef - small"
-              }
-            },
-            {
-              "labelKey": "menu.variant.phoChickenSmall",
-              "price": "2990 Ft",
-              "allergenCodes": [],
-              "sku": "20c",
-              "label": {
-                "hu": "Pho csirke - kicsi",
-                "en": "Pho chicken - small"
-              }
-            },
-            {
-              "labelKey": "menu.variant.phoShrimpSmall",
-              "price": "3290 Ft",
-              "allergenCodes": [
-                "B"
-              ],
-              "sku": "20e",
-              "label": {
-                "hu": "Pho garnélarák - kicsi",
-                "en": "Pho shrimp - small"
-              }
-            },
-            {
-              "labelKey": "menu.variant.phoSpecialLarge",
-              "price": "4590 Ft",
-              "allergenCodes": [
-                "A",
-                "B",
-                "C"
-              ],
-              "sku": "20A",
-              "label": {
-                "hu": "Pho Special - nagy",
-                "en": "Pho Special - large"
-              }
-            },
-            {
-              "labelKey": "menu.variant.phoBeefLarge",
-              "price": "3890 Ft",
-              "allergenCodes": [
-                "A"
-              ],
-              "sku": "20B",
-              "label": {
-                "hu": "Pho marha - nagy",
-                "en": "Pho beef - large"
-              }
-            },
-            {
-              "labelKey": "menu.variant.phoChickenLarge",
-              "price": "3890 Ft",
-              "allergenCodes": [],
-              "sku": "20C",
-              "label": {
-                "hu": "Pho csirke - nagy",
-                "en": "Pho chicken - large"
-              }
-            },
-            {
-              "labelKey": "menu.variant.phoShrimpLarge",
-              "price": "4290 Ft",
-              "allergenCodes": [
-                "B"
-              ],
-              "sku": "20E",
-              "label": {
-                "hu": "Pho garnélarák - nagy",
-                "en": "Pho shrimp - large"
-              }
-            }
-          ],
           "image": "https://pub-e3da109533764cb29410b35fc1bd8b42.r2.dev/ruby/20.png",
-          "sku": "20",
+          "sku": "20a",
           "name": {
-            "hu": "Vietnámi pho",
-            "en": "Pho"
+            "hu": "Vietnámi pho - Pho Special - kicsi",
+            "en": "Pho Special - small"
           },
           "description": {
             "hu": "Széles rizstészta, csontlé, hagyma, babcsíra és koriander. A levesalapot több mint 12 órán át főzzük.",
             "en": "Rice noodle soup with onion, bean sprouts and coriander. The broth is simmered with bones and spices for more than 12 hours."
-          }
+          },
+          "price": "3490 Ft",
+          "allergenCodes": [
+            "A",
+            "B",
+            "C"
+          ],
+          "portion": ""
         },
         {
-          "id": "shoyu-ramen",
-          "nameKey": "menu.item.shoyuRamen.name",
-          "descriptionKey": "menu.item.shoyuRamen.desc",
-          "variants": [
-            {
-              "labelKey": "menu.variant.beef",
-              "price": "4690 Ft",
-              "allergenCodes": [
-                "A",
-                "C",
-                "D",
-                "F"
-              ],
-              "sku": "21B",
-              "label": {
-                "hu": "Marha",
-                "en": "Beef"
-              }
-            },
-            {
-              "labelKey": "menu.variant.chicken",
-              "price": "4590 Ft",
-              "allergenCodes": [
-                "A",
-                "C",
-                "D",
-                "F"
-              ],
-              "sku": "21C",
-              "label": {
-                "hu": "Csirke",
-                "en": "Chicken"
-              }
-            },
-            {
-              "labelKey": "menu.variant.seafood",
-              "price": "4990 Ft",
-              "allergenCodes": [
-                "A",
-                "B",
-                "C",
-                "D",
-                "F",
-                "N"
-              ],
-              "sku": "21E",
-              "label": {
-                "hu": "Tenger gyümölcsei",
-                "en": "Seafood"
-              }
-            },
-            {
-              "labelKey": "menu.variant.pork",
-              "price": "4890 Ft",
-              "allergenCodes": [
-                "A",
-                "C",
-                "D",
-                "F"
-              ],
-              "sku": "21S",
-              "label": {
-                "hu": "Sertés",
-                "en": "Pork"
-              }
-            }
-          ],
-          "image": "https://pub-e3da109533764cb29410b35fc1bd8b42.r2.dev/ruby/21.png",
-          "sku": "21",
+          "id": "pho-pho-beef-small",
+          "nameKey": "menu.variant.phoBeefSmall",
+          "descriptionKey": "menu.item.pho.desc",
+          "image": "https://pub-e3da109533764cb29410b35fc1bd8b42.r2.dev/ruby/20.png",
+          "sku": "20b",
           "name": {
-            "hu": "Shoyu ramen",
-            "en": "Shoyu ramen"
+            "hu": "Vietnámi pho - Pho marha - kicsi",
+            "en": "Pho beef - small"
+          },
+          "description": {
+            "hu": "Széles rizstészta, csontlé, hagyma, babcsíra és koriander. A levesalapot több mint 12 órán át főzzük.",
+            "en": "Rice noodle soup with onion, bean sprouts and coriander. The broth is simmered with bones and spices for more than 12 hours."
+          },
+          "price": "3190 Ft",
+          "allergenCodes": [
+            "A"
+          ],
+          "portion": ""
+        },
+        {
+          "id": "pho-pho-chicken-small",
+          "nameKey": "menu.variant.phoChickenSmall",
+          "descriptionKey": "menu.item.pho.desc",
+          "image": "https://pub-e3da109533764cb29410b35fc1bd8b42.r2.dev/ruby/20.png",
+          "sku": "20c",
+          "name": {
+            "hu": "Vietnámi pho - Pho csirke - kicsi",
+            "en": "Pho chicken - small"
+          },
+          "description": {
+            "hu": "Széles rizstészta, csontlé, hagyma, babcsíra és koriander. A levesalapot több mint 12 órán át főzzük.",
+            "en": "Rice noodle soup with onion, bean sprouts and coriander. The broth is simmered with bones and spices for more than 12 hours."
+          },
+          "price": "3190 Ft",
+          "allergenCodes": [],
+          "portion": ""
+        },
+        {
+          "id": "pho-pho-shrimp-small",
+          "nameKey": "menu.variant.phoShrimpSmall",
+          "descriptionKey": "menu.item.pho.desc",
+          "image": "https://pub-e3da109533764cb29410b35fc1bd8b42.r2.dev/ruby/20.png",
+          "sku": "20e",
+          "name": {
+            "hu": "Vietnámi pho - Pho garnélarák - kicsi",
+            "en": "Pho shrimp - small"
+          },
+          "description": {
+            "hu": "Széles rizstészta, csontlé, hagyma, babcsíra és koriander. A levesalapot több mint 12 órán át főzzük.",
+            "en": "Rice noodle soup with onion, bean sprouts and coriander. The broth is simmered with bones and spices for more than 12 hours."
+          },
+          "price": "3490 Ft",
+          "allergenCodes": [
+            "B"
+          ],
+          "portion": ""
+        },
+        {
+          "id": "pho-pho-special-large",
+          "nameKey": "menu.variant.phoSpecialLarge",
+          "descriptionKey": "menu.item.pho.desc",
+          "image": "https://pub-e3da109533764cb29410b35fc1bd8b42.r2.dev/ruby/20.png",
+          "sku": "20A",
+          "name": {
+            "hu": "Vietnámi pho - Pho Special - nagy",
+            "en": "Pho Special - large"
+          },
+          "description": {
+            "hu": "Széles rizstészta, csontlé, hagyma, babcsíra és koriander. A levesalapot több mint 12 órán át főzzük.",
+            "en": "Rice noodle soup with onion, bean sprouts and coriander. The broth is simmered with bones and spices for more than 12 hours."
+          },
+          "price": "4790 Ft",
+          "allergenCodes": [
+            "A",
+            "B",
+            "C"
+          ],
+          "portion": ""
+        },
+        {
+          "id": "pho-pho-beef-large",
+          "nameKey": "menu.variant.phoBeefLarge",
+          "descriptionKey": "menu.item.pho.desc",
+          "image": "https://pub-e3da109533764cb29410b35fc1bd8b42.r2.dev/ruby/20.png",
+          "sku": "20B",
+          "name": {
+            "hu": "Vietnámi pho - Pho marha - nagy",
+            "en": "Pho beef - large"
+          },
+          "description": {
+            "hu": "Széles rizstészta, csontlé, hagyma, babcsíra és koriander. A levesalapot több mint 12 órán át főzzük.",
+            "en": "Rice noodle soup with onion, bean sprouts and coriander. The broth is simmered with bones and spices for more than 12 hours."
+          },
+          "price": "4090 Ft",
+          "allergenCodes": [
+            "A"
+          ],
+          "portion": ""
+        },
+        {
+          "id": "pho-pho-chicken-large",
+          "nameKey": "menu.variant.phoChickenLarge",
+          "descriptionKey": "menu.item.pho.desc",
+          "image": "https://pub-e3da109533764cb29410b35fc1bd8b42.r2.dev/ruby/20.png",
+          "sku": "20C",
+          "name": {
+            "hu": "Vietnámi pho - Pho csirke - nagy",
+            "en": "Pho chicken - large"
+          },
+          "description": {
+            "hu": "Széles rizstészta, csontlé, hagyma, babcsíra és koriander. A levesalapot több mint 12 órán át főzzük.",
+            "en": "Rice noodle soup with onion, bean sprouts and coriander. The broth is simmered with bones and spices for more than 12 hours."
+          },
+          "price": "4090 Ft",
+          "allergenCodes": [],
+          "portion": ""
+        },
+        {
+          "id": "pho-pho-shrimp-large",
+          "nameKey": "menu.variant.phoShrimpLarge",
+          "descriptionKey": "menu.item.pho.desc",
+          "image": "https://pub-e3da109533764cb29410b35fc1bd8b42.r2.dev/ruby/20.png",
+          "sku": "20E",
+          "name": {
+            "hu": "Vietnámi pho - Pho garnélarák - nagy",
+            "en": "Pho shrimp - large"
+          },
+          "description": {
+            "hu": "Széles rizstészta, csontlé, hagyma, babcsíra és koriander. A levesalapot több mint 12 órán át főzzük.",
+            "en": "Rice noodle soup with onion, bean sprouts and coriander. The broth is simmered with bones and spices for more than 12 hours."
+          },
+          "price": "4490 Ft",
+          "allergenCodes": [
+            "B"
+          ],
+          "portion": ""
+        },
+        {
+          "id": "shoyu-ramen-beef",
+          "nameKey": "menu.variant.beef",
+          "descriptionKey": "menu.item.shoyuRamen.desc",
+          "image": "https://pub-e3da109533764cb29410b35fc1bd8b42.r2.dev/ruby/21.png",
+          "sku": "21B",
+          "name": {
+            "hu": "Shoyu ramen - Marha",
+            "en": "Shoyu ramen - Beef"
           },
           "description": {
             "hu": "Csontlé, tészta, tojás, babcsíra és hagyma.",
             "en": "Soup, noodles, eggs, bean sprouts and onions."
-          }
+          },
+          "price": "4890 Ft",
+          "allergenCodes": [
+            "A",
+            "C",
+            "D",
+            "F"
+          ],
+          "portion": ""
+        },
+        {
+          "id": "shoyu-ramen-chicken",
+          "nameKey": "menu.variant.chicken",
+          "descriptionKey": "menu.item.shoyuRamen.desc",
+          "image": "https://pub-e3da109533764cb29410b35fc1bd8b42.r2.dev/ruby/21.png",
+          "sku": "21C",
+          "name": {
+            "hu": "Shoyu ramen - Csirke",
+            "en": "Shoyu ramen - Chicken"
+          },
+          "description": {
+            "hu": "Csontlé, tészta, tojás, babcsíra és hagyma.",
+            "en": "Soup, noodles, eggs, bean sprouts and onions."
+          },
+          "price": "4790 Ft",
+          "allergenCodes": [
+            "A",
+            "C",
+            "D",
+            "F"
+          ],
+          "portion": ""
+        },
+        {
+          "id": "shoyu-ramen-seafood",
+          "nameKey": "menu.variant.seafood",
+          "descriptionKey": "menu.item.shoyuRamen.desc",
+          "image": "https://pub-e3da109533764cb29410b35fc1bd8b42.r2.dev/ruby/21.png",
+          "sku": "21E",
+          "name": {
+            "hu": "Shoyu ramen - Tenger gyümölcsei",
+            "en": "Shoyu ramen - Seafood"
+          },
+          "description": {
+            "hu": "Csontlé, tészta, tojás, babcsíra és hagyma.",
+            "en": "Soup, noodles, eggs, bean sprouts and onions."
+          },
+          "price": "5190 Ft",
+          "allergenCodes": [
+            "A",
+            "B",
+            "C",
+            "D",
+            "F",
+            "N"
+          ],
+          "portion": ""
+        },
+        {
+          "id": "shoyu-ramen-pork",
+          "nameKey": "menu.variant.pork",
+          "descriptionKey": "menu.item.shoyuRamen.desc",
+          "image": "https://pub-e3da109533764cb29410b35fc1bd8b42.r2.dev/ruby/21.png",
+          "sku": "21S",
+          "name": {
+            "hu": "Shoyu ramen - Sertés",
+            "en": "Shoyu ramen - Pork"
+          },
+          "description": {
+            "hu": "Csontlé, tészta, tojás, babcsíra és hagyma.",
+            "en": "Soup, noodles, eggs, bean sprouts and onions."
+          },
+          "price": "5090 Ft",
+          "allergenCodes": [
+            "A",
+            "C",
+            "D",
+            "F"
+          ],
+          "portion": ""
         },
         {
           "id": "ruby-special-soup",
           "nameKey": "menu.item.rubySpecialSoup.name",
           "descriptionKey": "menu.item.rubySpecialSoup.desc",
-          "price": "5590 Ft",
+          "price": "5790 Ft",
           "allergenCodes": [
             "A",
             "B",
@@ -738,95 +799,126 @@
           }
         },
         {
-          "id": "bun-soup",
-          "nameKey": "menu.item.bunSoup.name",
+          "id": "bun-soup-beef-small",
+          "nameKey": "menu.variant.beefSmall",
           "descriptionKey": "menu.item.bunSoup.desc",
-          "variants": [
-            {
-              "labelKey": "menu.variant.beefSmall",
-              "price": "2990 Ft",
-              "allergenCodes": [
-                "A"
-              ],
-              "sku": "23b",
-              "label": {
-                "hu": "marha - kicsi",
-                "en": "beef - small"
-              }
-            },
-            {
-              "labelKey": "menu.variant.chickenSmall",
-              "price": "2990 Ft",
-              "allergenCodes": [
-                "A"
-              ],
-              "sku": "23c",
-              "label": {
-                "hu": "csirke - kicsi",
-                "en": "chicken - small"
-              }
-            },
-            {
-              "labelKey": "menu.variant.shrimpSmall",
-              "price": "3190 Ft",
-              "allergenCodes": [
-                "A",
-                "B"
-              ],
-              "sku": "23e",
-              "label": {
-                "hu": "garnélarák - kicsi",
-                "en": "shrimp - small"
-              }
-            },
-            {
-              "labelKey": "menu.variant.beefLarge",
-              "price": "3990 Ft",
-              "allergenCodes": [
-                "A"
-              ],
-              "sku": "23B",
-              "label": {
-                "hu": "marha - nagy",
-                "en": "beef - large"
-              }
-            },
-            {
-              "labelKey": "menu.variant.chickenLarge",
-              "price": "3990 Ft",
-              "allergenCodes": [
-                "A"
-              ],
-              "sku": "23C",
-              "label": {
-                "hu": "csirke - nagy",
-                "en": "chicken - large"
-              }
-            },
-            {
-              "labelKey": "menu.variant.shrimpLarge",
-              "price": "4590 Ft",
-              "allergenCodes": [
-                "A",
-                "B"
-              ],
-              "sku": "23E",
-              "label": {
-                "hu": "garnélarák - nagy",
-                "en": "shrimp - large"
-              }
-            }
-          ],
           "image": "https://pub-e3da109533764cb29410b35fc1bd8b42.r2.dev/ruby/23.png",
-          "sku": "23",
+          "sku": "23b",
           "name": {
-            "hu": "Bún Leves",
-            "en": "Bún Soup"
+            "hu": "Bún Leves - marha - kicsi",
+            "en": "Bún Soup - beef - small"
           },
           "description": {
             "hu": "Vékony rizstészta, csontlé, hagyma, babcsíra és koriander.",
             "en": "Rice noodle soup with onion, bean sprouts and coriander."
-          }
+          },
+          "price": "3190 Ft",
+          "allergenCodes": [
+            "A"
+          ],
+          "portion": ""
+        },
+        {
+          "id": "bun-soup-chicken-small",
+          "nameKey": "menu.variant.chickenSmall",
+          "descriptionKey": "menu.item.bunSoup.desc",
+          "image": "https://pub-e3da109533764cb29410b35fc1bd8b42.r2.dev/ruby/23.png",
+          "sku": "23c",
+          "name": {
+            "hu": "Bún Leves - csirke - kicsi",
+            "en": "Bún Soup - chicken - small"
+          },
+          "description": {
+            "hu": "Vékony rizstészta, csontlé, hagyma, babcsíra és koriander.",
+            "en": "Rice noodle soup with onion, bean sprouts and coriander."
+          },
+          "price": "3190 Ft",
+          "allergenCodes": [
+            "A"
+          ],
+          "portion": ""
+        },
+        {
+          "id": "bun-soup-shrimp-small",
+          "nameKey": "menu.variant.shrimpSmall",
+          "descriptionKey": "menu.item.bunSoup.desc",
+          "image": "https://pub-e3da109533764cb29410b35fc1bd8b42.r2.dev/ruby/23.png",
+          "sku": "23e",
+          "name": {
+            "hu": "Bún Leves - garnélarák - kicsi",
+            "en": "Bún Soup - shrimp - small"
+          },
+          "description": {
+            "hu": "Vékony rizstészta, csontlé, hagyma, babcsíra és koriander.",
+            "en": "Rice noodle soup with onion, bean sprouts and coriander."
+          },
+          "price": "3390 Ft",
+          "allergenCodes": [
+            "A",
+            "B"
+          ],
+          "portion": ""
+        },
+        {
+          "id": "bun-soup-beef-large",
+          "nameKey": "menu.variant.beefLarge",
+          "descriptionKey": "menu.item.bunSoup.desc",
+          "image": "https://pub-e3da109533764cb29410b35fc1bd8b42.r2.dev/ruby/23.png",
+          "sku": "23B",
+          "name": {
+            "hu": "Bún Leves - marha - nagy",
+            "en": "Bún Soup - beef - large"
+          },
+          "description": {
+            "hu": "Vékony rizstészta, csontlé, hagyma, babcsíra és koriander.",
+            "en": "Rice noodle soup with onion, bean sprouts and coriander."
+          },
+          "price": "4190 Ft",
+          "allergenCodes": [
+            "A"
+          ],
+          "portion": ""
+        },
+        {
+          "id": "bun-soup-chicken-large",
+          "nameKey": "menu.variant.chickenLarge",
+          "descriptionKey": "menu.item.bunSoup.desc",
+          "image": "https://pub-e3da109533764cb29410b35fc1bd8b42.r2.dev/ruby/23.png",
+          "sku": "23C",
+          "name": {
+            "hu": "Bún Leves - csirke - nagy",
+            "en": "Bún Soup - chicken - large"
+          },
+          "description": {
+            "hu": "Vékony rizstészta, csontlé, hagyma, babcsíra és koriander.",
+            "en": "Rice noodle soup with onion, bean sprouts and coriander."
+          },
+          "price": "4190 Ft",
+          "allergenCodes": [
+            "A"
+          ],
+          "portion": ""
+        },
+        {
+          "id": "bun-soup-shrimp-large",
+          "nameKey": "menu.variant.shrimpLarge",
+          "descriptionKey": "menu.item.bunSoup.desc",
+          "image": "https://pub-e3da109533764cb29410b35fc1bd8b42.r2.dev/ruby/23.png",
+          "sku": "23E",
+          "name": {
+            "hu": "Bún Leves - garnélarák - nagy",
+            "en": "Bún Soup - shrimp - large"
+          },
+          "description": {
+            "hu": "Vékony rizstészta, csontlé, hagyma, babcsíra és koriander.",
+            "en": "Rice noodle soup with onion, bean sprouts and coriander."
+          },
+          "price": "4790 Ft",
+          "allergenCodes": [
+            "A",
+            "B"
+          ],
+          "portion": ""
         }
       ],
       "label": {
@@ -845,113 +937,144 @@
       "image": "https://pub-e3da109533764cb29410b35fc1bd8b42.r2.dev/ruby/24.png",
       "items": [
         {
-          "id": "pad-thai",
-          "nameKey": "menu.item.padThai.name",
+          "id": "pad-thai-vegetarian-tofu",
+          "nameKey": "menu.variant.vegetarianTofu",
           "descriptionKey": "menu.item.padThai.desc",
-          "variants": [
-            {
-              "labelKey": "menu.variant.vegetarianTofu",
-              "price": "4290 Ft",
-              "allergenCodes": [
-                "A",
-                "C",
-                "E",
-                "F"
-              ],
-              "sku": "P1A",
-              "label": {
-                "hu": "Zöldségek és tofu",
-                "en": "Vegetarian & tofu"
-              }
-            },
-            {
-              "labelKey": "menu.variant.beef",
-              "price": "4690 Ft",
-              "allergenCodes": [
-                "A",
-                "C",
-                "E"
-              ],
-              "sku": "P1B",
-              "label": {
-                "hu": "Marha",
-                "en": "Beef"
-              }
-            },
-            {
-              "labelKey": "menu.variant.chicken",
-              "price": "4590 Ft",
-              "allergenCodes": [
-                "A",
-                "C",
-                "E"
-              ],
-              "sku": "P1C",
-              "label": {
-                "hu": "Csirke",
-                "en": "Chicken"
-              }
-            },
-            {
-              "labelKey": "menu.variant.friedChicken",
-              "price": "5590 Ft",
-              "allergenCodes": [
-                "A",
-                "C",
-                "E"
-              ],
-              "sku": "P1D",
-              "label": {
-                "hu": "Sült csirke",
-                "en": "Fried chicken"
-              }
-            },
-            {
-              "labelKey": "menu.variant.shrimp",
-              "price": "4990 Ft",
-              "allergenCodes": [
-                "A",
-                "B",
-                "C",
-                "E"
-              ],
-              "sku": "P1E",
-              "label": {
-                "hu": "Garnélarák",
-                "en": "Shrimp"
-              }
-            },
-            {
-              "labelKey": "menu.variant.friedDuck",
-              "price": "6290 Ft",
-              "allergenCodes": [
-                "A",
-                "C",
-                "E"
-              ],
-              "sku": "P1F",
-              "label": {
-                "hu": "Sült kacsa",
-                "en": "Fried duck"
-              }
-            }
-          ],
           "image": "https://pub-e3da109533764cb29410b35fc1bd8b42.r2.dev/ruby/24.png",
-          "sku": "P1",
+          "sku": "P1A",
           "name": {
-            "hu": "Pad Thai",
-            "en": "Pad Thai"
+            "hu": "Pad Thai - Zöldségek és tofu",
+            "en": "Pad Thai - Vegetarian & tofu"
           },
           "description": {
             "hu": "Rizstészta, tojás, lime, mogyoró, pak choi, babcsíra, pirított hagyma és Pad Thai szósz.",
             "en": "Rice noodles, egg, lime, peanut, pak choi, bean sprouts, roasted onion and Pad Thai sauce."
-          }
+          },
+          "price": "4490 Ft",
+          "allergenCodes": [
+            "A",
+            "C",
+            "E",
+            "F"
+          ],
+          "portion": ""
+        },
+        {
+          "id": "pad-thai-beef",
+          "nameKey": "menu.variant.beef",
+          "descriptionKey": "menu.item.padThai.desc",
+          "image": "https://pub-e3da109533764cb29410b35fc1bd8b42.r2.dev/ruby/24.png",
+          "sku": "P1B",
+          "name": {
+            "hu": "Pad Thai - Marha",
+            "en": "Pad Thai - Beef"
+          },
+          "description": {
+            "hu": "Rizstészta, tojás, lime, mogyoró, pak choi, babcsíra, pirított hagyma és Pad Thai szósz.",
+            "en": "Rice noodles, egg, lime, peanut, pak choi, bean sprouts, roasted onion and Pad Thai sauce."
+          },
+          "price": "4890 Ft",
+          "allergenCodes": [
+            "A",
+            "C",
+            "E"
+          ],
+          "portion": ""
+        },
+        {
+          "id": "pad-thai-chicken",
+          "nameKey": "menu.variant.chicken",
+          "descriptionKey": "menu.item.padThai.desc",
+          "image": "https://pub-e3da109533764cb29410b35fc1bd8b42.r2.dev/ruby/24.png",
+          "sku": "P1C",
+          "name": {
+            "hu": "Pad Thai - Csirke",
+            "en": "Pad Thai - Chicken"
+          },
+          "description": {
+            "hu": "Rizstészta, tojás, lime, mogyoró, pak choi, babcsíra, pirított hagyma és Pad Thai szósz.",
+            "en": "Rice noodles, egg, lime, peanut, pak choi, bean sprouts, roasted onion and Pad Thai sauce."
+          },
+          "price": "4790 Ft",
+          "allergenCodes": [
+            "A",
+            "C",
+            "E"
+          ],
+          "portion": ""
+        },
+        {
+          "id": "pad-thai-fried-chicken",
+          "nameKey": "menu.variant.friedChicken",
+          "descriptionKey": "menu.item.padThai.desc",
+          "image": "https://pub-e3da109533764cb29410b35fc1bd8b42.r2.dev/ruby/24.png",
+          "sku": "P1D",
+          "name": {
+            "hu": "Pad Thai - Sült csirke",
+            "en": "Pad Thai - Fried chicken"
+          },
+          "description": {
+            "hu": "Rizstészta, tojás, lime, mogyoró, pak choi, babcsíra, pirított hagyma és Pad Thai szósz.",
+            "en": "Rice noodles, egg, lime, peanut, pak choi, bean sprouts, roasted onion and Pad Thai sauce."
+          },
+          "price": "5790 Ft",
+          "allergenCodes": [
+            "A",
+            "C",
+            "E"
+          ],
+          "portion": ""
+        },
+        {
+          "id": "pad-thai-shrimp",
+          "nameKey": "menu.variant.shrimp",
+          "descriptionKey": "menu.item.padThai.desc",
+          "image": "https://pub-e3da109533764cb29410b35fc1bd8b42.r2.dev/ruby/24.png",
+          "sku": "P1E",
+          "name": {
+            "hu": "Pad Thai - Garnélarák",
+            "en": "Pad Thai - Shrimp"
+          },
+          "description": {
+            "hu": "Rizstészta, tojás, lime, mogyoró, pak choi, babcsíra, pirított hagyma és Pad Thai szósz.",
+            "en": "Rice noodles, egg, lime, peanut, pak choi, bean sprouts, roasted onion and Pad Thai sauce."
+          },
+          "price": "5190 Ft",
+          "allergenCodes": [
+            "A",
+            "B",
+            "C",
+            "E"
+          ],
+          "portion": ""
+        },
+        {
+          "id": "pad-thai-fried-duck",
+          "nameKey": "menu.variant.friedDuck",
+          "descriptionKey": "menu.item.padThai.desc",
+          "image": "https://pub-e3da109533764cb29410b35fc1bd8b42.r2.dev/ruby/24.png",
+          "sku": "P1F",
+          "name": {
+            "hu": "Pad Thai - Sült kacsa",
+            "en": "Pad Thai - Fried duck"
+          },
+          "description": {
+            "hu": "Rizstészta, tojás, lime, mogyoró, pak choi, babcsíra, pirított hagyma és Pad Thai szósz.",
+            "en": "Rice noodles, egg, lime, peanut, pak choi, bean sprouts, roasted onion and Pad Thai sauce."
+          },
+          "price": "6490 Ft",
+          "allergenCodes": [
+            "A",
+            "C",
+            "E"
+          ],
+          "portion": ""
         },
         {
           "id": "bun-nem",
           "nameKey": "menu.item.bunNem.name",
           "descriptionKey": "menu.item.bunNem.desc",
-          "price": "4590 Ft",
+          "price": "4790 Ft",
           "allergenCodes": [
             "A",
             "C",
@@ -973,7 +1096,7 @@
           "id": "teriyaki-chicken",
           "nameKey": "menu.item.teriyakiChicken.name",
           "descriptionKey": "menu.item.teriyakiChicken.desc",
-          "price": "5590 Ft",
+          "price": "5790 Ft",
           "allergenCodes": [
             "A",
             "F"
@@ -990,105 +1113,136 @@
           }
         },
         {
-          "id": "ruby-udon",
-          "nameKey": "menu.item.rubyUdon.name",
+          "id": "ruby-udon-tofu",
+          "nameKey": "menu.variant.tofu",
           "descriptionKey": "menu.item.rubyUdon.desc",
-          "variants": [
-            {
-              "labelKey": "menu.variant.tofu",
-              "price": "4590 Ft",
-              "allergenCodes": [
-                "A",
-                "B",
-                "F"
-              ],
-              "sku": "P4A",
-              "label": {
-                "hu": "Tofu",
-                "en": "Tofu"
-              }
-            },
-            {
-              "labelKey": "menu.variant.beef",
-              "price": "4890 Ft",
-              "allergenCodes": [
-                "A",
-                "B",
-                "F"
-              ],
-              "sku": "P4B",
-              "label": {
-                "hu": "Marha",
-                "en": "Beef"
-              }
-            },
-            {
-              "labelKey": "menu.variant.chicken",
-              "price": "4690 Ft",
-              "allergenCodes": [
-                "A",
-                "B",
-                "F"
-              ],
-              "sku": "P4C",
-              "label": {
-                "hu": "Csirke",
-                "en": "Chicken"
-              }
-            },
-            {
-              "labelKey": "menu.variant.friedChicken",
-              "price": "5590 Ft",
-              "allergenCodes": [
-                "A",
-                "B",
-                "F"
-              ],
-              "sku": "P4D",
-              "label": {
-                "hu": "Sült csirke",
-                "en": "Fried chicken"
-              }
-            },
-            {
-              "labelKey": "menu.variant.shrimp",
-              "price": "5590 Ft",
-              "allergenCodes": [
-                "A",
-                "B",
-                "F"
-              ],
-              "sku": "P4E",
-              "label": {
-                "hu": "Garnélarák",
-                "en": "Shrimp"
-              }
-            },
-            {
-              "labelKey": "menu.variant.friedDuck",
-              "price": "6290 Ft",
-              "allergenCodes": [
-                "A",
-                "B",
-                "F"
-              ],
-              "sku": "P4F",
-              "label": {
-                "hu": "Sült kacsa",
-                "en": "Fried duck"
-              }
-            }
-          ],
           "image": "https://pub-e3da109533764cb29410b35fc1bd8b42.r2.dev/ruby/27.png",
-          "sku": "P4",
+          "sku": "P4A",
           "name": {
-            "hu": "Ruby udon",
-            "en": "Ruby udon"
+            "hu": "Ruby udon - Tofu",
+            "en": "Ruby udon - Tofu"
           },
           "description": {
             "hu": "Udon tészta, zöldségek, fűszernövények és különleges szósz.",
             "en": "Udon noodles, vegetables, herbs and special sauce."
-          }
+          },
+          "price": "4790 Ft",
+          "allergenCodes": [
+            "A",
+            "B",
+            "F"
+          ],
+          "portion": ""
+        },
+        {
+          "id": "ruby-udon-beef",
+          "nameKey": "menu.variant.beef",
+          "descriptionKey": "menu.item.rubyUdon.desc",
+          "image": "https://pub-e3da109533764cb29410b35fc1bd8b42.r2.dev/ruby/27.png",
+          "sku": "P4B",
+          "name": {
+            "hu": "Ruby udon - Marha",
+            "en": "Ruby udon - Beef"
+          },
+          "description": {
+            "hu": "Udon tészta, zöldségek, fűszernövények és különleges szósz.",
+            "en": "Udon noodles, vegetables, herbs and special sauce."
+          },
+          "price": "5090 Ft",
+          "allergenCodes": [
+            "A",
+            "B",
+            "F"
+          ],
+          "portion": ""
+        },
+        {
+          "id": "ruby-udon-chicken",
+          "nameKey": "menu.variant.chicken",
+          "descriptionKey": "menu.item.rubyUdon.desc",
+          "image": "https://pub-e3da109533764cb29410b35fc1bd8b42.r2.dev/ruby/27.png",
+          "sku": "P4C",
+          "name": {
+            "hu": "Ruby udon - Csirke",
+            "en": "Ruby udon - Chicken"
+          },
+          "description": {
+            "hu": "Udon tészta, zöldségek, fűszernövények és különleges szósz.",
+            "en": "Udon noodles, vegetables, herbs and special sauce."
+          },
+          "price": "4890 Ft",
+          "allergenCodes": [
+            "A",
+            "B",
+            "F"
+          ],
+          "portion": ""
+        },
+        {
+          "id": "ruby-udon-fried-chicken",
+          "nameKey": "menu.variant.friedChicken",
+          "descriptionKey": "menu.item.rubyUdon.desc",
+          "image": "https://pub-e3da109533764cb29410b35fc1bd8b42.r2.dev/ruby/27.png",
+          "sku": "P4D",
+          "name": {
+            "hu": "Ruby udon - Sült csirke",
+            "en": "Ruby udon - Fried chicken"
+          },
+          "description": {
+            "hu": "Udon tészta, zöldségek, fűszernövények és különleges szósz.",
+            "en": "Udon noodles, vegetables, herbs and special sauce."
+          },
+          "price": "5790 Ft",
+          "allergenCodes": [
+            "A",
+            "B",
+            "F"
+          ],
+          "portion": ""
+        },
+        {
+          "id": "ruby-udon-shrimp",
+          "nameKey": "menu.variant.shrimp",
+          "descriptionKey": "menu.item.rubyUdon.desc",
+          "image": "https://pub-e3da109533764cb29410b35fc1bd8b42.r2.dev/ruby/27.png",
+          "sku": "P4E",
+          "name": {
+            "hu": "Ruby udon - Garnélarák",
+            "en": "Ruby udon - Shrimp"
+          },
+          "description": {
+            "hu": "Udon tészta, zöldségek, fűszernövények és különleges szósz.",
+            "en": "Udon noodles, vegetables, herbs and special sauce."
+          },
+          "price": "5790 Ft",
+          "allergenCodes": [
+            "A",
+            "B",
+            "F"
+          ],
+          "portion": ""
+        },
+        {
+          "id": "ruby-udon-fried-duck",
+          "nameKey": "menu.variant.friedDuck",
+          "descriptionKey": "menu.item.rubyUdon.desc",
+          "image": "https://pub-e3da109533764cb29410b35fc1bd8b42.r2.dev/ruby/27.png",
+          "sku": "P4F",
+          "name": {
+            "hu": "Ruby udon - Sült kacsa",
+            "en": "Ruby udon - Fried duck"
+          },
+          "description": {
+            "hu": "Udon tészta, zöldségek, fűszernövények és különleges szósz.",
+            "en": "Udon noodles, vegetables, herbs and special sauce."
+          },
+          "price": "6490 Ft",
+          "allergenCodes": [
+            "A",
+            "B",
+            "F"
+          ],
+          "portion": ""
         }
       ],
       "label": {
@@ -1107,585 +1261,771 @@
       "image": "https://pub-e3da109533764cb29410b35fc1bd8b42.r2.dev/ruby/28.png",
       "items": [
         {
-          "id": "ruby-noodles",
-          "nameKey": "menu.item.rubyNoodles.name",
+          "id": "ruby-noodles-vegetarian-tofu",
+          "nameKey": "menu.variant.vegetarianTofu",
           "descriptionKey": "menu.item.rubyNoodles.desc",
-          "variants": [
-            {
-              "labelKey": "menu.variant.vegetarianTofu",
-              "price": "3890 Ft",
-              "allergenCodes": [
-                "A",
-                "C",
-                "F"
-              ],
-              "sku": "40A",
-              "label": {
-                "hu": "Zöldségek és tofu",
-                "en": "Vegetarian & tofu"
-              }
-            },
-            {
-              "labelKey": "menu.variant.beef",
-              "price": "4590 Ft",
-              "allergenCodes": [
-                "A",
-                "C"
-              ],
-              "sku": "40B",
-              "label": {
-                "hu": "Marha",
-                "en": "Beef"
-              }
-            },
-            {
-              "labelKey": "menu.variant.chicken",
-              "price": "4290 Ft",
-              "allergenCodes": [
-                "A",
-                "C"
-              ],
-              "sku": "40C",
-              "label": {
-                "hu": "Csirke",
-                "en": "Chicken"
-              }
-            },
-            {
-              "labelKey": "menu.variant.friedChicken",
-              "price": "5590 Ft",
-              "allergenCodes": [
-                "A",
-                "C"
-              ],
-              "sku": "40D",
-              "label": {
-                "hu": "Sült csirke",
-                "en": "Fried chicken"
-              }
-            },
-            {
-              "labelKey": "menu.variant.shrimp",
-              "price": "4690 Ft",
-              "allergenCodes": [
-                "A",
-                "B",
-                "C"
-              ],
-              "sku": "40E",
-              "label": {
-                "hu": "Garnélarák",
-                "en": "Shrimp"
-              }
-            },
-            {
-              "labelKey": "menu.variant.friedDuck",
-              "price": "5990 Ft",
-              "allergenCodes": [
-                "A",
-                "C"
-              ],
-              "sku": "40F",
-              "label": {
-                "hu": "Sült kacsa",
-                "en": "Fried duck"
-              }
-            }
-          ],
           "image": "https://pub-e3da109533764cb29410b35fc1bd8b42.r2.dev/ruby/28.png",
-          "sku": "40",
+          "sku": "40A",
           "name": {
-            "hu": "Ruby tészta",
-            "en": "Ruby noodles"
+            "hu": "Ruby tészta - Zöldségek és tofu",
+            "en": "Ruby noodles - Vegetarian & tofu"
           },
           "description": {
             "hu": "Rizstészta, tojás, vegyes zöldség, pirított hagyma és házi feketeborsszósz.",
             "en": "Rice noodles, egg, vegetables, roasted onion and black pepper sauce."
-          }
+          },
+          "price": "4090 Ft",
+          "allergenCodes": [
+            "A",
+            "C",
+            "F"
+          ],
+          "portion": ""
         },
         {
-          "id": "fried-rice",
-          "nameKey": "menu.item.friedRice.name",
-          "descriptionKey": "menu.item.friedRice.desc",
-          "variants": [
-            {
-              "labelKey": "menu.variant.vegetarianTofu",
-              "price": "3890 Ft",
-              "allergenCodes": [
-                "A",
-                "C",
-                "F"
-              ],
-              "sku": "50A",
-              "label": {
-                "hu": "Zöldségek és tofu",
-                "en": "Vegetarian & tofu"
-              }
-            },
-            {
-              "labelKey": "menu.variant.beef",
-              "price": "4590 Ft",
-              "allergenCodes": [
-                "A",
-                "C"
-              ],
-              "sku": "50B",
-              "label": {
-                "hu": "Marha",
-                "en": "Beef"
-              }
-            },
-            {
-              "labelKey": "menu.variant.chicken",
-              "price": "4290 Ft",
-              "allergenCodes": [
-                "A",
-                "C"
-              ],
-              "sku": "50C",
-              "label": {
-                "hu": "Csirke",
-                "en": "Chicken"
-              }
-            },
-            {
-              "labelKey": "menu.variant.friedChicken",
-              "price": "5590 Ft",
-              "allergenCodes": [
-                "A",
-                "C"
-              ],
-              "sku": "50D",
-              "label": {
-                "hu": "Sült csirke",
-                "en": "Fried chicken"
-              }
-            },
-            {
-              "labelKey": "menu.variant.shrimp",
-              "price": "4890 Ft",
-              "allergenCodes": [
-                "A",
-                "B",
-                "C"
-              ],
-              "sku": "50E",
-              "label": {
-                "hu": "Garnélarák",
-                "en": "Shrimp"
-              }
-            },
-            {
-              "labelKey": "menu.variant.friedDuck",
-              "price": "5990 Ft",
-              "allergenCodes": [
-                "A",
-                "C"
-              ],
-              "sku": "50F",
-              "label": {
-                "hu": "Sült kacsa",
-                "en": "Fried duck"
-              }
-            }
-          ],
-          "image": "https://pub-e3da109533764cb29410b35fc1bd8b42.r2.dev/ruby/29.png",
-          "sku": "50",
+          "id": "ruby-noodles-beef",
+          "nameKey": "menu.variant.beef",
+          "descriptionKey": "menu.item.rubyNoodles.desc",
+          "image": "https://pub-e3da109533764cb29410b35fc1bd8b42.r2.dev/ruby/28.png",
+          "sku": "40B",
           "name": {
-            "hu": "Sült rizs",
-            "en": "Fried rice"
+            "hu": "Ruby tészta - Marha",
+            "en": "Ruby noodles - Beef"
+          },
+          "description": {
+            "hu": "Rizstészta, tojás, vegyes zöldség, pirított hagyma és házi feketeborsszósz.",
+            "en": "Rice noodles, egg, vegetables, roasted onion and black pepper sauce."
+          },
+          "price": "4790 Ft",
+          "allergenCodes": [
+            "A",
+            "C"
+          ],
+          "portion": ""
+        },
+        {
+          "id": "ruby-noodles-chicken",
+          "nameKey": "menu.variant.chicken",
+          "descriptionKey": "menu.item.rubyNoodles.desc",
+          "image": "https://pub-e3da109533764cb29410b35fc1bd8b42.r2.dev/ruby/28.png",
+          "sku": "40C",
+          "name": {
+            "hu": "Ruby tészta - Csirke",
+            "en": "Ruby noodles - Chicken"
+          },
+          "description": {
+            "hu": "Rizstészta, tojás, vegyes zöldség, pirított hagyma és házi feketeborsszósz.",
+            "en": "Rice noodles, egg, vegetables, roasted onion and black pepper sauce."
+          },
+          "price": "4490 Ft",
+          "allergenCodes": [
+            "A",
+            "C"
+          ],
+          "portion": ""
+        },
+        {
+          "id": "ruby-noodles-fried-chicken",
+          "nameKey": "menu.variant.friedChicken",
+          "descriptionKey": "menu.item.rubyNoodles.desc",
+          "image": "https://pub-e3da109533764cb29410b35fc1bd8b42.r2.dev/ruby/28.png",
+          "sku": "40D",
+          "name": {
+            "hu": "Ruby tészta - Sült csirke",
+            "en": "Ruby noodles - Fried chicken"
+          },
+          "description": {
+            "hu": "Rizstészta, tojás, vegyes zöldség, pirított hagyma és házi feketeborsszósz.",
+            "en": "Rice noodles, egg, vegetables, roasted onion and black pepper sauce."
+          },
+          "price": "5790 Ft",
+          "allergenCodes": [
+            "A",
+            "C"
+          ],
+          "portion": ""
+        },
+        {
+          "id": "ruby-noodles-shrimp",
+          "nameKey": "menu.variant.shrimp",
+          "descriptionKey": "menu.item.rubyNoodles.desc",
+          "image": "https://pub-e3da109533764cb29410b35fc1bd8b42.r2.dev/ruby/28.png",
+          "sku": "40E",
+          "name": {
+            "hu": "Ruby tészta - Garnélarák",
+            "en": "Ruby noodles - Shrimp"
+          },
+          "description": {
+            "hu": "Rizstészta, tojás, vegyes zöldség, pirított hagyma és házi feketeborsszósz.",
+            "en": "Rice noodles, egg, vegetables, roasted onion and black pepper sauce."
+          },
+          "price": "4890 Ft",
+          "allergenCodes": [
+            "A",
+            "B",
+            "C"
+          ],
+          "portion": ""
+        },
+        {
+          "id": "ruby-noodles-fried-duck",
+          "nameKey": "menu.variant.friedDuck",
+          "descriptionKey": "menu.item.rubyNoodles.desc",
+          "image": "https://pub-e3da109533764cb29410b35fc1bd8b42.r2.dev/ruby/28.png",
+          "sku": "40F",
+          "name": {
+            "hu": "Ruby tészta - Sült kacsa",
+            "en": "Ruby noodles - Fried duck"
+          },
+          "description": {
+            "hu": "Rizstészta, tojás, vegyes zöldség, pirított hagyma és házi feketeborsszósz.",
+            "en": "Rice noodles, egg, vegetables, roasted onion and black pepper sauce."
+          },
+          "price": "6190 Ft",
+          "allergenCodes": [
+            "A",
+            "C"
+          ],
+          "portion": ""
+        },
+        {
+          "id": "fried-rice-vegetarian-tofu",
+          "nameKey": "menu.variant.vegetarianTofu",
+          "descriptionKey": "menu.item.friedRice.desc",
+          "image": "https://pub-e3da109533764cb29410b35fc1bd8b42.r2.dev/ruby/29.png",
+          "sku": "50A",
+          "name": {
+            "hu": "Sült rizs - Zöldségek és tofu",
+            "en": "Fried rice - Vegetarian & tofu"
           },
           "description": {
             "hu": "Rizs, tojás, vegyes zöldség és pirított hagyma.",
             "en": "Rice, egg, vegetables and fried onion."
-          }
+          },
+          "price": "4090 Ft",
+          "allergenCodes": [
+            "A",
+            "C",
+            "F"
+          ],
+          "portion": ""
         },
         {
-          "id": "curry",
-          "nameKey": "menu.item.curry.name",
-          "descriptionKey": "menu.item.curry.desc",
-          "variants": [
-            {
-              "labelKey": "menu.variant.vegetarianTofu",
-              "price": "4290 Ft",
-              "allergenCodes": [
-                "A",
-                "F",
-                "G"
-              ],
-              "sku": "60A",
-              "label": {
-                "hu": "Zöldségek és tofu",
-                "en": "Vegetarian & tofu"
-              }
-            },
-            {
-              "labelKey": "menu.variant.beef",
-              "price": "4590 Ft",
-              "allergenCodes": [
-                "A",
-                "G"
-              ],
-              "sku": "60B",
-              "label": {
-                "hu": "Marha",
-                "en": "Beef"
-              }
-            },
-            {
-              "labelKey": "menu.variant.chicken",
-              "price": "4590 Ft",
-              "allergenCodes": [
-                "A",
-                "G"
-              ],
-              "sku": "60C",
-              "label": {
-                "hu": "Csirke",
-                "en": "Chicken"
-              }
-            },
-            {
-              "labelKey": "menu.variant.friedChicken",
-              "price": "5590 Ft",
-              "allergenCodes": [
-                "A",
-                "G"
-              ],
-              "sku": "60D",
-              "label": {
-                "hu": "Sült csirke",
-                "en": "Fried chicken"
-              }
-            },
-            {
-              "labelKey": "menu.variant.shrimp",
-              "price": "4990 Ft",
-              "allergenCodes": [
-                "A",
-                "B",
-                "G"
-              ],
-              "sku": "60E",
-              "label": {
-                "hu": "Garnélarák",
-                "en": "Shrimp"
-              }
-            },
-            {
-              "labelKey": "menu.variant.friedDuck",
-              "price": "5990 Ft",
-              "allergenCodes": [
-                "A",
-                "G"
-              ],
-              "sku": "60F",
-              "label": {
-                "hu": "Sült kacsa",
-                "en": "Fried duck"
-              }
-            }
-          ],
-          "image": "https://pub-e3da109533764cb29410b35fc1bd8b42.r2.dev/ruby/32.png",
-          "sku": "60",
+          "id": "fried-rice-beef",
+          "nameKey": "menu.variant.beef",
+          "descriptionKey": "menu.item.friedRice.desc",
+          "image": "https://pub-e3da109533764cb29410b35fc1bd8b42.r2.dev/ruby/29.png",
+          "sku": "50B",
           "name": {
-            "hu": "Curry",
-            "en": "Curry"
+            "hu": "Sült rizs - Marha",
+            "en": "Fried rice - Beef"
+          },
+          "description": {
+            "hu": "Rizs, tojás, vegyes zöldség és pirított hagyma.",
+            "en": "Rice, egg, vegetables and fried onion."
+          },
+          "price": "4790 Ft",
+          "allergenCodes": [
+            "A",
+            "C"
+          ],
+          "portion": ""
+        },
+        {
+          "id": "fried-rice-chicken",
+          "nameKey": "menu.variant.chicken",
+          "descriptionKey": "menu.item.friedRice.desc",
+          "image": "https://pub-e3da109533764cb29410b35fc1bd8b42.r2.dev/ruby/29.png",
+          "sku": "50C",
+          "name": {
+            "hu": "Sült rizs - Csirke",
+            "en": "Fried rice - Chicken"
+          },
+          "description": {
+            "hu": "Rizs, tojás, vegyes zöldség és pirított hagyma.",
+            "en": "Rice, egg, vegetables and fried onion."
+          },
+          "price": "4490 Ft",
+          "allergenCodes": [
+            "A",
+            "C"
+          ],
+          "portion": ""
+        },
+        {
+          "id": "fried-rice-fried-chicken",
+          "nameKey": "menu.variant.friedChicken",
+          "descriptionKey": "menu.item.friedRice.desc",
+          "image": "https://pub-e3da109533764cb29410b35fc1bd8b42.r2.dev/ruby/29.png",
+          "sku": "50D",
+          "name": {
+            "hu": "Sült rizs - Sült csirke",
+            "en": "Fried rice - Fried chicken"
+          },
+          "description": {
+            "hu": "Rizs, tojás, vegyes zöldség és pirított hagyma.",
+            "en": "Rice, egg, vegetables and fried onion."
+          },
+          "price": "5790 Ft",
+          "allergenCodes": [
+            "A",
+            "C"
+          ],
+          "portion": ""
+        },
+        {
+          "id": "fried-rice-shrimp",
+          "nameKey": "menu.variant.shrimp",
+          "descriptionKey": "menu.item.friedRice.desc",
+          "image": "https://pub-e3da109533764cb29410b35fc1bd8b42.r2.dev/ruby/29.png",
+          "sku": "50E",
+          "name": {
+            "hu": "Sült rizs - Garnélarák",
+            "en": "Fried rice - Shrimp"
+          },
+          "description": {
+            "hu": "Rizs, tojás, vegyes zöldség és pirított hagyma.",
+            "en": "Rice, egg, vegetables and fried onion."
+          },
+          "price": "5090 Ft",
+          "allergenCodes": [
+            "A",
+            "B",
+            "C"
+          ],
+          "portion": ""
+        },
+        {
+          "id": "fried-rice-fried-duck",
+          "nameKey": "menu.variant.friedDuck",
+          "descriptionKey": "menu.item.friedRice.desc",
+          "image": "https://pub-e3da109533764cb29410b35fc1bd8b42.r2.dev/ruby/29.png",
+          "sku": "50F",
+          "name": {
+            "hu": "Sült rizs - Sült kacsa",
+            "en": "Fried rice - Fried duck"
+          },
+          "description": {
+            "hu": "Rizs, tojás, vegyes zöldség és pirított hagyma.",
+            "en": "Rice, egg, vegetables and fried onion."
+          },
+          "price": "6190 Ft",
+          "allergenCodes": [
+            "A",
+            "C"
+          ],
+          "portion": ""
+        },
+        {
+          "id": "curry-vegetarian-tofu",
+          "nameKey": "menu.variant.vegetarianTofu",
+          "descriptionKey": "menu.item.curry.desc",
+          "image": "https://pub-e3da109533764cb29410b35fc1bd8b42.r2.dev/ruby/32.png",
+          "sku": "60A",
+          "name": {
+            "hu": "Curry - Zöldségek és tofu",
+            "en": "Curry - Vegetarian & tofu"
           },
           "description": {
             "hu": "Kókusztej, friss tej, vegyes zöldség és rizs.",
             "en": "Coconut milk, fresh milk, vegetables and steamed rice."
-          }
+          },
+          "price": "4490 Ft",
+          "allergenCodes": [
+            "A",
+            "F",
+            "G"
+          ],
+          "portion": ""
         },
         {
-          "id": "sweet-sour-rice",
-          "nameKey": "menu.item.sweetSourRice.name",
-          "descriptionKey": "menu.item.sweetSourRice.desc",
-          "variants": [
-            {
-              "labelKey": "menu.variant.vegetarianTofu",
-              "price": "4290 Ft",
-              "allergenCodes": [
-                "A",
-                "F"
-              ],
-              "sku": "70A",
-              "label": {
-                "hu": "Zöldségek és tofu",
-                "en": "Vegetarian & tofu"
-              }
-            },
-            {
-              "labelKey": "menu.variant.beef",
-              "price": "4590 Ft",
-              "allergenCodes": [
-                "A"
-              ],
-              "sku": "70B",
-              "label": {
-                "hu": "Marha",
-                "en": "Beef"
-              }
-            },
-            {
-              "labelKey": "menu.variant.chicken",
-              "price": "4590 Ft",
-              "allergenCodes": [
-                "A"
-              ],
-              "sku": "70C",
-              "label": {
-                "hu": "Csirke",
-                "en": "Chicken"
-              }
-            },
-            {
-              "labelKey": "menu.variant.friedChicken",
-              "price": "5590 Ft",
-              "allergenCodes": [
-                "A"
-              ],
-              "sku": "70D",
-              "label": {
-                "hu": "Sült csirke",
-                "en": "Fried chicken"
-              }
-            },
-            {
-              "labelKey": "menu.variant.shrimp",
-              "price": "4990 Ft",
-              "allergenCodes": [
-                "A",
-                "B"
-              ],
-              "sku": "70E",
-              "label": {
-                "hu": "Garnélarák",
-                "en": "Shrimp"
-              }
-            },
-            {
-              "labelKey": "menu.variant.friedDuck",
-              "price": "5990 Ft",
-              "allergenCodes": [
-                "A"
-              ],
-              "sku": "70F",
-              "label": {
-                "hu": "Sült kacsa",
-                "en": "Fried duck"
-              }
-            }
-          ],
-          "image": "https://pub-e3da109533764cb29410b35fc1bd8b42.r2.dev/ruby/31.png",
-          "sku": "70",
+          "id": "curry-beef",
+          "nameKey": "menu.variant.beef",
+          "descriptionKey": "menu.item.curry.desc",
+          "image": "https://pub-e3da109533764cb29410b35fc1bd8b42.r2.dev/ruby/32.png",
+          "sku": "60B",
           "name": {
-            "hu": "Édes-savanyú szószos rizs",
-            "en": "Rice with sweet and sour sauce"
+            "hu": "Curry - Marha",
+            "en": "Curry - Beef"
+          },
+          "description": {
+            "hu": "Kókusztej, friss tej, vegyes zöldség és rizs.",
+            "en": "Coconut milk, fresh milk, vegetables and steamed rice."
+          },
+          "price": "4790 Ft",
+          "allergenCodes": [
+            "A",
+            "G"
+          ],
+          "portion": ""
+        },
+        {
+          "id": "curry-chicken",
+          "nameKey": "menu.variant.chicken",
+          "descriptionKey": "menu.item.curry.desc",
+          "image": "https://pub-e3da109533764cb29410b35fc1bd8b42.r2.dev/ruby/32.png",
+          "sku": "60C",
+          "name": {
+            "hu": "Curry - Csirke",
+            "en": "Curry - Chicken"
+          },
+          "description": {
+            "hu": "Kókusztej, friss tej, vegyes zöldség és rizs.",
+            "en": "Coconut milk, fresh milk, vegetables and steamed rice."
+          },
+          "price": "4790 Ft",
+          "allergenCodes": [
+            "A",
+            "G"
+          ],
+          "portion": ""
+        },
+        {
+          "id": "curry-fried-chicken",
+          "nameKey": "menu.variant.friedChicken",
+          "descriptionKey": "menu.item.curry.desc",
+          "image": "https://pub-e3da109533764cb29410b35fc1bd8b42.r2.dev/ruby/32.png",
+          "sku": "60D",
+          "name": {
+            "hu": "Curry - Sült csirke",
+            "en": "Curry - Fried chicken"
+          },
+          "description": {
+            "hu": "Kókusztej, friss tej, vegyes zöldség és rizs.",
+            "en": "Coconut milk, fresh milk, vegetables and steamed rice."
+          },
+          "price": "5790 Ft",
+          "allergenCodes": [
+            "A",
+            "G"
+          ],
+          "portion": ""
+        },
+        {
+          "id": "curry-shrimp",
+          "nameKey": "menu.variant.shrimp",
+          "descriptionKey": "menu.item.curry.desc",
+          "image": "https://pub-e3da109533764cb29410b35fc1bd8b42.r2.dev/ruby/32.png",
+          "sku": "60E",
+          "name": {
+            "hu": "Curry - Garnélarák",
+            "en": "Curry - Shrimp"
+          },
+          "description": {
+            "hu": "Kókusztej, friss tej, vegyes zöldség és rizs.",
+            "en": "Coconut milk, fresh milk, vegetables and steamed rice."
+          },
+          "price": "5190 Ft",
+          "allergenCodes": [
+            "A",
+            "B",
+            "G"
+          ],
+          "portion": ""
+        },
+        {
+          "id": "curry-fried-duck",
+          "nameKey": "menu.variant.friedDuck",
+          "descriptionKey": "menu.item.curry.desc",
+          "image": "https://pub-e3da109533764cb29410b35fc1bd8b42.r2.dev/ruby/32.png",
+          "sku": "60F",
+          "name": {
+            "hu": "Curry - Sült kacsa",
+            "en": "Curry - Fried duck"
+          },
+          "description": {
+            "hu": "Kókusztej, friss tej, vegyes zöldség és rizs.",
+            "en": "Coconut milk, fresh milk, vegetables and steamed rice."
+          },
+          "price": "6190 Ft",
+          "allergenCodes": [
+            "A",
+            "G"
+          ],
+          "portion": ""
+        },
+        {
+          "id": "sweet-sour-rice-vegetarian-tofu",
+          "nameKey": "menu.variant.vegetarianTofu",
+          "descriptionKey": "menu.item.sweetSourRice.desc",
+          "image": "https://pub-e3da109533764cb29410b35fc1bd8b42.r2.dev/ruby/31.png",
+          "sku": "70A",
+          "name": {
+            "hu": "Édes-savanyú szószos rizs - Zöldségek és tofu",
+            "en": "Rice with sweet and sour sauce - Vegetarian & tofu"
           },
           "description": {
             "hu": "Paradicsom szósz, zöldséglé, vegyes zöldségek és rizs.",
             "en": "Tomato sauce, vegetable sauce, mixed vegetables and rice."
-          }
+          },
+          "price": "4490 Ft",
+          "allergenCodes": [
+            "A",
+            "F"
+          ],
+          "portion": ""
         },
         {
-          "id": "peanut-rice",
-          "nameKey": "menu.item.peanutRice.name",
-          "descriptionKey": "menu.item.peanutRice.desc",
-          "variants": [
-            {
-              "labelKey": "menu.variant.vegetarianTofu",
-              "price": "4290 Ft",
-              "allergenCodes": [
-                "A",
-                "E",
-                "F",
-                "G"
-              ],
-              "sku": "80A",
-              "label": {
-                "hu": "Zöldségek és tofu",
-                "en": "Vegetarian & tofu"
-              }
-            },
-            {
-              "labelKey": "menu.variant.beef",
-              "price": "4590 Ft",
-              "allergenCodes": [
-                "A",
-                "E",
-                "G"
-              ],
-              "sku": "80B",
-              "label": {
-                "hu": "Marha",
-                "en": "Beef"
-              }
-            },
-            {
-              "labelKey": "menu.variant.chicken",
-              "price": "4590 Ft",
-              "allergenCodes": [
-                "A",
-                "E",
-                "G"
-              ],
-              "sku": "80C",
-              "label": {
-                "hu": "Csirke",
-                "en": "Chicken"
-              }
-            },
-            {
-              "labelKey": "menu.variant.friedChicken",
-              "price": "5590 Ft",
-              "allergenCodes": [
-                "A",
-                "E",
-                "G"
-              ],
-              "sku": "80D",
-              "label": {
-                "hu": "Sült csirke",
-                "en": "Fried chicken"
-              }
-            },
-            {
-              "labelKey": "menu.variant.shrimp",
-              "price": "4990 Ft",
-              "allergenCodes": [
-                "A",
-                "B",
-                "E",
-                "G"
-              ],
-              "sku": "80E",
-              "label": {
-                "hu": "Garnélarák",
-                "en": "Shrimp"
-              }
-            },
-            {
-              "labelKey": "menu.variant.friedDuck",
-              "price": "5990 Ft",
-              "allergenCodes": [
-                "A",
-                "E",
-                "G"
-              ],
-              "sku": "80F",
-              "label": {
-                "hu": "Sült kacsa",
-                "en": "Fried duck"
-              }
-            }
-          ],
-          "image": "https://pub-e3da109533764cb29410b35fc1bd8b42.r2.dev/ruby/32.png",
-          "sku": "80",
+          "id": "sweet-sour-rice-beef",
+          "nameKey": "menu.variant.beef",
+          "descriptionKey": "menu.item.sweetSourRice.desc",
+          "image": "https://pub-e3da109533764cb29410b35fc1bd8b42.r2.dev/ruby/31.png",
+          "sku": "70B",
           "name": {
-            "hu": "Mogyorós rizs",
-            "en": "Rice with peanut sauce"
+            "hu": "Édes-savanyú szószos rizs - Marha",
+            "en": "Rice with sweet and sour sauce - Beef"
+          },
+          "description": {
+            "hu": "Paradicsom szósz, zöldséglé, vegyes zöldségek és rizs.",
+            "en": "Tomato sauce, vegetable sauce, mixed vegetables and rice."
+          },
+          "price": "4790 Ft",
+          "allergenCodes": [
+            "A"
+          ],
+          "portion": ""
+        },
+        {
+          "id": "sweet-sour-rice-chicken",
+          "nameKey": "menu.variant.chicken",
+          "descriptionKey": "menu.item.sweetSourRice.desc",
+          "image": "https://pub-e3da109533764cb29410b35fc1bd8b42.r2.dev/ruby/31.png",
+          "sku": "70C",
+          "name": {
+            "hu": "Édes-savanyú szószos rizs - Csirke",
+            "en": "Rice with sweet and sour sauce - Chicken"
+          },
+          "description": {
+            "hu": "Paradicsom szósz, zöldséglé, vegyes zöldségek és rizs.",
+            "en": "Tomato sauce, vegetable sauce, mixed vegetables and rice."
+          },
+          "price": "4790 Ft",
+          "allergenCodes": [
+            "A"
+          ],
+          "portion": ""
+        },
+        {
+          "id": "sweet-sour-rice-fried-chicken",
+          "nameKey": "menu.variant.friedChicken",
+          "descriptionKey": "menu.item.sweetSourRice.desc",
+          "image": "https://pub-e3da109533764cb29410b35fc1bd8b42.r2.dev/ruby/31.png",
+          "sku": "70D",
+          "name": {
+            "hu": "Édes-savanyú szószos rizs - Sült csirke",
+            "en": "Rice with sweet and sour sauce - Fried chicken"
+          },
+          "description": {
+            "hu": "Paradicsom szósz, zöldséglé, vegyes zöldségek és rizs.",
+            "en": "Tomato sauce, vegetable sauce, mixed vegetables and rice."
+          },
+          "price": "5790 Ft",
+          "allergenCodes": [
+            "A"
+          ],
+          "portion": ""
+        },
+        {
+          "id": "sweet-sour-rice-shrimp",
+          "nameKey": "menu.variant.shrimp",
+          "descriptionKey": "menu.item.sweetSourRice.desc",
+          "image": "https://pub-e3da109533764cb29410b35fc1bd8b42.r2.dev/ruby/31.png",
+          "sku": "70E",
+          "name": {
+            "hu": "Édes-savanyú szószos rizs - Garnélarák",
+            "en": "Rice with sweet and sour sauce - Shrimp"
+          },
+          "description": {
+            "hu": "Paradicsom szósz, zöldséglé, vegyes zöldségek és rizs.",
+            "en": "Tomato sauce, vegetable sauce, mixed vegetables and rice."
+          },
+          "price": "5190 Ft",
+          "allergenCodes": [
+            "A",
+            "B"
+          ],
+          "portion": ""
+        },
+        {
+          "id": "sweet-sour-rice-fried-duck",
+          "nameKey": "menu.variant.friedDuck",
+          "descriptionKey": "menu.item.sweetSourRice.desc",
+          "image": "https://pub-e3da109533764cb29410b35fc1bd8b42.r2.dev/ruby/31.png",
+          "sku": "70F",
+          "name": {
+            "hu": "Édes-savanyú szószos rizs - Sült kacsa",
+            "en": "Rice with sweet and sour sauce - Fried duck"
+          },
+          "description": {
+            "hu": "Paradicsom szósz, zöldséglé, vegyes zöldségek és rizs.",
+            "en": "Tomato sauce, vegetable sauce, mixed vegetables and rice."
+          },
+          "price": "6190 Ft",
+          "allergenCodes": [
+            "A"
+          ],
+          "portion": ""
+        },
+        {
+          "id": "peanut-rice-vegetarian-tofu",
+          "nameKey": "menu.variant.vegetarianTofu",
+          "descriptionKey": "menu.item.peanutRice.desc",
+          "image": "https://pub-e3da109533764cb29410b35fc1bd8b42.r2.dev/ruby/32.png",
+          "sku": "80A",
+          "name": {
+            "hu": "Mogyorós rizs - Zöldségek és tofu",
+            "en": "Rice with peanut sauce - Vegetarian & tofu"
           },
           "description": {
             "hu": "Mogyoró szósz, tej, kókusztej, zöldségek és rizs.",
             "en": "Peanut sauce, milk, coconut milk, vegetables and rice."
-          }
+          },
+          "price": "4490 Ft",
+          "allergenCodes": [
+            "A",
+            "E",
+            "F",
+            "G"
+          ],
+          "portion": ""
         },
         {
-          "id": "mango-rice",
-          "nameKey": "menu.item.mangoRice.name",
-          "descriptionKey": "menu.item.mangoRice.desc",
-          "variants": [
-            {
-              "labelKey": "menu.variant.vegetarianTofu",
-              "price": "4290 Ft",
-              "allergenCodes": [
-                "A",
-                "F"
-              ],
-              "sku": "90A",
-              "label": {
-                "hu": "Zöldségek és tofu",
-                "en": "Vegetarian & tofu"
-              }
-            },
-            {
-              "labelKey": "menu.variant.beef",
-              "price": "4590 Ft",
-              "allergenCodes": [
-                "A",
-                "F"
-              ],
-              "sku": "90B",
-              "label": {
-                "hu": "Marha",
-                "en": "Beef"
-              }
-            },
-            {
-              "labelKey": "menu.variant.chicken",
-              "price": "4590 Ft",
-              "allergenCodes": [
-                "A",
-                "F"
-              ],
-              "sku": "90C",
-              "label": {
-                "hu": "Csirke",
-                "en": "Chicken"
-              }
-            },
-            {
-              "labelKey": "menu.variant.friedChicken",
-              "price": "5590 Ft",
-              "allergenCodes": [
-                "A",
-                "F"
-              ],
-              "sku": "90D",
-              "label": {
-                "hu": "Sült csirke",
-                "en": "Fried chicken"
-              }
-            },
-            {
-              "labelKey": "menu.variant.shrimp",
-              "price": "4990 Ft",
-              "allergenCodes": [
-                "A",
-                "B",
-                "F"
-              ],
-              "sku": "90E",
-              "label": {
-                "hu": "Garnélarák",
-                "en": "Shrimp"
-              }
-            },
-            {
-              "labelKey": "menu.variant.friedDuck",
-              "price": "5990 Ft",
-              "allergenCodes": [
-                "A",
-                "F"
-              ],
-              "sku": "90F",
-              "label": {
-                "hu": "Sült kacsa",
-                "en": "Fried duck"
-              }
-            }
-          ],
+          "id": "peanut-rice-beef",
+          "nameKey": "menu.variant.beef",
+          "descriptionKey": "menu.item.peanutRice.desc",
           "image": "https://pub-e3da109533764cb29410b35fc1bd8b42.r2.dev/ruby/32.png",
-          "sku": "90",
+          "sku": "80B",
           "name": {
-            "hu": "Mangó szószos rizs",
-            "en": "Rice with mango"
+            "hu": "Mogyorós rizs - Marha",
+            "en": "Rice with peanut sauce - Beef"
+          },
+          "description": {
+            "hu": "Mogyoró szósz, tej, kókusztej, zöldségek és rizs.",
+            "en": "Peanut sauce, milk, coconut milk, vegetables and rice."
+          },
+          "price": "4790 Ft",
+          "allergenCodes": [
+            "A",
+            "E",
+            "G"
+          ],
+          "portion": ""
+        },
+        {
+          "id": "peanut-rice-chicken",
+          "nameKey": "menu.variant.chicken",
+          "descriptionKey": "menu.item.peanutRice.desc",
+          "image": "https://pub-e3da109533764cb29410b35fc1bd8b42.r2.dev/ruby/32.png",
+          "sku": "80C",
+          "name": {
+            "hu": "Mogyorós rizs - Csirke",
+            "en": "Rice with peanut sauce - Chicken"
+          },
+          "description": {
+            "hu": "Mogyoró szósz, tej, kókusztej, zöldségek és rizs.",
+            "en": "Peanut sauce, milk, coconut milk, vegetables and rice."
+          },
+          "price": "4790 Ft",
+          "allergenCodes": [
+            "A",
+            "E",
+            "G"
+          ],
+          "portion": ""
+        },
+        {
+          "id": "peanut-rice-fried-chicken",
+          "nameKey": "menu.variant.friedChicken",
+          "descriptionKey": "menu.item.peanutRice.desc",
+          "image": "https://pub-e3da109533764cb29410b35fc1bd8b42.r2.dev/ruby/32.png",
+          "sku": "80D",
+          "name": {
+            "hu": "Mogyorós rizs - Sült csirke",
+            "en": "Rice with peanut sauce - Fried chicken"
+          },
+          "description": {
+            "hu": "Mogyoró szósz, tej, kókusztej, zöldségek és rizs.",
+            "en": "Peanut sauce, milk, coconut milk, vegetables and rice."
+          },
+          "price": "5790 Ft",
+          "allergenCodes": [
+            "A",
+            "E",
+            "G"
+          ],
+          "portion": ""
+        },
+        {
+          "id": "peanut-rice-shrimp",
+          "nameKey": "menu.variant.shrimp",
+          "descriptionKey": "menu.item.peanutRice.desc",
+          "image": "https://pub-e3da109533764cb29410b35fc1bd8b42.r2.dev/ruby/32.png",
+          "sku": "80E",
+          "name": {
+            "hu": "Mogyorós rizs - Garnélarák",
+            "en": "Rice with peanut sauce - Shrimp"
+          },
+          "description": {
+            "hu": "Mogyoró szósz, tej, kókusztej, zöldségek és rizs.",
+            "en": "Peanut sauce, milk, coconut milk, vegetables and rice."
+          },
+          "price": "5190 Ft",
+          "allergenCodes": [
+            "A",
+            "B",
+            "E",
+            "G"
+          ],
+          "portion": ""
+        },
+        {
+          "id": "peanut-rice-fried-duck",
+          "nameKey": "menu.variant.friedDuck",
+          "descriptionKey": "menu.item.peanutRice.desc",
+          "image": "https://pub-e3da109533764cb29410b35fc1bd8b42.r2.dev/ruby/32.png",
+          "sku": "80F",
+          "name": {
+            "hu": "Mogyorós rizs - Sült kacsa",
+            "en": "Rice with peanut sauce - Fried duck"
+          },
+          "description": {
+            "hu": "Mogyoró szósz, tej, kókusztej, zöldségek és rizs.",
+            "en": "Peanut sauce, milk, coconut milk, vegetables and rice."
+          },
+          "price": "6190 Ft",
+          "allergenCodes": [
+            "A",
+            "E",
+            "G"
+          ],
+          "portion": ""
+        },
+        {
+          "id": "mango-rice-vegetarian-tofu",
+          "nameKey": "menu.variant.vegetarianTofu",
+          "descriptionKey": "menu.item.mangoRice.desc",
+          "image": "https://pub-e3da109533764cb29410b35fc1bd8b42.r2.dev/ruby/32.png",
+          "sku": "90A",
+          "name": {
+            "hu": "Mangó szószos rizs - Zöldségek és tofu",
+            "en": "Rice with mango - Vegetarian & tofu"
           },
           "description": {
             "hu": "Mangó szósz, kókusztejes szósz, zöldségek és rizs.",
             "en": "Mango sauce, coconut sauce, mixed vegetables and rice."
-          }
+          },
+          "price": "4490 Ft",
+          "allergenCodes": [
+            "A",
+            "F"
+          ],
+          "portion": ""
+        },
+        {
+          "id": "mango-rice-beef",
+          "nameKey": "menu.variant.beef",
+          "descriptionKey": "menu.item.mangoRice.desc",
+          "image": "https://pub-e3da109533764cb29410b35fc1bd8b42.r2.dev/ruby/32.png",
+          "sku": "90B",
+          "name": {
+            "hu": "Mangó szószos rizs - Marha",
+            "en": "Rice with mango - Beef"
+          },
+          "description": {
+            "hu": "Mangó szósz, kókusztejes szósz, zöldségek és rizs.",
+            "en": "Mango sauce, coconut sauce, mixed vegetables and rice."
+          },
+          "price": "4790 Ft",
+          "allergenCodes": [
+            "A",
+            "F"
+          ],
+          "portion": ""
+        },
+        {
+          "id": "mango-rice-chicken",
+          "nameKey": "menu.variant.chicken",
+          "descriptionKey": "menu.item.mangoRice.desc",
+          "image": "https://pub-e3da109533764cb29410b35fc1bd8b42.r2.dev/ruby/32.png",
+          "sku": "90C",
+          "name": {
+            "hu": "Mangó szószos rizs - Csirke",
+            "en": "Rice with mango - Chicken"
+          },
+          "description": {
+            "hu": "Mangó szósz, kókusztejes szósz, zöldségek és rizs.",
+            "en": "Mango sauce, coconut sauce, mixed vegetables and rice."
+          },
+          "price": "4790 Ft",
+          "allergenCodes": [
+            "A",
+            "F"
+          ],
+          "portion": ""
+        },
+        {
+          "id": "mango-rice-fried-chicken",
+          "nameKey": "menu.variant.friedChicken",
+          "descriptionKey": "menu.item.mangoRice.desc",
+          "image": "https://pub-e3da109533764cb29410b35fc1bd8b42.r2.dev/ruby/32.png",
+          "sku": "90D",
+          "name": {
+            "hu": "Mangó szószos rizs - Sült csirke",
+            "en": "Rice with mango - Fried chicken"
+          },
+          "description": {
+            "hu": "Mangó szósz, kókusztejes szósz, zöldségek és rizs.",
+            "en": "Mango sauce, coconut sauce, mixed vegetables and rice."
+          },
+          "price": "5790 Ft",
+          "allergenCodes": [
+            "A",
+            "F"
+          ],
+          "portion": ""
+        },
+        {
+          "id": "mango-rice-shrimp",
+          "nameKey": "menu.variant.shrimp",
+          "descriptionKey": "menu.item.mangoRice.desc",
+          "image": "https://pub-e3da109533764cb29410b35fc1bd8b42.r2.dev/ruby/32.png",
+          "sku": "90E",
+          "name": {
+            "hu": "Mangó szószos rizs - Garnélarák",
+            "en": "Rice with mango - Shrimp"
+          },
+          "description": {
+            "hu": "Mangó szósz, kókusztejes szósz, zöldségek és rizs.",
+            "en": "Mango sauce, coconut sauce, mixed vegetables and rice."
+          },
+          "price": "5190 Ft",
+          "allergenCodes": [
+            "A",
+            "B",
+            "F"
+          ],
+          "portion": ""
+        },
+        {
+          "id": "mango-rice-fried-duck",
+          "nameKey": "menu.variant.friedDuck",
+          "descriptionKey": "menu.item.mangoRice.desc",
+          "image": "https://pub-e3da109533764cb29410b35fc1bd8b42.r2.dev/ruby/32.png",
+          "sku": "90F",
+          "name": {
+            "hu": "Mangó szószos rizs - Sült kacsa",
+            "en": "Rice with mango - Fried duck"
+          },
+          "description": {
+            "hu": "Mangó szósz, kókusztejes szósz, zöldségek és rizs.",
+            "en": "Mango sauce, coconut sauce, mixed vegetables and rice."
+          },
+          "price": "6190 Ft",
+          "allergenCodes": [
+            "A",
+            "F"
+          ],
+          "portion": ""
         }
       ],
       "label": {
@@ -1702,386 +2042,516 @@
       "image": "https://pub-e3da109533764cb29410b35fc1bd8b42.r2.dev/ruby/36.png",
       "items": [
         {
-          "id": "maki",
-          "nameKey": "menu.group.maki.name",
+          "id": "maki-salmon",
+          "nameKey": "menu.item.makiSalmon.name",
           "descriptionKey": "menu.group.maki.desc",
-          "variants": [
-            {
-              "labelKey": "menu.item.makiSalmon.name",
-              "price": "1890 Ft",
-              "allergenCodes": [
-                "D"
-              ],
-              "sku": "M1",
-              "label": {
-                "hu": "Lazac",
-                "en": "Salmon"
-              },
-              "image": "https://pub-e3da109533764cb29410b35fc1bd8b42.r2.dev/ruby/M1.%20Maki%20Lazac.jpg"
-            },
-            {
-              "labelKey": "menu.item.makiSmokedSalmon.name",
-              "price": "2190 Ft",
-              "allergenCodes": [
-                "D"
-              ],
-              "sku": "M2",
-              "label": {
-                "hu": "Füstölt lazac",
-                "en": "Smoked salmon"
-              },
-              "image": "https://pub-e3da109533764cb29410b35fc1bd8b42.r2.dev/ruby/M2.%20Maki%20F%C3%BCst%C3%B6lt%20Lazac.jpg"
-            },
-            {
-              "labelKey": "menu.item.makiRedTuna.name",
-              "price": "1990 Ft",
-              "allergenCodes": [
-                "D"
-              ],
-              "sku": "M3",
-              "label": {
-                "hu": "Vörös tonhal",
-                "en": "Red tuna"
-              },
-              "image": "https://pub-e3da109533764cb29410b35fc1bd8b42.r2.dev/ruby/M3.%20Maki%20V%C3%B6r%C3%B6s%20tonhal.jpg"
-            },
-            {
-              "labelKey": "menu.item.makiSmokedTuna.name",
-              "price": "2190 Ft",
-              "allergenCodes": [
-                "D"
-              ],
-              "sku": "M4",
-              "label": {
-                "hu": "Füstölt tonhal",
-                "en": "Smoked tuna"
-              },
-              "image": "https://pub-e3da109533764cb29410b35fc1bd8b42.r2.dev/ruby/M4.%20Maki%20F%C3%BCst%C3%B6lt%20Tonhal.jpg"
-            },
-            {
-              "labelKey": "menu.item.makiTigerShrimp.name",
-              "price": "2190 Ft",
-              "allergenCodes": [
-                "B"
-              ],
-              "sku": "M5",
-              "label": {
-                "hu": "Tigris rák",
-                "en": "Tiger shrimp"
-              },
-              "image": "https://pub-e3da109533764cb29410b35fc1bd8b42.r2.dev/ruby/M5.%20Maki%20Tigris%20r%C3%A1k.jpg"
-            },
-            {
-              "labelKey": "menu.item.makiSurimi.name",
-              "price": "1890 Ft",
-              "allergenCodes": [
-                "A",
-                "B"
-              ],
-              "sku": "M6",
-              "label": {
-                "hu": "Surimi",
-                "en": "Surimi"
-              },
-              "image": "https://pub-e3da109533764cb29410b35fc1bd8b42.r2.dev/ruby/M6.%20Maki%20Surimi.jpg"
-            },
-            {
-              "labelKey": "menu.item.makiTempuraShrimp.name",
-              "price": "2290 Ft",
-              "allergenCodes": [
-                "A",
-                "B"
-              ],
-              "sku": "M7",
-              "label": {
-                "hu": "Tempura rák",
-                "en": "Tempura shrimp"
-              },
-              "image": "https://pub-e3da109533764cb29410b35fc1bd8b42.r2.dev/ruby/M7.%20Maki%20Tempura%20R%C3%A1k_.jpg"
-            },
-            {
-              "labelKey": "menu.item.makiAvocado.name",
-              "price": "1890 Ft",
-              "allergenCodes": [],
-              "sku": "M8",
-              "label": {
-                "hu": "Avokádó",
-                "en": "Avocado"
-              },
-              "image": "https://pub-e3da109533764cb29410b35fc1bd8b42.r2.dev/ruby/M8.%20Maki%20Avok%C3%A1d%C3%B3.jpg"
-            },
-            {
-              "labelKey": "menu.item.makiCucumber.name",
-              "price": "1690 Ft",
-              "allergenCodes": [],
-              "sku": "M9",
-              "label": {
-                "hu": "Uborka",
-                "en": "Cucumber"
-              },
-              "image": "https://pub-e3da109533764cb29410b35fc1bd8b42.r2.dev/ruby/M9.%20Maki%20Uborka.jpg"
-            },
-            {
-              "labelKey": "menu.item.makiSalmonAvocado.name",
-              "price": "2390 Ft",
-              "allergenCodes": [
-                "D"
-              ],
-              "image": "https://pub-e3da109533764cb29410b35fc1bd8b42.r2.dev/ruby/34.png",
-              "sku": "M12",
-              "label": {
-                "hu": "Lazac, avokádó",
-                "en": "Salmon, avocado"
-              }
-            },
-            {
-              "labelKey": "menu.item.makiTunaAvocado.name",
-              "price": "2290 Ft",
-              "allergenCodes": [
-                "D"
-              ],
-              "image": "https://pub-e3da109533764cb29410b35fc1bd8b42.r2.dev/ruby/33.png",
-              "sku": "M13",
-              "label": {
-                "hu": "Tonhal, avokádó",
-                "en": "Tuna, avocado"
-              }
-            },
-            {
-              "labelKey": "menu.item.makiJapaneseRadish.name",
-              "price": "1690 Ft",
-              "allergenCodes": [],
-              "sku": "M14",
-              "label": {
-                "hu": "Japán retek",
-                "en": "Japanese radish"
-              }
-            },
-            {
-              "labelKey": "menu.item.makiEel.name",
-              "price": "2290 Ft",
-              "allergenCodes": [
-                "D",
-                "N"
-              ],
-              "sku": "M15",
-              "label": {
-                "hu": "Angolna",
-                "en": "Eel"
-              }
-            },
-            {
-              "labelKey": "menu.item.makiEggs.name",
-              "price": "1690 Ft",
-              "allergenCodes": [
-                "C"
-              ],
-              "sku": "M16",
-              "label": {
-                "hu": "Tojás",
-                "en": "Eggs"
-              },
-              "image": "https://pub-e3da109533764cb29410b35fc1bd8b42.r2.dev/ruby/M16.%20Maki%20Toj%C3%A1s.jpg"
-            }
-          ],
-          "image": "https://pub-e3da109533764cb29410b35fc1bd8b42.r2.dev/ruby/34.png",
-          "sku": "M",
+          "image": "https://pub-e3da109533764cb29410b35fc1bd8b42.r2.dev/ruby/M1.%20Maki%20Lazac.jpg",
+          "sku": "M1",
           "name": {
-            "hu": "Maki (8 db)",
-            "en": "Maki (8 pcs)"
+            "hu": "Maki (8 db) - Lazac",
+            "en": "Maki (8 pcs) - Salmon"
           },
           "description": {
             "hu": "Klasszikus maki tekercsek.",
             "en": "Classic maki rolls."
-          }
+          },
+          "price": "2090 Ft",
+          "allergenCodes": [
+            "D"
+          ],
+          "portion": ""
         },
         {
-          "id": "mini-crunch-roll",
-          "nameKey": "menu.group.miniCrunch.name",
-          "descriptionKey": "menu.group.miniCrunch.desc",
-          "variants": [
-            {
-              "labelKey": "menu.item.tmSalmon.name",
-              "price": "4590 Ft",
-              "allergenCodes": [
-                "A",
-                "C",
-                "D",
-                "G"
-              ],
-              "sku": "TM1",
-              "label": {
-                "hu": "TM1. Lazac",
-                "en": "TM1. Salmon"
-              }
-            },
-            {
-              "labelKey": "menu.item.tmTuna.name",
-              "price": "4890 Ft",
-              "allergenCodes": [
-                "A",
-                "C",
-                "D",
-                "G"
-              ],
-              "sku": "TM2",
-              "label": {
-                "hu": "TM2. Tonhal",
-                "en": "TM2. Tuna"
-              }
-            },
-            {
-              "labelKey": "menu.item.tmTigerShrimp.name",
-              "price": "4590 Ft",
-              "allergenCodes": [
-                "A",
-                "B",
-                "C",
-                "G"
-              ],
-              "sku": "TM3",
-              "label": {
-                "hu": "TM3. Tigris rák",
-                "en": "TM3. Tiger shrimp"
-              }
-            }
-          ],
-          "image": "https://pub-e3da109533764cb29410b35fc1bd8b42.r2.dev/ruby/35.png",
-          "sku": "TM",
+          "id": "maki-smoked-salmon",
+          "nameKey": "menu.item.makiSmokedSalmon.name",
+          "descriptionKey": "menu.group.maki.desc",
+          "image": "https://pub-e3da109533764cb29410b35fc1bd8b42.r2.dev/ruby/M2.%20Maki%20F%C3%BCst%C3%B6lt%20Lazac.jpg",
+          "sku": "M2",
           "name": {
-            "hu": "Mini crunch roll (8 db)",
-            "en": "Mini crunch roll (8 pcs)"
+            "hu": "Maki (8 db) - Füstölt lazac",
+            "en": "Maki (8 pcs) - Smoked salmon"
+          },
+          "description": {
+            "hu": "Klasszikus maki tekercsek.",
+            "en": "Classic maki rolls."
+          },
+          "price": "2390 Ft",
+          "allergenCodes": [
+            "D"
+          ],
+          "portion": ""
+        },
+        {
+          "id": "maki-red-tuna",
+          "nameKey": "menu.item.makiRedTuna.name",
+          "descriptionKey": "menu.group.maki.desc",
+          "image": "https://pub-e3da109533764cb29410b35fc1bd8b42.r2.dev/ruby/M3.%20Maki%20V%C3%B6r%C3%B6s%20tonhal.jpg",
+          "sku": "M3",
+          "name": {
+            "hu": "Maki (8 db) - Vörös tonhal",
+            "en": "Maki (8 pcs) - Red tuna"
+          },
+          "description": {
+            "hu": "Klasszikus maki tekercsek.",
+            "en": "Classic maki rolls."
+          },
+          "price": "2190 Ft",
+          "allergenCodes": [
+            "D"
+          ],
+          "portion": ""
+        },
+        {
+          "id": "maki-smoked-tuna",
+          "nameKey": "menu.item.makiSmokedTuna.name",
+          "descriptionKey": "menu.group.maki.desc",
+          "image": "https://pub-e3da109533764cb29410b35fc1bd8b42.r2.dev/ruby/M4.%20Maki%20F%C3%BCst%C3%B6lt%20Tonhal.jpg",
+          "sku": "M4",
+          "name": {
+            "hu": "Maki (8 db) - Füstölt tonhal",
+            "en": "Maki (8 pcs) - Smoked tuna"
+          },
+          "description": {
+            "hu": "Klasszikus maki tekercsek.",
+            "en": "Classic maki rolls."
+          },
+          "price": "2390 Ft",
+          "allergenCodes": [
+            "D"
+          ],
+          "portion": ""
+        },
+        {
+          "id": "maki-tiger-shrimp",
+          "nameKey": "menu.item.makiTigerShrimp.name",
+          "descriptionKey": "menu.group.maki.desc",
+          "image": "https://pub-e3da109533764cb29410b35fc1bd8b42.r2.dev/ruby/M5.%20Maki%20Tigris%20r%C3%A1k.jpg",
+          "sku": "M5",
+          "name": {
+            "hu": "Maki (8 db) - Tigris rák",
+            "en": "Maki (8 pcs) - Tiger shrimp"
+          },
+          "description": {
+            "hu": "Klasszikus maki tekercsek.",
+            "en": "Classic maki rolls."
+          },
+          "price": "2390 Ft",
+          "allergenCodes": [
+            "B"
+          ],
+          "portion": ""
+        },
+        {
+          "id": "maki-surimi",
+          "nameKey": "menu.item.makiSurimi.name",
+          "descriptionKey": "menu.group.maki.desc",
+          "image": "https://pub-e3da109533764cb29410b35fc1bd8b42.r2.dev/ruby/M6.%20Maki%20Surimi.jpg",
+          "sku": "M6",
+          "name": {
+            "hu": "Maki (8 db) - Surimi",
+            "en": "Maki (8 pcs) - Surimi"
+          },
+          "description": {
+            "hu": "Klasszikus maki tekercsek.",
+            "en": "Classic maki rolls."
+          },
+          "price": "2090 Ft",
+          "allergenCodes": [
+            "A",
+            "B"
+          ],
+          "portion": ""
+        },
+        {
+          "id": "maki-tempura-shrimp",
+          "nameKey": "menu.item.makiTempuraShrimp.name",
+          "descriptionKey": "menu.group.maki.desc",
+          "image": "https://pub-e3da109533764cb29410b35fc1bd8b42.r2.dev/ruby/M7.%20Maki%20Tempura%20R%C3%A1k_.jpg",
+          "sku": "M7",
+          "name": {
+            "hu": "Maki (8 db) - Tempura rák",
+            "en": "Maki (8 pcs) - Tempura shrimp"
+          },
+          "description": {
+            "hu": "Klasszikus maki tekercsek.",
+            "en": "Classic maki rolls."
+          },
+          "price": "2490 Ft",
+          "allergenCodes": [
+            "A",
+            "B"
+          ],
+          "portion": ""
+        },
+        {
+          "id": "maki-avocado",
+          "nameKey": "menu.item.makiAvocado.name",
+          "descriptionKey": "menu.group.maki.desc",
+          "image": "https://pub-e3da109533764cb29410b35fc1bd8b42.r2.dev/ruby/M8.%20Maki%20Avok%C3%A1d%C3%B3.jpg",
+          "sku": "M8",
+          "name": {
+            "hu": "Maki (8 db) - Avokádó",
+            "en": "Maki (8 pcs) - Avocado"
+          },
+          "description": {
+            "hu": "Klasszikus maki tekercsek.",
+            "en": "Classic maki rolls."
+          },
+          "price": "2090 Ft",
+          "allergenCodes": [],
+          "portion": ""
+        },
+        {
+          "id": "maki-cucumber",
+          "nameKey": "menu.item.makiCucumber.name",
+          "descriptionKey": "menu.group.maki.desc",
+          "image": "https://pub-e3da109533764cb29410b35fc1bd8b42.r2.dev/ruby/M9.%20Maki%20Uborka.jpg",
+          "sku": "M9",
+          "name": {
+            "hu": "Maki (8 db) - Uborka",
+            "en": "Maki (8 pcs) - Cucumber"
+          },
+          "description": {
+            "hu": "Klasszikus maki tekercsek.",
+            "en": "Classic maki rolls."
+          },
+          "price": "1890 Ft",
+          "allergenCodes": [],
+          "portion": ""
+        },
+        {
+          "id": "maki-salmon-avocado",
+          "nameKey": "menu.item.makiSalmonAvocado.name",
+          "descriptionKey": "menu.group.maki.desc",
+          "image": "https://pub-e3da109533764cb29410b35fc1bd8b42.r2.dev/ruby/34.png",
+          "sku": "M12",
+          "name": {
+            "hu": "Maki (8 db) - Lazac, avokádó",
+            "en": "Maki (8 pcs) - Salmon, avocado"
+          },
+          "description": {
+            "hu": "Klasszikus maki tekercsek.",
+            "en": "Classic maki rolls."
+          },
+          "price": "2590 Ft",
+          "allergenCodes": [
+            "D"
+          ],
+          "portion": ""
+        },
+        {
+          "id": "maki-tuna-avocado",
+          "nameKey": "menu.item.makiTunaAvocado.name",
+          "descriptionKey": "menu.group.maki.desc",
+          "image": "https://pub-e3da109533764cb29410b35fc1bd8b42.r2.dev/ruby/33.png",
+          "sku": "M13",
+          "name": {
+            "hu": "Maki (8 db) - Tonhal, avokádó",
+            "en": "Maki (8 pcs) - Tuna, avocado"
+          },
+          "description": {
+            "hu": "Klasszikus maki tekercsek.",
+            "en": "Classic maki rolls."
+          },
+          "price": "2490 Ft",
+          "allergenCodes": [
+            "D"
+          ],
+          "portion": ""
+        },
+        {
+          "id": "maki-japanese-radish",
+          "nameKey": "menu.item.makiJapaneseRadish.name",
+          "descriptionKey": "menu.group.maki.desc",
+          "image": "https://pub-e3da109533764cb29410b35fc1bd8b42.r2.dev/ruby/34.png",
+          "sku": "M14",
+          "name": {
+            "hu": "Maki (8 db) - Japán retek",
+            "en": "Maki (8 pcs) - Japanese radish"
+          },
+          "description": {
+            "hu": "Klasszikus maki tekercsek.",
+            "en": "Classic maki rolls."
+          },
+          "price": "1890 Ft",
+          "allergenCodes": [],
+          "portion": ""
+        },
+        {
+          "id": "maki-eel",
+          "nameKey": "menu.item.makiEel.name",
+          "descriptionKey": "menu.group.maki.desc",
+          "image": "https://pub-e3da109533764cb29410b35fc1bd8b42.r2.dev/ruby/34.png",
+          "sku": "M15",
+          "name": {
+            "hu": "Maki (8 db) - Angolna",
+            "en": "Maki (8 pcs) - Eel"
+          },
+          "description": {
+            "hu": "Klasszikus maki tekercsek.",
+            "en": "Classic maki rolls."
+          },
+          "price": "2490 Ft",
+          "allergenCodes": [
+            "D",
+            "N"
+          ],
+          "portion": ""
+        },
+        {
+          "id": "maki-eggs",
+          "nameKey": "menu.item.makiEggs.name",
+          "descriptionKey": "menu.group.maki.desc",
+          "image": "https://pub-e3da109533764cb29410b35fc1bd8b42.r2.dev/ruby/M16.%20Maki%20Toj%C3%A1s.jpg",
+          "sku": "M16",
+          "name": {
+            "hu": "Maki (8 db) - Tojás",
+            "en": "Maki (8 pcs) - Eggs"
+          },
+          "description": {
+            "hu": "Klasszikus maki tekercsek.",
+            "en": "Classic maki rolls."
+          },
+          "price": "1890 Ft",
+          "allergenCodes": [
+            "C"
+          ],
+          "portion": ""
+        },
+        {
+          "id": "mini-crunch-roll-tm1-salmon",
+          "nameKey": "menu.item.tmSalmon.name",
+          "descriptionKey": "menu.group.miniCrunch.desc",
+          "image": "https://pub-e3da109533764cb29410b35fc1bd8b42.r2.dev/ruby/35.png",
+          "sku": "TM1",
+          "name": {
+            "hu": "Mini crunch roll (8 db) - TM1. Lazac",
+            "en": "Mini crunch roll (8 pcs) - TM1. Salmon"
           },
           "description": {
             "hu": "Ropogós mini sushi különleges majonézzel.",
             "en": "Crispy mini sushi with signature mayo."
-          }
+          },
+          "price": "4790 Ft",
+          "allergenCodes": [
+            "A",
+            "C",
+            "D",
+            "G"
+          ],
+          "portion": ""
         },
         {
-          "id": "nigiri-house",
-          "nameKey": "menu.group.nigiri.name",
-          "descriptionKey": "menu.group.nigiri.desc",
-          "variants": [
-            {
-              "labelKey": "menu.item.nigiriSalmon.name",
-              "price": "1990 Ft",
-              "allergenCodes": [
-                "D"
-              ],
-              "sku": "N1",
-              "label": {
-                "hu": "Lazac",
-                "en": "Salmon"
-              },
-              "image": "https://pub-e3da109533764cb29410b35fc1bd8b42.r2.dev/ruby/N1.%20Nigiri%20Lazac.jpg"
-            },
-            {
-              "labelKey": "menu.item.nigiriSmokedSalmon.name",
-              "price": "2090 Ft",
-              "allergenCodes": [
-                "D"
-              ],
-              "sku": "N2",
-              "label": {
-                "hu": "Füstölt lazac",
-                "en": "Smoked salmon"
-              },
-              "image": "https://pub-e3da109533764cb29410b35fc1bd8b42.r2.dev/ruby/N2.%20Nigiri%20F%C3%BCst%C3%B6lt%20Lazac.jpg"
-            },
-            {
-              "labelKey": "menu.item.nigiriRedTuna.name",
-              "price": "2190 Ft",
-              "allergenCodes": [
-                "D"
-              ],
-              "sku": "N3",
-              "label": {
-                "hu": "Vörös tonhal",
-                "en": "Red tuna"
-              },
-              "image": "https://pub-e3da109533764cb29410b35fc1bd8b42.r2.dev/ruby/N3.%20Nigiri%20V%C3%B6ro%C3%B6s%20Tonhal.jpg"
-            },
-            {
-              "labelKey": "menu.item.nigiriSmokedTuna.name",
-              "price": "2290 Ft",
-              "allergenCodes": [
-                "D"
-              ],
-              "sku": "N4",
-              "label": {
-                "hu": "Füstölt tonhal",
-                "en": "Smoked tuna"
-              },
-              "image": "https://pub-e3da109533764cb29410b35fc1bd8b42.r2.dev/ruby/N4.%20Nigiri%20F%C3%BCst%C3%B6lt%20Tonhal.jpg"
-            },
-            {
-              "labelKey": "menu.item.nigiriTigerShrimp.name",
-              "price": "1890 Ft",
-              "allergenCodes": [
-                "B"
-              ],
-              "sku": "N5",
-              "label": {
-                "hu": "Tigris rák",
-                "en": "Tiger shrimp"
-              },
-              "image": "https://pub-e3da109533764cb29410b35fc1bd8b42.r2.dev/ruby/N5.%20Nigiri%20Tigris%20r%C3%A1k.jpg"
-            },
-            {
-              "labelKey": "menu.item.nigiriAvocado.name",
-              "price": "1690 Ft",
-              "allergenCodes": [],
-              "sku": "N6",
-              "label": {
-                "hu": "Avokádó",
-                "en": "Avocado"
-              }
-            },
-            {
-              "labelKey": "menu.item.nigiriEel.name",
-              "price": "2290 Ft",
-              "allergenCodes": [
-                "D",
-                "N"
-              ],
-              "sku": "N7",
-              "label": {
-                "hu": "Angolna",
-                "en": "Eel"
-              },
-              "image": "https://pub-e3da109533764cb29410b35fc1bd8b42.r2.dev/ruby/N7.%20Nigiri%20Angola.jpg"
-            },
-            {
-              "labelKey": "menu.item.nigiriEggs.name",
-              "price": "1690 Ft",
-              "allergenCodes": [
-                "C"
-              ],
-              "sku": "N8",
-              "label": {
-                "hu": "Tojás",
-                "en": "Eggs"
-              },
-              "image": "https://pub-e3da109533764cb29410b35fc1bd8b42.r2.dev/ruby/N8.%20Nigiri%20Toj%C3%A1s.jpg"
-            }
-          ],
-          "image": "https://pub-e3da109533764cb29410b35fc1bd8b42.r2.dev/ruby/36.png",
-          "sku": "N",
+          "id": "mini-crunch-roll-tm2-tuna",
+          "nameKey": "menu.item.tmTuna.name",
+          "descriptionKey": "menu.group.miniCrunch.desc",
+          "image": "https://pub-e3da109533764cb29410b35fc1bd8b42.r2.dev/ruby/35.png",
+          "sku": "TM2",
           "name": {
-            "hu": "Nigiri house (2 db)",
-            "en": "Nigiri house (2 pcs)"
+            "hu": "Mini crunch roll (8 db) - TM2. Tonhal",
+            "en": "Mini crunch roll (8 pcs) - TM2. Tuna"
+          },
+          "description": {
+            "hu": "Ropogós mini sushi különleges majonézzel.",
+            "en": "Crispy mini sushi with signature mayo."
+          },
+          "price": "5090 Ft",
+          "allergenCodes": [
+            "A",
+            "C",
+            "D",
+            "G"
+          ],
+          "portion": ""
+        },
+        {
+          "id": "mini-crunch-roll-tm3-tiger-shrimp",
+          "nameKey": "menu.item.tmTigerShrimp.name",
+          "descriptionKey": "menu.group.miniCrunch.desc",
+          "image": "https://pub-e3da109533764cb29410b35fc1bd8b42.r2.dev/ruby/35.png",
+          "sku": "TM3",
+          "name": {
+            "hu": "Mini crunch roll (8 db) - TM3. Tigris rák",
+            "en": "Mini crunch roll (8 pcs) - TM3. Tiger shrimp"
+          },
+          "description": {
+            "hu": "Ropogós mini sushi különleges majonézzel.",
+            "en": "Crispy mini sushi with signature mayo."
+          },
+          "price": "4790 Ft",
+          "allergenCodes": [
+            "A",
+            "B",
+            "C",
+            "G"
+          ],
+          "portion": ""
+        },
+        {
+          "id": "nigiri-house-salmon",
+          "nameKey": "menu.item.nigiriSalmon.name",
+          "descriptionKey": "menu.group.nigiri.desc",
+          "image": "https://pub-e3da109533764cb29410b35fc1bd8b42.r2.dev/ruby/N1.%20Nigiri%20Lazac.jpg",
+          "sku": "N1",
+          "name": {
+            "hu": "Nigiri house (2 db) - Lazac",
+            "en": "Nigiri house (2 pcs) - Salmon"
           },
           "description": {
             "hu": "Kézzel formázott nigiri válogatás.",
             "en": "Hand-shaped nigiri selection."
-          }
+          },
+          "price": "2190 Ft",
+          "allergenCodes": [
+            "D"
+          ],
+          "portion": ""
+        },
+        {
+          "id": "nigiri-house-smoked-salmon",
+          "nameKey": "menu.item.nigiriSmokedSalmon.name",
+          "descriptionKey": "menu.group.nigiri.desc",
+          "image": "https://pub-e3da109533764cb29410b35fc1bd8b42.r2.dev/ruby/N2.%20Nigiri%20F%C3%BCst%C3%B6lt%20Lazac.jpg",
+          "sku": "N2",
+          "name": {
+            "hu": "Nigiri house (2 db) - Füstölt lazac",
+            "en": "Nigiri house (2 pcs) - Smoked salmon"
+          },
+          "description": {
+            "hu": "Kézzel formázott nigiri válogatás.",
+            "en": "Hand-shaped nigiri selection."
+          },
+          "price": "2290 Ft",
+          "allergenCodes": [
+            "D"
+          ],
+          "portion": ""
+        },
+        {
+          "id": "nigiri-house-red-tuna",
+          "nameKey": "menu.item.nigiriRedTuna.name",
+          "descriptionKey": "menu.group.nigiri.desc",
+          "image": "https://pub-e3da109533764cb29410b35fc1bd8b42.r2.dev/ruby/N3.%20Nigiri%20V%C3%B6ro%C3%B6s%20Tonhal.jpg",
+          "sku": "N3",
+          "name": {
+            "hu": "Nigiri house (2 db) - Vörös tonhal",
+            "en": "Nigiri house (2 pcs) - Red tuna"
+          },
+          "description": {
+            "hu": "Kézzel formázott nigiri válogatás.",
+            "en": "Hand-shaped nigiri selection."
+          },
+          "price": "2390 Ft",
+          "allergenCodes": [
+            "D"
+          ],
+          "portion": ""
+        },
+        {
+          "id": "nigiri-house-smoked-tuna",
+          "nameKey": "menu.item.nigiriSmokedTuna.name",
+          "descriptionKey": "menu.group.nigiri.desc",
+          "image": "https://pub-e3da109533764cb29410b35fc1bd8b42.r2.dev/ruby/N4.%20Nigiri%20F%C3%BCst%C3%B6lt%20Tonhal.jpg",
+          "sku": "N4",
+          "name": {
+            "hu": "Nigiri house (2 db) - Füstölt tonhal",
+            "en": "Nigiri house (2 pcs) - Smoked tuna"
+          },
+          "description": {
+            "hu": "Kézzel formázott nigiri válogatás.",
+            "en": "Hand-shaped nigiri selection."
+          },
+          "price": "2490 Ft",
+          "allergenCodes": [
+            "D"
+          ],
+          "portion": ""
+        },
+        {
+          "id": "nigiri-house-tiger-shrimp",
+          "nameKey": "menu.item.nigiriTigerShrimp.name",
+          "descriptionKey": "menu.group.nigiri.desc",
+          "image": "https://pub-e3da109533764cb29410b35fc1bd8b42.r2.dev/ruby/N5.%20Nigiri%20Tigris%20r%C3%A1k.jpg",
+          "sku": "N5",
+          "name": {
+            "hu": "Nigiri house (2 db) - Tigris rák",
+            "en": "Nigiri house (2 pcs) - Tiger shrimp"
+          },
+          "description": {
+            "hu": "Kézzel formázott nigiri válogatás.",
+            "en": "Hand-shaped nigiri selection."
+          },
+          "price": "2090 Ft",
+          "allergenCodes": [
+            "B"
+          ],
+          "portion": ""
+        },
+        {
+          "id": "nigiri-house-avocado",
+          "nameKey": "menu.item.nigiriAvocado.name",
+          "descriptionKey": "menu.group.nigiri.desc",
+          "image": "https://pub-e3da109533764cb29410b35fc1bd8b42.r2.dev/ruby/36.png",
+          "sku": "N6",
+          "name": {
+            "hu": "Nigiri house (2 db) - Avokádó",
+            "en": "Nigiri house (2 pcs) - Avocado"
+          },
+          "description": {
+            "hu": "Kézzel formázott nigiri válogatás.",
+            "en": "Hand-shaped nigiri selection."
+          },
+          "price": "1890 Ft",
+          "allergenCodes": [],
+          "portion": ""
+        },
+        {
+          "id": "nigiri-house-eel",
+          "nameKey": "menu.item.nigiriEel.name",
+          "descriptionKey": "menu.group.nigiri.desc",
+          "image": "https://pub-e3da109533764cb29410b35fc1bd8b42.r2.dev/ruby/N7.%20Nigiri%20Angola.jpg",
+          "sku": "N7",
+          "name": {
+            "hu": "Nigiri house (2 db) - Angolna",
+            "en": "Nigiri house (2 pcs) - Eel"
+          },
+          "description": {
+            "hu": "Kézzel formázott nigiri válogatás.",
+            "en": "Hand-shaped nigiri selection."
+          },
+          "price": "2490 Ft",
+          "allergenCodes": [
+            "D",
+            "N"
+          ],
+          "portion": ""
+        },
+        {
+          "id": "nigiri-house-eggs",
+          "nameKey": "menu.item.nigiriEggs.name",
+          "descriptionKey": "menu.group.nigiri.desc",
+          "image": "https://pub-e3da109533764cb29410b35fc1bd8b42.r2.dev/ruby/N8.%20Nigiri%20Toj%C3%A1s.jpg",
+          "sku": "N8",
+          "name": {
+            "hu": "Nigiri house (2 db) - Tojás",
+            "en": "Nigiri house (2 pcs) - Eggs"
+          },
+          "description": {
+            "hu": "Kézzel formázott nigiri válogatás.",
+            "en": "Hand-shaped nigiri selection."
+          },
+          "price": "1890 Ft",
+          "allergenCodes": [
+            "C"
+          ],
+          "portion": ""
         },
         {
           "id": "ruby-omakase-nigiri",
           "nameKey": "menu.item.rubyOmakaseNigiri.name",
           "descriptionKey": "menu.item.rubyOmakaseNigiri.desc",
           "portion": "10 pcs / 10 db",
-          "price": "9990 Ft",
+          "price": "10190 Ft",
           "allergenCodes": [
             "B",
             "D",
@@ -2121,233 +2591,285 @@
       "image": "https://pub-e3da109533764cb29410b35fc1bd8b42.r2.dev/ruby/38.png",
       "items": [
         {
-          "id": "donburi",
-          "nameKey": "menu.group.donburi.name",
+          "id": "donburi-da-sake-don-salmon",
+          "nameKey": "menu.item.sakeDon.name",
           "descriptionKey": "menu.group.donburi.desc",
-          "variants": [
-            {
-              "labelKey": "menu.item.sakeDon.name",
-              "price": "4790 Ft",
-              "allergenCodes": [
-                "D",
-                "F"
-              ],
-              "sku": "DA",
-              "label": {
-                "hu": "DA. Sake Don (lazac)",
-                "en": "DA. Sake Don (salmon)"
-              }
-            },
-            {
-              "labelKey": "menu.item.maguroDon.name",
-              "price": "4990 Ft",
-              "allergenCodes": [
-                "D",
-                "F"
-              ],
-              "image": "https://pub-e3da109533764cb29410b35fc1bd8b42.r2.dev/ruby/39.png",
-              "sku": "DB",
-              "label": {
-                "hu": "DB. Maguro Don (tonhal)",
-                "en": "DB. Maguro Don (tuna)"
-              }
-            },
-            {
-              "labelKey": "menu.item.unagiDon.name",
-              "price": "5290 Ft",
-              "allergenCodes": [
-                "B",
-                "D",
-                "F",
-                "N"
-              ],
-              "sku": "DC",
-              "label": {
-                "hu": "DC. Unagi Don (angolna)",
-                "en": "DC. Unagi Don (eel)"
-              }
-            },
-            {
-              "labelKey": "menu.item.chickenDon.name",
-              "price": "3990 Ft",
-              "allergenCodes": [
-                "B",
-                "D",
-                "F"
-              ],
-              "sku": "DE",
-              "label": {
-                "hu": "DE. Csirke Don (panírozott csirke)",
-                "en": "DE. Chicken Don (tempura chicken)"
-              }
-            }
-          ],
           "image": "https://pub-e3da109533764cb29410b35fc1bd8b42.r2.dev/ruby/38.png",
-          "sku": "D",
+          "sku": "DA",
           "name": {
-            "hu": "Donburi",
-            "en": "Donburi"
+            "hu": "Donburi - DA. Sake Don (lazac)",
+            "en": "Donburi - DA. Sake Don (salmon)"
           },
           "description": {
             "hu": "Japán sushi rizses tálak.",
             "en": "Japanese sushi rice bowls."
-          }
+          },
+          "price": "4990 Ft",
+          "allergenCodes": [
+            "D",
+            "F"
+          ],
+          "portion": ""
         },
         {
-          "id": "futomaki",
-          "nameKey": "menu.group.futomaki.name",
-          "descriptionKey": "menu.group.futomaki.desc",
-          "variants": [
-            {
-              "labelKey": "menu.item.futomakiSalmon.name",
-              "price": "4290 Ft",
-              "allergenCodes": [
-                "A",
-                "C",
-                "D",
-                "G"
-              ],
-              "sku": "F1",
-              "label": {
-                "hu": "Lazac",
-                "en": "Salmon"
-              }
-            },
-            {
-              "labelKey": "menu.item.futomakiTuna.name",
-              "price": "4290 Ft",
-              "allergenCodes": [
-                "A",
-                "C",
-                "D",
-                "G"
-              ],
-              "sku": "F2",
-              "label": {
-                "hu": "Tonhal",
-                "en": "Tuna"
-              }
-            },
-            {
-              "labelKey": "menu.item.futomakiTempuraShrimp.name",
-              "price": "4290 Ft",
-              "allergenCodes": [
-                "A",
-                "B",
-                "C",
-                "G"
-              ],
-              "sku": "F3",
-              "label": {
-                "hu": "Tempura rák",
-                "en": "Tempura shrimp"
-              }
-            }
-          ],
-          "image": "https://pub-e3da109533764cb29410b35fc1bd8b42.r2.dev/ruby/43.png",
-          "sku": "F",
+          "id": "donburi-db-maguro-don-tuna",
+          "nameKey": "menu.item.maguroDon.name",
+          "descriptionKey": "menu.group.donburi.desc",
+          "image": "https://pub-e3da109533764cb29410b35fc1bd8b42.r2.dev/ruby/39.png",
+          "sku": "DB",
           "name": {
-            "hu": "Futomaki (5 db)",
-            "en": "Futomaki (5 pcs)"
+            "hu": "Donburi - DB. Maguro Don (tonhal)",
+            "en": "Donburi - DB. Maguro Don (tuna)"
+          },
+          "description": {
+            "hu": "Japán sushi rizses tálak.",
+            "en": "Japanese sushi rice bowls."
+          },
+          "price": "5190 Ft",
+          "allergenCodes": [
+            "D",
+            "F"
+          ],
+          "portion": ""
+        },
+        {
+          "id": "donburi-dc-unagi-don-eel",
+          "nameKey": "menu.item.unagiDon.name",
+          "descriptionKey": "menu.group.donburi.desc",
+          "image": "https://pub-e3da109533764cb29410b35fc1bd8b42.r2.dev/ruby/38.png",
+          "sku": "DC",
+          "name": {
+            "hu": "Donburi - DC. Unagi Don (angolna)",
+            "en": "Donburi - DC. Unagi Don (eel)"
+          },
+          "description": {
+            "hu": "Japán sushi rizses tálak.",
+            "en": "Japanese sushi rice bowls."
+          },
+          "price": "5490 Ft",
+          "allergenCodes": [
+            "B",
+            "D",
+            "F",
+            "N"
+          ],
+          "portion": ""
+        },
+        {
+          "id": "donburi-de-chicken-don-tempura-chicken",
+          "nameKey": "menu.item.chickenDon.name",
+          "descriptionKey": "menu.group.donburi.desc",
+          "image": "https://pub-e3da109533764cb29410b35fc1bd8b42.r2.dev/ruby/38.png",
+          "sku": "DE",
+          "name": {
+            "hu": "Donburi - DE. Csirke Don (panírozott csirke)",
+            "en": "Donburi - DE. Chicken Don (tempura chicken)"
+          },
+          "description": {
+            "hu": "Japán sushi rizses tálak.",
+            "en": "Japanese sushi rice bowls."
+          },
+          "price": "4190 Ft",
+          "allergenCodes": [
+            "B",
+            "D",
+            "F"
+          ],
+          "portion": ""
+        },
+        {
+          "id": "futomaki-salmon",
+          "nameKey": "menu.item.futomakiSalmon.name",
+          "descriptionKey": "menu.group.futomaki.desc",
+          "image": "https://pub-e3da109533764cb29410b35fc1bd8b42.r2.dev/ruby/43.png",
+          "sku": "F1",
+          "name": {
+            "hu": "Futomaki (5 db) - Lazac",
+            "en": "Futomaki (5 pcs) - Salmon"
           },
           "description": {
             "hu": "Nagyobb sushi tekercsek avokádóval, uborkával, retekkrémmel és szószokkal.",
             "en": "Larger sushi rolls with avocado, cucumber, radish, cream cheese and sauces."
-          }
+          },
+          "price": "4490 Ft",
+          "allergenCodes": [
+            "A",
+            "C",
+            "D",
+            "G"
+          ],
+          "portion": ""
         },
         {
-          "id": "gunkan",
-          "nameKey": "menu.group.gunkan.name",
-          "descriptionKey": "menu.group.gunkan.desc",
-          "variants": [
-            {
-              "labelKey": "menu.item.gunkanSpicySalmon.name",
-              "price": "2190 Ft",
-              "allergenCodes": [
-                "D",
-                "F",
-                "G"
-              ],
-              "sku": "G1",
-              "label": {
-                "hu": "Fűszeres lazac",
-                "en": "Spicy salmon"
-              }
-            },
-            {
-              "labelKey": "menu.item.gunkanSpicyTuna.name",
-              "price": "2290 Ft",
-              "allergenCodes": [
-                "D",
-                "F",
-                "G"
-              ],
-              "sku": "G2",
-              "label": {
-                "hu": "Fűszeres tonhal",
-                "en": "Spicy tuna"
-              }
-            },
-            {
-              "labelKey": "menu.item.gunkanSpicySurimi.name",
-              "price": "1890 Ft",
-              "allergenCodes": [
-                "B",
-                "D",
-                "F",
-                "G"
-              ],
-              "sku": "G3",
-              "label": {
-                "hu": "Fűszeres surimi",
-                "en": "Spicy surimi"
-              }
-            },
-            {
-              "labelKey": "menu.item.gunkanMasago.name",
-              "price": "2190 Ft",
-              "allergenCodes": [
-                "D"
-              ],
-              "sku": "G4",
-              "label": {
-                "hu": "Masago kaviár",
-                "en": "Masago caviar"
-              }
-            },
-            {
-              "labelKey": "menu.item.gunkanSalmonCaviar.name",
-              "price": "2990 Ft",
-              "allergenCodes": [
-                "D"
-              ],
-              "sku": "G5",
-              "label": {
-                "hu": "Lazac kaviár",
-                "en": "Salmon caviar"
-              }
-            },
-            {
-              "labelKey": "menu.item.gunkanWakame.name",
-              "price": "1890 Ft",
-              "allergenCodes": [],
-              "sku": "G6",
-              "label": {
-                "hu": "Wakame",
-                "en": "Wakame"
-              }
-            }
-          ],
-          "image": "https://pub-e3da109533764cb29410b35fc1bd8b42.r2.dev/ruby/44.png",
-          "sku": "G",
+          "id": "futomaki-tuna",
+          "nameKey": "menu.item.futomakiTuna.name",
+          "descriptionKey": "menu.group.futomaki.desc",
+          "image": "https://pub-e3da109533764cb29410b35fc1bd8b42.r2.dev/ruby/43.png",
+          "sku": "F2",
           "name": {
-            "hu": "Gunkan (2 db)",
-            "en": "Gunkan (2 pcs)"
+            "hu": "Futomaki (5 db) - Tonhal",
+            "en": "Futomaki (5 pcs) - Tuna"
+          },
+          "description": {
+            "hu": "Nagyobb sushi tekercsek avokádóval, uborkával, retekkrémmel és szószokkal.",
+            "en": "Larger sushi rolls with avocado, cucumber, radish, cream cheese and sauces."
+          },
+          "price": "4490 Ft",
+          "allergenCodes": [
+            "A",
+            "C",
+            "D",
+            "G"
+          ],
+          "portion": ""
+        },
+        {
+          "id": "futomaki-tempura-shrimp",
+          "nameKey": "menu.item.futomakiTempuraShrimp.name",
+          "descriptionKey": "menu.group.futomaki.desc",
+          "image": "https://pub-e3da109533764cb29410b35fc1bd8b42.r2.dev/ruby/43.png",
+          "sku": "F3",
+          "name": {
+            "hu": "Futomaki (5 db) - Tempura rák",
+            "en": "Futomaki (5 pcs) - Tempura shrimp"
+          },
+          "description": {
+            "hu": "Nagyobb sushi tekercsek avokádóval, uborkával, retekkrémmel és szószokkal.",
+            "en": "Larger sushi rolls with avocado, cucumber, radish, cream cheese and sauces."
+          },
+          "price": "4490 Ft",
+          "allergenCodes": [
+            "A",
+            "B",
+            "C",
+            "G"
+          ],
+          "portion": ""
+        },
+        {
+          "id": "gunkan-spicy-salmon",
+          "nameKey": "menu.item.gunkanSpicySalmon.name",
+          "descriptionKey": "menu.group.gunkan.desc",
+          "image": "https://pub-e3da109533764cb29410b35fc1bd8b42.r2.dev/ruby/44.png",
+          "sku": "G1",
+          "name": {
+            "hu": "Gunkan (2 db) - Fűszeres lazac",
+            "en": "Gunkan (2 pcs) - Spicy salmon"
           },
           "description": {
             "hu": "Fűszeres és kaviáros gunkan falatok.",
             "en": "Spicy and caviar gunkan bites."
-          }
+          },
+          "price": "2390 Ft",
+          "allergenCodes": [
+            "D",
+            "F",
+            "G"
+          ],
+          "portion": ""
+        },
+        {
+          "id": "gunkan-spicy-tuna",
+          "nameKey": "menu.item.gunkanSpicyTuna.name",
+          "descriptionKey": "menu.group.gunkan.desc",
+          "image": "https://pub-e3da109533764cb29410b35fc1bd8b42.r2.dev/ruby/44.png",
+          "sku": "G2",
+          "name": {
+            "hu": "Gunkan (2 db) - Fűszeres tonhal",
+            "en": "Gunkan (2 pcs) - Spicy tuna"
+          },
+          "description": {
+            "hu": "Fűszeres és kaviáros gunkan falatok.",
+            "en": "Spicy and caviar gunkan bites."
+          },
+          "price": "2490 Ft",
+          "allergenCodes": [
+            "D",
+            "F",
+            "G"
+          ],
+          "portion": ""
+        },
+        {
+          "id": "gunkan-spicy-surimi",
+          "nameKey": "menu.item.gunkanSpicySurimi.name",
+          "descriptionKey": "menu.group.gunkan.desc",
+          "image": "https://pub-e3da109533764cb29410b35fc1bd8b42.r2.dev/ruby/44.png",
+          "sku": "G3",
+          "name": {
+            "hu": "Gunkan (2 db) - Fűszeres surimi",
+            "en": "Gunkan (2 pcs) - Spicy surimi"
+          },
+          "description": {
+            "hu": "Fűszeres és kaviáros gunkan falatok.",
+            "en": "Spicy and caviar gunkan bites."
+          },
+          "price": "2090 Ft",
+          "allergenCodes": [
+            "B",
+            "D",
+            "F",
+            "G"
+          ],
+          "portion": ""
+        },
+        {
+          "id": "gunkan-masago-caviar",
+          "nameKey": "menu.item.gunkanMasago.name",
+          "descriptionKey": "menu.group.gunkan.desc",
+          "image": "https://pub-e3da109533764cb29410b35fc1bd8b42.r2.dev/ruby/44.png",
+          "sku": "G4",
+          "name": {
+            "hu": "Gunkan (2 db) - Masago kaviár",
+            "en": "Gunkan (2 pcs) - Masago caviar"
+          },
+          "description": {
+            "hu": "Fűszeres és kaviáros gunkan falatok.",
+            "en": "Spicy and caviar gunkan bites."
+          },
+          "price": "2390 Ft",
+          "allergenCodes": [
+            "D"
+          ],
+          "portion": ""
+        },
+        {
+          "id": "gunkan-salmon-caviar",
+          "nameKey": "menu.item.gunkanSalmonCaviar.name",
+          "descriptionKey": "menu.group.gunkan.desc",
+          "image": "https://pub-e3da109533764cb29410b35fc1bd8b42.r2.dev/ruby/44.png",
+          "sku": "G5",
+          "name": {
+            "hu": "Gunkan (2 db) - Lazac kaviár",
+            "en": "Gunkan (2 pcs) - Salmon caviar"
+          },
+          "description": {
+            "hu": "Fűszeres és kaviáros gunkan falatok.",
+            "en": "Spicy and caviar gunkan bites."
+          },
+          "price": "3190 Ft",
+          "allergenCodes": [
+            "D"
+          ],
+          "portion": ""
+        },
+        {
+          "id": "gunkan-wakame",
+          "nameKey": "menu.item.gunkanWakame.name",
+          "descriptionKey": "menu.group.gunkan.desc",
+          "image": "https://pub-e3da109533764cb29410b35fc1bd8b42.r2.dev/ruby/44.png",
+          "sku": "G6",
+          "name": {
+            "hu": "Gunkan (2 db) - Wakame",
+            "en": "Gunkan (2 pcs) - Wakame"
+          },
+          "description": {
+            "hu": "Fűszeres és kaviáros gunkan falatok.",
+            "en": "Spicy and caviar gunkan bites."
+          },
+          "price": "2090 Ft",
+          "allergenCodes": [],
+          "portion": ""
         }
       ],
       "label": {
@@ -2364,170 +2886,206 @@
       "image": "https://pub-e3da109533764cb29410b35fc1bd8b42.r2.dev/ruby/40.png",
       "items": [
         {
-          "id": "sashimi",
-          "nameKey": "menu.group.sashimi.name",
+          "id": "sashimi-ss1-salmon",
+          "nameKey": "menu.item.sashimiSalmon.name",
           "descriptionKey": "menu.group.sashimi.desc",
-          "variants": [
-            {
-              "labelKey": "menu.item.sashimiSalmon.name",
-              "price": "3290 Ft",
-              "allergenCodes": [
-                "D"
-              ],
-              "sku": "SS1",
-              "label": {
-                "hu": "SS1. Lazac",
-                "en": "SS1. Salmon"
-              }
-            },
-            {
-              "labelKey": "menu.item.sashimiRedTuna.name",
-              "price": "3590 Ft",
-              "allergenCodes": [
-                "D"
-              ],
-              "sku": "SS2",
-              "label": {
-                "hu": "SS2. Vörös tonhal",
-                "en": "SS2. Red tuna"
-              }
-            },
-            {
-              "labelKey": "menu.item.sashimiMix.name",
-              "price": "8990 Ft",
-              "allergenCodes": [
-                "D"
-              ],
-              "sku": "SS-Mix",
-              "label": {
-                "hu": "Sashimi Mix (12 db)",
-                "en": "Sashimi Mix (12 pcs)"
-              }
-            }
-          ],
           "image": "https://pub-e3da109533764cb29410b35fc1bd8b42.r2.dev/ruby/40.png",
-          "sku": "SS",
+          "sku": "SS1",
           "name": {
-            "hu": "Sashimi",
-            "en": "Sashimi"
+            "hu": "Sashimi - SS1. Lazac",
+            "en": "Sashimi - SS1. Salmon"
           },
           "description": {
             "hu": "Friss sashimi szeletek és mix.",
             "en": "Fresh sashimi slices and mix."
-          }
+          },
+          "price": "3490 Ft",
+          "allergenCodes": [
+            "D"
+          ],
+          "portion": ""
         },
         {
-          "id": "fried-roll",
-          "nameKey": "menu.group.friedRoll.name",
-          "descriptionKey": "menu.group.friedRoll.desc",
-          "variants": [
-            {
-              "labelKey": "menu.item.friedRollChicken.name",
-              "price": "4290 Ft",
-              "allergenCodes": [
-                "A",
-                "C",
-                "F",
-                "G"
-              ],
-              "sku": "C1",
-              "label": {
-                "hu": "Csirke",
-                "en": "Chicken"
-              }
-            },
-            {
-              "labelKey": "menu.item.friedRollSalmon.name",
-              "price": "4590 Ft",
-              "allergenCodes": [
-                "A",
-                "C",
-                "D",
-                "F",
-                "G"
-              ],
-              "image": "https://pub-e3da109533764cb29410b35fc1bd8b42.r2.dev/ruby/42.png",
-              "sku": "C2",
-              "label": {
-                "hu": "Lazac",
-                "en": "Salmon"
-              }
-            },
-            {
-              "labelKey": "menu.item.friedRollVega.name",
-              "price": "4090 Ft",
-              "allergenCodes": [
-                "A",
-                "C",
-                "F",
-                "G"
-              ],
-              "sku": "C3",
-              "label": {
-                "hu": "Sült vega tekercs",
-                "en": "Fried vega roll"
-              }
-            },
-            {
-              "labelKey": "menu.item.friedRollTuna.name",
-              "price": "4590 Ft",
-              "allergenCodes": [
-                "A",
-                "C",
-                "D",
-                "F",
-                "G"
-              ],
-              "image": "https://pub-e3da109533764cb29410b35fc1bd8b42.r2.dev/ruby/42.png",
-              "sku": "C4",
-              "label": {
-                "hu": "Tonhal",
-                "en": "Tuna"
-              }
-            },
-            {
-              "labelKey": "menu.item.friedRollSurimi.name",
-              "price": "4290 Ft",
-              "allergenCodes": [
-                "A",
-                "B",
-                "C",
-                "F",
-                "G"
-              ],
-              "sku": "C5",
-              "label": {
-                "hu": "Surimi",
-                "en": "Surimi"
-              }
-            },
-            {
-              "labelKey": "menu.item.friedRollTempuraShrimp.name",
-              "price": "4590 Ft",
-              "allergenCodes": [
-                "A",
-                "B",
-                "C",
-                "F",
-                "G"
-              ],
-              "sku": "C6",
-              "label": {
-                "hu": "Tempura rák",
-                "en": "Tempura shrimp"
-              }
-            }
-          ],
-          "image": "https://pub-e3da109533764cb29410b35fc1bd8b42.r2.dev/ruby/41.png",
-          "sku": "C",
+          "id": "sashimi-ss2-red-tuna",
+          "nameKey": "menu.item.sashimiRedTuna.name",
+          "descriptionKey": "menu.group.sashimi.desc",
+          "image": "https://pub-e3da109533764cb29410b35fc1bd8b42.r2.dev/ruby/40.png",
+          "sku": "SS2",
           "name": {
-            "hu": "Sült tekercs (6 db)",
-            "en": "Fried roll (6 pcs)"
+            "hu": "Sashimi - SS2. Vörös tonhal",
+            "en": "Sashimi - SS2. Red tuna"
+          },
+          "description": {
+            "hu": "Friss sashimi szeletek és mix.",
+            "en": "Fresh sashimi slices and mix."
+          },
+          "price": "3790 Ft",
+          "allergenCodes": [
+            "D"
+          ],
+          "portion": ""
+        },
+        {
+          "id": "sashimi-sashimi-mix-12-pcs",
+          "nameKey": "menu.item.sashimiMix.name",
+          "descriptionKey": "menu.group.sashimi.desc",
+          "image": "https://pub-e3da109533764cb29410b35fc1bd8b42.r2.dev/ruby/40.png",
+          "sku": "SS-Mix",
+          "name": {
+            "hu": "Sashimi Mix (12 db)",
+            "en": "Sashimi Mix (12 pcs)"
+          },
+          "description": {
+            "hu": "Friss sashimi szeletek és mix.",
+            "en": "Fresh sashimi slices and mix."
+          },
+          "price": "9190 Ft",
+          "allergenCodes": [
+            "D"
+          ],
+          "portion": ""
+        },
+        {
+          "id": "fried-roll-chicken",
+          "nameKey": "menu.item.friedRollChicken.name",
+          "descriptionKey": "menu.group.friedRoll.desc",
+          "image": "https://pub-e3da109533764cb29410b35fc1bd8b42.r2.dev/ruby/41.png",
+          "sku": "C1",
+          "name": {
+            "hu": "Sült tekercs (6 db) - Csirke",
+            "en": "Fried roll (6 pcs) - Chicken"
           },
           "description": {
             "hu": "Ropogós sült sushi tekercsek.",
             "en": "Crispy fried sushi rolls."
-          }
+          },
+          "price": "4490 Ft",
+          "allergenCodes": [
+            "A",
+            "C",
+            "F",
+            "G"
+          ],
+          "portion": ""
+        },
+        {
+          "id": "fried-roll-salmon",
+          "nameKey": "menu.item.friedRollSalmon.name",
+          "descriptionKey": "menu.group.friedRoll.desc",
+          "image": "https://pub-e3da109533764cb29410b35fc1bd8b42.r2.dev/ruby/42.png",
+          "sku": "C2",
+          "name": {
+            "hu": "Sült tekercs (6 db) - Lazac",
+            "en": "Fried roll (6 pcs) - Salmon"
+          },
+          "description": {
+            "hu": "Ropogós sült sushi tekercsek.",
+            "en": "Crispy fried sushi rolls."
+          },
+          "price": "4790 Ft",
+          "allergenCodes": [
+            "A",
+            "C",
+            "D",
+            "F",
+            "G"
+          ],
+          "portion": ""
+        },
+        {
+          "id": "fried-roll-fried-vega-roll",
+          "nameKey": "menu.item.friedRollVega.name",
+          "descriptionKey": "menu.group.friedRoll.desc",
+          "image": "https://pub-e3da109533764cb29410b35fc1bd8b42.r2.dev/ruby/41.png",
+          "sku": "C3",
+          "name": {
+            "hu": "Sült tekercs (6 db) - Sült vega tekercs",
+            "en": "Fried roll (6 pcs) - Fried vega roll"
+          },
+          "description": {
+            "hu": "Ropogós sült sushi tekercsek.",
+            "en": "Crispy fried sushi rolls."
+          },
+          "price": "4290 Ft",
+          "allergenCodes": [
+            "A",
+            "C",
+            "F",
+            "G"
+          ],
+          "portion": ""
+        },
+        {
+          "id": "fried-roll-tuna",
+          "nameKey": "menu.item.friedRollTuna.name",
+          "descriptionKey": "menu.group.friedRoll.desc",
+          "image": "https://pub-e3da109533764cb29410b35fc1bd8b42.r2.dev/ruby/42.png",
+          "sku": "C4",
+          "name": {
+            "hu": "Sült tekercs (6 db) - Tonhal",
+            "en": "Fried roll (6 pcs) - Tuna"
+          },
+          "description": {
+            "hu": "Ropogós sült sushi tekercsek.",
+            "en": "Crispy fried sushi rolls."
+          },
+          "price": "4790 Ft",
+          "allergenCodes": [
+            "A",
+            "C",
+            "D",
+            "F",
+            "G"
+          ],
+          "portion": ""
+        },
+        {
+          "id": "fried-roll-surimi",
+          "nameKey": "menu.item.friedRollSurimi.name",
+          "descriptionKey": "menu.group.friedRoll.desc",
+          "image": "https://pub-e3da109533764cb29410b35fc1bd8b42.r2.dev/ruby/41.png",
+          "sku": "C5",
+          "name": {
+            "hu": "Sült tekercs (6 db) - Surimi",
+            "en": "Fried roll (6 pcs) - Surimi"
+          },
+          "description": {
+            "hu": "Ropogós sült sushi tekercsek.",
+            "en": "Crispy fried sushi rolls."
+          },
+          "price": "4490 Ft",
+          "allergenCodes": [
+            "A",
+            "B",
+            "C",
+            "F",
+            "G"
+          ],
+          "portion": ""
+        },
+        {
+          "id": "fried-roll-tempura-shrimp",
+          "nameKey": "menu.item.friedRollTempuraShrimp.name",
+          "descriptionKey": "menu.group.friedRoll.desc",
+          "image": "https://pub-e3da109533764cb29410b35fc1bd8b42.r2.dev/ruby/41.png",
+          "sku": "C6",
+          "name": {
+            "hu": "Sült tekercs (6 db) - Tempura rák",
+            "en": "Fried roll (6 pcs) - Tempura shrimp"
+          },
+          "description": {
+            "hu": "Ropogós sült sushi tekercsek.",
+            "en": "Crispy fried sushi rolls."
+          },
+          "price": "4790 Ft",
+          "allergenCodes": [
+            "A",
+            "B",
+            "C",
+            "F",
+            "G"
+          ],
+          "portion": ""
         }
       ],
       "label": {
@@ -2546,29 +3104,50 @@
       "image": "https://pub-e3da109533764cb29410b35fc1bd8b42.r2.dev/ruby/45.png",
       "items": [
         {
-          "id": "sake-roll",
+          "id": "sake-roll-4",
           "nameKey": "menu.item.sakeRoll.name",
           "descriptionKey": "menu.item.sakeRoll.desc",
-          "price": "2990 Ft / 4690 Ft",
+          "price": "3190 Ft",
           "allergenCodes": [
             "D"
           ],
           "image": "https://pub-e3da109533764cb29410b35fc1bd8b42.r2.dev/ruby/45.png",
-          "sku": "I1",
+          "sku": "I1-4",
           "name": {
-            "hu": "Sake roll (4db/8db)",
-            "en": "Sake roll (4 pcs/8 pcs)"
+            "hu": "Sake roll (4 db)",
+            "en": "Sake roll (4 pcs)"
           },
           "description": {
             "hu": "Lazac, avokádó, sajtkrém.",
             "en": "Salmon, avocado, cream cheese."
-          }
+          },
+          "portion": "4 pcs / 4 db"
         },
         {
-          "id": "aburi-sake-roll",
+          "id": "sake-roll-8",
+          "nameKey": "menu.item.sakeRoll.name",
+          "descriptionKey": "menu.item.sakeRoll.desc",
+          "price": "4890 Ft",
+          "allergenCodes": [
+            "D"
+          ],
+          "image": "https://pub-e3da109533764cb29410b35fc1bd8b42.r2.dev/ruby/45.png",
+          "sku": "I1-8",
+          "name": {
+            "hu": "Sake roll (8 db)",
+            "en": "Sake roll (8 pcs)"
+          },
+          "description": {
+            "hu": "Lazac, avokádó, sajtkrém.",
+            "en": "Salmon, avocado, cream cheese."
+          },
+          "portion": "8 pcs / 8 db"
+        },
+        {
+          "id": "aburi-sake-roll-4",
           "nameKey": "menu.item.aburiSakeRoll.name",
           "descriptionKey": "menu.item.aburiSakeRoll.desc",
-          "price": "2990 Ft / 4690 Ft",
+          "price": "3190 Ft",
           "allergenCodes": [
             "A",
             "B",
@@ -2577,40 +3156,86 @@
             "G"
           ],
           "image": "https://pub-e3da109533764cb29410b35fc1bd8b42.r2.dev/ruby/46.png",
-          "sku": "I2",
+          "sku": "I2-4",
           "name": {
-            "hu": "Aburi sake roll (4db/8db)",
-            "en": "Aburi sake roll (4 pcs/8 pcs)"
+            "hu": "Aburi sake roll (4 db)",
+            "en": "Aburi sake roll (4 pcs)"
           },
           "description": {
             "hu": "Füstölt lazac, tempura rák, uborka, sajtkrém, majonéz és teriyaki.",
             "en": "Smoked salmon, tempura shrimp, cucumber, cream cheese, mayonnaise and teriyaki."
-          }
+          },
+          "portion": "4 pcs / 4 db"
         },
         {
-          "id": "maguro-roll",
+          "id": "aburi-sake-roll-8",
+          "nameKey": "menu.item.aburiSakeRoll.name",
+          "descriptionKey": "menu.item.aburiSakeRoll.desc",
+          "price": "4890 Ft",
+          "allergenCodes": [
+            "A",
+            "B",
+            "D",
+            "F",
+            "G"
+          ],
+          "image": "https://pub-e3da109533764cb29410b35fc1bd8b42.r2.dev/ruby/46.png",
+          "sku": "I2-8",
+          "name": {
+            "hu": "Aburi sake roll (8 db)",
+            "en": "Aburi sake roll (8 pcs)"
+          },
+          "description": {
+            "hu": "Füstölt lazac, tempura rák, uborka, sajtkrém, majonéz és teriyaki.",
+            "en": "Smoked salmon, tempura shrimp, cucumber, cream cheese, mayonnaise and teriyaki."
+          },
+          "portion": "8 pcs / 8 db"
+        },
+        {
+          "id": "maguro-roll-4",
           "nameKey": "menu.item.maguroRoll.name",
           "descriptionKey": "menu.item.maguroRoll.desc",
-          "price": "3190 Ft / 4890 Ft",
+          "price": "3390 Ft",
           "allergenCodes": [
             "D"
           ],
           "image": "https://pub-e3da109533764cb29410b35fc1bd8b42.r2.dev/ruby/logozzz.jpg",
-          "sku": "I3",
+          "sku": "I3-4",
           "name": {
-            "hu": "Maguro roll (4db/8db)",
-            "en": "Maguro roll (4 pcs/8 pcs)"
+            "hu": "Maguro roll (4 db)",
+            "en": "Maguro roll (4 pcs)"
           },
           "description": {
             "hu": "Tonhal, avokádó, sajtkrém.",
             "en": "Tuna, avocado, cream cheese."
-          }
+          },
+          "portion": "4 pcs / 4 db"
         },
         {
-          "id": "aburi-maguro-roll",
+          "id": "maguro-roll-8",
+          "nameKey": "menu.item.maguroRoll.name",
+          "descriptionKey": "menu.item.maguroRoll.desc",
+          "price": "5090 Ft",
+          "allergenCodes": [
+            "D"
+          ],
+          "image": "https://pub-e3da109533764cb29410b35fc1bd8b42.r2.dev/ruby/logozzz.jpg",
+          "sku": "I3-8",
+          "name": {
+            "hu": "Maguro roll (8 db)",
+            "en": "Maguro roll (8 pcs)"
+          },
+          "description": {
+            "hu": "Tonhal, avokádó, sajtkrém.",
+            "en": "Tuna, avocado, cream cheese."
+          },
+          "portion": "8 pcs / 8 db"
+        },
+        {
+          "id": "aburi-maguro-roll-4",
           "nameKey": "menu.item.aburiMaguroRoll.name",
           "descriptionKey": "menu.item.aburiMaguroRoll.desc",
-          "price": "3190 Ft / 4890 Ft",
+          "price": "3390 Ft",
           "allergenCodes": [
             "A",
             "B",
@@ -2619,100 +3244,212 @@
             "G"
           ],
           "image": "https://pub-e3da109533764cb29410b35fc1bd8b42.r2.dev/ruby/logozzz.jpg",
-          "sku": "I4",
+          "sku": "I4-4",
           "name": {
-            "hu": "Aburi Maguro roll (4db/8db)",
-            "en": "Aburi Maguro roll (4 pcs/8 pcs)"
+            "hu": "Aburi Maguro roll (4 db)",
+            "en": "Aburi Maguro roll (4 pcs)"
           },
           "description": {
             "hu": "Füstölt tonhal, tempura rák, uborka, sajtkrém, majonéz és teriyaki.",
             "en": "Smoked tuna, tempura shrimp, cucumber, cream cheese, mayonnaise and teriyaki."
-          }
+          },
+          "portion": "4 pcs / 4 db"
         },
         {
-          "id": "caviar-roll",
+          "id": "aburi-maguro-roll-8",
+          "nameKey": "menu.item.aburiMaguroRoll.name",
+          "descriptionKey": "menu.item.aburiMaguroRoll.desc",
+          "price": "5090 Ft",
+          "allergenCodes": [
+            "A",
+            "B",
+            "D",
+            "F",
+            "G"
+          ],
+          "image": "https://pub-e3da109533764cb29410b35fc1bd8b42.r2.dev/ruby/logozzz.jpg",
+          "sku": "I4-8",
+          "name": {
+            "hu": "Aburi Maguro roll (8 db)",
+            "en": "Aburi Maguro roll (8 pcs)"
+          },
+          "description": {
+            "hu": "Füstölt tonhal, tempura rák, uborka, sajtkrém, majonéz és teriyaki.",
+            "en": "Smoked tuna, tempura shrimp, cucumber, cream cheese, mayonnaise and teriyaki."
+          },
+          "portion": "8 pcs / 8 db"
+        },
+        {
+          "id": "caviar-roll-4",
           "nameKey": "menu.item.caviarRoll.name",
           "descriptionKey": "menu.item.caviarRoll.desc",
-          "price": "2690 Ft / 4290 Ft",
+          "price": "2890 Ft",
           "allergenCodes": [
             "D"
           ],
           "image": "https://pub-e3da109533764cb29410b35fc1bd8b42.r2.dev/ruby/logozzz.jpg",
-          "sku": "I5",
+          "sku": "I5-4",
           "name": {
-            "hu": "Caviar roll (4db/8db)",
-            "en": "Caviar roll (4 pcs/8 pcs)"
+            "hu": "Caviar roll (4 db)",
+            "en": "Caviar roll (4 pcs)"
           },
           "description": {
             "hu": "Lazac, avokádó, sajtkrém.",
             "en": "Salmon, avocado, cream cheese."
-          }
+          },
+          "portion": "4 pcs / 4 db"
         },
         {
-          "id": "california-roll",
+          "id": "caviar-roll-8",
+          "nameKey": "menu.item.caviarRoll.name",
+          "descriptionKey": "menu.item.caviarRoll.desc",
+          "price": "4490 Ft",
+          "allergenCodes": [
+            "D"
+          ],
+          "image": "https://pub-e3da109533764cb29410b35fc1bd8b42.r2.dev/ruby/logozzz.jpg",
+          "sku": "I5-8",
+          "name": {
+            "hu": "Caviar roll (8 db)",
+            "en": "Caviar roll (8 pcs)"
+          },
+          "description": {
+            "hu": "Lazac, avokádó, sajtkrém.",
+            "en": "Salmon, avocado, cream cheese."
+          },
+          "portion": "8 pcs / 8 db"
+        },
+        {
+          "id": "california-roll-4",
           "nameKey": "menu.item.californiaRoll.name",
           "descriptionKey": "menu.item.californiaRoll.desc",
-          "price": "2690 Ft / 4290 Ft",
+          "price": "2890 Ft",
           "allergenCodes": [
             "D",
             "K"
           ],
           "image": "https://pub-e3da109533764cb29410b35fc1bd8b42.r2.dev/ruby/logozzz.jpg",
-          "sku": "I6",
+          "sku": "I6-4",
           "name": {
-            "hu": "California roll (4db/8db)",
-            "en": "California roll (4 pcs/8 pcs)"
+            "hu": "California roll (4 db)",
+            "en": "California roll (4 pcs)"
           },
           "description": {
             "hu": "Lazac, avokádó, sajtkrém, szezámmag.",
             "en": "Salmon, avocado, cream cheese, sesame."
-          }
+          },
+          "portion": "4 pcs / 4 db"
         },
         {
-          "id": "sesame-roll",
+          "id": "california-roll-8",
+          "nameKey": "menu.item.californiaRoll.name",
+          "descriptionKey": "menu.item.californiaRoll.desc",
+          "price": "4490 Ft",
+          "allergenCodes": [
+            "D",
+            "K"
+          ],
+          "image": "https://pub-e3da109533764cb29410b35fc1bd8b42.r2.dev/ruby/logozzz.jpg",
+          "sku": "I6-8",
+          "name": {
+            "hu": "California roll (8 db)",
+            "en": "California roll (8 pcs)"
+          },
+          "description": {
+            "hu": "Lazac, avokádó, sajtkrém, szezámmag.",
+            "en": "Salmon, avocado, cream cheese, sesame."
+          },
+          "portion": "8 pcs / 8 db"
+        },
+        {
+          "id": "sesame-roll-4",
           "nameKey": "menu.item.sesameRoll.name",
           "descriptionKey": "menu.item.sesameRoll.desc",
-          "price": "2290 Ft / 3690 Ft",
+          "price": "2490 Ft",
           "allergenCodes": [
             "K"
           ],
           "image": "https://pub-e3da109533764cb29410b35fc1bd8b42.r2.dev/ruby/logozzz.jpg",
-          "sku": "I7",
+          "sku": "I7-4",
           "name": {
-            "hu": "Sesame roll (vega) (4db/8db)",
-            "en": "Sesame roll (vega) (4 pcs/8 pcs)"
+            "hu": "Sesame roll (vega) (4 db)",
+            "en": "Sesame roll (vega) (4 pcs)"
           },
           "description": {
             "hu": "Avokádó, uborka, paprika.",
             "en": "Avocado, cucumber, paprika."
-          }
+          },
+          "portion": "4 pcs / 4 db"
         },
         {
-          "id": "sake-avocado-roll",
+          "id": "sesame-roll-8",
+          "nameKey": "menu.item.sesameRoll.name",
+          "descriptionKey": "menu.item.sesameRoll.desc",
+          "price": "3890 Ft",
+          "allergenCodes": [
+            "K"
+          ],
+          "image": "https://pub-e3da109533764cb29410b35fc1bd8b42.r2.dev/ruby/logozzz.jpg",
+          "sku": "I7-8",
+          "name": {
+            "hu": "Sesame roll (vega) (8 db)",
+            "en": "Sesame roll (vega) (8 pcs)"
+          },
+          "description": {
+            "hu": "Avokádó, uborka, paprika.",
+            "en": "Avocado, cucumber, paprika."
+          },
+          "portion": "8 pcs / 8 db"
+        },
+        {
+          "id": "sake-avocado-roll-4",
           "nameKey": "menu.item.sakeAvocadoRoll.name",
           "descriptionKey": "menu.item.sakeAvocadoRoll.desc",
-          "price": "2890 Ft / 4690 Ft",
+          "price": "3090 Ft",
           "allergenCodes": [
             "D",
             "F",
             "G"
           ],
           "image": "https://pub-e3da109533764cb29410b35fc1bd8b42.r2.dev/ruby/logozzz.jpg",
-          "sku": "I8",
+          "sku": "I8-4",
           "name": {
-            "hu": "Sake Avocado roll (4db/8db)",
-            "en": "Sake Avocado roll (4 pcs/8 pcs)"
+            "hu": "Sake Avocado roll (4 db)",
+            "en": "Sake Avocado roll (4 pcs)"
           },
           "description": {
             "hu": "Lazac, avokádó, uborka, majonéz, teriyaki.",
             "en": "Salmon, avocado, cucumber, mayonnaise, teriyaki."
-          }
+          },
+          "portion": "4 pcs / 4 db"
         },
         {
-          "id": "ebi-fry-avocado-roll",
+          "id": "sake-avocado-roll-8",
+          "nameKey": "menu.item.sakeAvocadoRoll.name",
+          "descriptionKey": "menu.item.sakeAvocadoRoll.desc",
+          "price": "4890 Ft",
+          "allergenCodes": [
+            "D",
+            "F",
+            "G"
+          ],
+          "image": "https://pub-e3da109533764cb29410b35fc1bd8b42.r2.dev/ruby/logozzz.jpg",
+          "sku": "I8-8",
+          "name": {
+            "hu": "Sake Avocado roll (8 db)",
+            "en": "Sake Avocado roll (8 pcs)"
+          },
+          "description": {
+            "hu": "Lazac, avokádó, uborka, majonéz, teriyaki.",
+            "en": "Salmon, avocado, cucumber, mayonnaise, teriyaki."
+          },
+          "portion": "8 pcs / 8 db"
+        },
+        {
+          "id": "ebi-fry-avocado-roll-4",
           "nameKey": "menu.item.ebiFryAvocadoRoll.name",
           "descriptionKey": "menu.item.ebiFryAvocadoRoll.desc",
-          "price": "2890 Ft / 4690 Ft",
+          "price": "3090 Ft",
           "allergenCodes": [
             "A",
             "B",
@@ -2721,15 +3458,40 @@
             "G"
           ],
           "image": "https://pub-e3da109533764cb29410b35fc1bd8b42.r2.dev/ruby/49.png",
-          "sku": "I9",
+          "sku": "I9-4",
           "name": {
-            "hu": "Ebi fry Avocado roll (4db/8db)",
-            "en": "Ebi fry Avocado roll (4 pcs/8 pcs)"
+            "hu": "Ebi fry Avocado roll (4 db)",
+            "en": "Ebi fry Avocado roll (4 pcs)"
           },
           "description": {
             "hu": "Tempura rák, avokádó, uborka, sajtkrém, majonéz, teriyaki.",
             "en": "Tempura shrimp, avocado, cucumber, cream cheese, mayonnaise, teriyaki."
-          }
+          },
+          "portion": "4 pcs / 4 db"
+        },
+        {
+          "id": "ebi-fry-avocado-roll-8",
+          "nameKey": "menu.item.ebiFryAvocadoRoll.name",
+          "descriptionKey": "menu.item.ebiFryAvocadoRoll.desc",
+          "price": "4890 Ft",
+          "allergenCodes": [
+            "A",
+            "B",
+            "D",
+            "F",
+            "G"
+          ],
+          "image": "https://pub-e3da109533764cb29410b35fc1bd8b42.r2.dev/ruby/49.png",
+          "sku": "I9-8",
+          "name": {
+            "hu": "Ebi fry Avocado roll (8 db)",
+            "en": "Ebi fry Avocado roll (8 pcs)"
+          },
+          "description": {
+            "hu": "Tempura rák, avokádó, uborka, sajtkrém, majonéz, teriyaki.",
+            "en": "Tempura shrimp, avocado, cucumber, cream cheese, mayonnaise, teriyaki."
+          },
+          "portion": "8 pcs / 8 db"
         }
       ],
       "label": {
@@ -2751,7 +3513,7 @@
           "id": "unagi-roll",
           "nameKey": "menu.item.unagiRoll.name",
           "descriptionKey": "menu.item.unagiRoll.desc",
-          "price": "5590 Ft",
+          "price": "5790 Ft",
           "allergenCodes": [
             "A",
             "B",
@@ -2772,7 +3534,7 @@
           "id": "cheechee-roll",
           "nameKey": "menu.item.cheecheeRoll.name",
           "descriptionKey": "menu.item.cheecheeRoll.desc",
-          "price": "5290 Ft",
+          "price": "5490 Ft",
           "allergenCodes": [
             "D",
             "G"
@@ -2792,7 +3554,7 @@
           "id": "ruby-rainbow-roll",
           "nameKey": "menu.item.rubyRainbowRoll.name",
           "descriptionKey": "menu.item.rubyRainbowRoll.desc",
-          "price": "5890 Ft",
+          "price": "6090 Ft",
           "allergenCodes": [
             "B",
             "D",
@@ -2819,7 +3581,7 @@
           "id": "noshiro-roll",
           "nameKey": "menu.item.noshiroRoll.name",
           "descriptionKey": "menu.item.noshiroRoll.desc",
-          "price": "5590 Ft",
+          "price": "5790 Ft",
           "allergenCodes": [
             "B",
             "D",
@@ -2840,7 +3602,7 @@
           "id": "towada-roll",
           "nameKey": "menu.item.towadaRoll.name",
           "descriptionKey": "menu.item.towadaRoll.desc",
-          "price": "5590 Ft",
+          "price": "5790 Ft",
           "allergenCodes": [
             "B",
             "D",
@@ -2861,7 +3623,7 @@
           "id": "kami-roll",
           "nameKey": "menu.item.kamiRoll.name",
           "descriptionKey": "menu.item.kamiRoll.desc",
-          "price": "5690 Ft",
+          "price": "5890 Ft",
           "allergenCodes": [
             "B",
             "D",
@@ -2882,7 +3644,7 @@
           "id": "miyako-roll",
           "nameKey": "menu.item.miyakoRoll.name",
           "descriptionKey": "menu.item.miyakoRoll.desc",
-          "price": "5690 Ft",
+          "price": "5890 Ft",
           "allergenCodes": [
             "B",
             "D",
@@ -2903,7 +3665,7 @@
           "id": "furano-roll",
           "nameKey": "menu.item.furanoRoll.name",
           "descriptionKey": "menu.item.furanoRoll.desc",
-          "price": "5290 Ft",
+          "price": "5490 Ft",
           "allergenCodes": [
             "B",
             "D",
@@ -2924,7 +3686,7 @@
           "id": "okaka-roll",
           "nameKey": "menu.item.okakaRoll.name",
           "descriptionKey": "menu.item.okakaRoll.desc",
-          "price": "5590 Ft",
+          "price": "5790 Ft",
           "allergenCodes": [
             "B",
             "D",
@@ -2961,7 +3723,7 @@
           "id": "maki-nigiri-set",
           "nameKey": "menu.item.makiNigiriSet.name",
           "descriptionKey": "menu.item.makiNigiriSet.desc",
-          "price": "5290 Ft",
+          "price": "5490 Ft",
           "allergenCodes": [
             "D"
           ],
@@ -2981,7 +3743,7 @@
           "id": "sake-set",
           "nameKey": "menu.item.sakeSet.name",
           "descriptionKey": "menu.item.sakeSet.desc",
-          "price": "8290 Ft",
+          "price": "8490 Ft",
           "allergenCodes": [
             "D"
           ],
@@ -3001,7 +3763,7 @@
           "id": "ruisu-set",
           "nameKey": "menu.item.ruisuSet.name",
           "descriptionKey": "menu.item.ruisuSet.desc",
-          "price": "11590 Ft",
+          "price": "11790 Ft",
           "allergenCodes": [
             "A",
             "B",
@@ -3025,7 +3787,7 @@
           "id": "vega-set",
           "nameKey": "menu.item.vegaSet.name",
           "descriptionKey": "menu.item.vegaSet.desc",
-          "price": "5990 Ft",
+          "price": "6190 Ft",
           "allergenCodes": [],
           "image": "https://pub-e3da109533764cb29410b35fc1bd8b42.r2.dev/ruby/37.png",
           "sku": "S4b",
@@ -3043,7 +3805,7 @@
           "id": "kyoto-set",
           "nameKey": "menu.item.kyotoSet.name",
           "descriptionKey": "menu.item.kyotoSet.desc",
-          "price": "11590 Ft",
+          "price": "11790 Ft",
           "allergenCodes": [
             "B",
             "D"
@@ -3064,7 +3826,7 @@
           "id": "sora-set",
           "nameKey": "menu.item.soraSet.name",
           "descriptionKey": "menu.item.soraSet.desc",
-          "price": "12990 Ft",
+          "price": "13190 Ft",
           "allergenCodes": [
             "A",
             "B",
@@ -3088,7 +3850,7 @@
           "id": "fuji-set",
           "nameKey": "menu.item.fujiSet.name",
           "descriptionKey": "menu.item.fujiSet.desc",
-          "price": "14590 Ft",
+          "price": "14790 Ft",
           "allergenCodes": [
             "A",
             "D",
@@ -3111,7 +3873,7 @@
           "id": "ruby-set",
           "nameKey": "menu.item.rubySet.name",
           "descriptionKey": "menu.item.rubySet.desc",
-          "price": "29990 Ft",
+          "price": "30190 Ft",
           "allergenCodes": [
             "A",
             "B",
@@ -3135,7 +3897,7 @@
           "id": "ruby-big-set",
           "nameKey": "menu.item.rubyBigSet.name",
           "descriptionKey": "menu.item.rubyBigSet.desc",
-          "price": "42990 Ft",
+          "price": "43190 Ft",
           "allergenCodes": [
             "A",
             "B",
@@ -3165,7 +3927,7 @@
           "id": "ruby-party-set",
           "nameKey": "menu.item.rubyPartySet.name",
           "descriptionKey": "menu.item.rubyPartySet.desc",
-          "price": "46990 Ft",
+          "price": "47190 Ft",
           "allergenCodes": [
             "A",
             "B",
@@ -3200,219 +3962,6 @@
         "hu": "Válogatások kisebb asztalokhoz és nagy társaságokhoz",
         "en": "Selections for small tables and larger groups"
       }
-    },
-    {
-      "id": "drinks-desserts",
-      "labelKey": "menu.cat.drinksDesserts.label",
-      "descriptionKey": "menu.cat.drinksDesserts.desc",
-      "items": [
-        {
-          "id": "lemonade",
-          "nameKey": "menu.item.lemonade.name",
-          "descriptionKey": "menu.item.lemonade.desc",
-          "price": "0.5l 1690 Ft / 1l 2990 Ft",
-          "allergenCodes": [],
-          "sku": "DK1",
-          "name": {
-            "hu": "Limonádé",
-            "en": "Lemonade"
-          },
-          "description": {
-            "hu": "Classic, eper, őszibarack, gránátalma, mangó, görögdinnye, ananász, maracuja.",
-            "en": "Classic, strawberry, peach, pomegranate, mango, watermelon, pineapple, passion fruit."
-          },
-          "image": "https://lmld.org/wp-content/uploads/2022/04/Lemonade-4.jpg"
-        },
-        {
-          "id": "fruit-iced-tea",
-          "nameKey": "menu.item.fruitIcedTea.name",
-          "descriptionKey": "menu.item.fruitIcedTea.desc",
-          "price": "0.5l 2290 Ft",
-          "allergenCodes": [],
-          "sku": "DK2",
-          "name": {
-            "hu": "Gyümölcsös jeges tea",
-            "en": "Fruit iced tea"
-          },
-          "description": {
-            "hu": "Maracuja, mangó, eper vagy őszibarack.",
-            "en": "Passion fruit, mango, strawberry or peach."
-          },
-          "image": "https://images.unsplash.com/photo-1556679343-c7306c1976bc?w=800&h=800&fit=crop&q=90"
-        },
-        {
-          "id": "soft-drinks",
-          "nameKey": "menu.item.softDrinks.name",
-          "descriptionKey": "menu.item.softDrinks.desc",
-          "price": "690-990 Ft",
-          "allergenCodes": [],
-          "sku": "DK3",
-          "name": {
-            "hu": "Üdítő italok",
-            "en": "Soft drinks"
-          },
-          "description": {
-            "hu": "Mangó, licsi, maracuja, Coca-Cola, Coca-Cola Zero, Fanta, Fuze tea, Kinley, Natur Aqua.",
-            "en": "Mango, lychee, passion fruit, Coca-Cola, Coca-Cola Zero, Fanta, Fuze tea, Kinley, Natur Aqua."
-          },
-          "image": "https://images.unsplash.com/photo-1546173159-315724a31696?w=800&h=800&fit=crop&q=90"
-        },
-        {
-          "id": "vietnamese-coffee",
-          "nameKey": "menu.item.vietnameseCoffee.name",
-          "descriptionKey": "menu.item.vietnameseCoffee.desc",
-          "price": "890-1190 Ft",
-          "allergenCodes": [
-            "G"
-          ],
-          "sku": "DK4",
-          "name": {
-            "hu": "Vietnámi kávé",
-            "en": "Vietnamese coffee"
-          },
-          "description": {
-            "hu": "Jeges vagy meleg kávé sűrített tejjel, illetve Vietnámi G7 kávé.",
-            "en": "Iced or hot coffee with condensed milk, plus Vietnamese G7 coffee."
-          },
-          "image": "https://www.carnation.co.uk/sites/default/files/2023-07/47.png"
-        },
-        {
-          "id": "tea",
-          "nameKey": "menu.item.tea.name",
-          "descriptionKey": "menu.item.tea.desc",
-          "price": "1590-1690 Ft",
-          "allergenCodes": [],
-          "sku": "DK5",
-          "name": {
-            "hu": "Tea",
-            "en": "Tea"
-          },
-          "description": {
-            "hu": "Vietnámi zöld tea, jázmin tea, lótusz tea, gyömbér tea, gyömbér-citrom tea.",
-            "en": "Vietnamese green tea, jasmine tea, lotus tea, ginger tea, ginger lemon tea."
-          },
-          "image": "https://images.unsplash.com/photo-1558160074-4d7d8bdf4256?w=800&h=800&fit=crop&q=90"
-        },
-        {
-          "id": "mocktails",
-          "nameKey": "menu.item.mocktails.name",
-          "descriptionKey": "menu.item.mocktails.desc",
-          "price": "2190-2290 Ft",
-          "allergenCodes": [],
-          "sku": "DK6",
-          "name": {
-            "hu": "Mocktail",
-            "en": "Mocktail"
-          },
-          "description": {
-            "hu": "Virgin mojito és virgin passion mojito.",
-            "en": "Virgin mojito and virgin passion mojito."
-          },
-          "image": "https://images.unsplash.com/photo-1696957024709-0e3e7df73aaf?w=800&h=800&fit=crop&q=90"
-        },
-        {
-          "id": "cocktails",
-          "nameKey": "menu.item.cocktails.name",
-          "descriptionKey": "menu.item.cocktails.desc",
-          "price": "2590-2990 Ft",
-          "allergenCodes": [],
-          "sku": "DK7",
-          "name": {
-            "hu": "Cocktail",
-            "en": "Cocktail"
-          },
-          "description": {
-            "hu": "Mojito, passion fruit mojito és frozen fruit daiquiri.",
-            "en": "Mojito, passion fruit mojito and frozen fruit daiquiri."
-          },
-          "image": "https://images.unsplash.com/photo-1470337458703-46ad1756a187?w=800&h=800&fit=crop&q=90"
-        },
-        {
-          "id": "beer",
-          "nameKey": "menu.item.beer.name",
-          "descriptionKey": "menu.item.beer.desc",
-          "price": "990-1590 Ft",
-          "allergenCodes": [
-            "A"
-          ],
-          "sku": "DK8",
-          "name": {
-            "hu": "Sörök",
-            "en": "Beers"
-          },
-          "description": {
-            "hu": "Saigon, Asahi, Dreher, Heineken, alkoholmentes Heineken és csapolt Heineken.",
-            "en": "Saigon, Asahi, Dreher, Heineken, alcohol-free Heineken and draft Heineken."
-          },
-          "image": "https://images.unsplash.com/photo-1535958636474-b021ee887b13?w=800&h=800&fit=crop&q=90"
-        },
-        {
-          "id": "sake",
-          "nameKey": "menu.item.sake.name",
-          "descriptionKey": "menu.item.sake.desc",
-          "price": "2590-3290 Ft",
-          "allergenCodes": [],
-          "sku": "DK9",
-          "name": {
-            "hu": "Japán sake",
-            "en": "Japanese sake"
-          },
-          "description": {
-            "hu": "Ozeki Junmai, Ozeki Nigori, Ozeki rai, Gekkeikan és Hokkan sake.",
-            "en": "Ozeki Junmai, Ozeki Nigori, Ozeki rai, Gekkeikan and Hokkan sake."
-          },
-          "image": "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=800&h=800&fit=crop&q=90"
-        },
-        {
-          "id": "wine",
-          "nameKey": "menu.item.wine.name",
-          "descriptionKey": "menu.item.wine.desc",
-          "price": "1890-6990 Ft",
-          "allergenCodes": [
-            "L"
-          ],
-          "sku": "DK10",
-          "name": {
-            "hu": "Bor",
-            "en": "Wine"
-          },
-          "description": {
-            "hu": "Vörös, rosé és fehér borok pohárral vagy palackkal.",
-            "en": "Red, rosé and white wines by glass or bottle."
-          },
-          "image": "https://images.unsplash.com/photo-1474722883778-792e7990302f?w=800&h=800&fit=crop&q=90"
-        },
-        {
-          "id": "dessert",
-          "nameKey": "menu.item.dessert.name",
-          "descriptionKey": "menu.item.dessert.desc",
-          "price": "1890-2190 Ft",
-          "allergenCodes": [
-            "A",
-            "C",
-            "G"
-          ],
-          "sku": "DK11",
-          "name": {
-            "hu": "Desszert",
-            "en": "Dessert"
-          },
-          "description": {
-            "hu": "Sült banán, sült ananász, mochi és fagylalt.",
-            "en": "Fried banana, fried pineapple, mochi and ice cream."
-          },
-          "image": "https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=800&h=800&fit=crop&q=90"
-        }
-      ],
-      "label": {
-        "hu": "Italok és desszertek",
-        "en": "Drinks & Desserts"
-      },
-      "description": {
-        "hu": "Házi italok, üdítők, koktélok, borok és desszertek",
-        "en": "Homemade drinks, soft drinks, cocktails, wines and desserts"
-      },
-      "image": "https://images.unsplash.com/photo-1621263764928-df1444c5e859?w=800&h=800&fit=crop&q=90"
     }
   ]
 }

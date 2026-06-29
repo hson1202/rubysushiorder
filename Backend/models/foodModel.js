@@ -129,7 +129,11 @@ foodSchema.index({ name: "text", description: "text" }, { default_language: "eng
 
 const foodModel = mongoose.models.food || mongoose.model("food", foodSchema);
 
-// Đảm bảo index được tạo khi khởi động
-foodModel.init().then(() => console.log("✅ Food indexes ensured")).catch(console.error);
+// Avoid starting background index creation while import scripts close MongoDB.
+if (!process.argv.some((arg) => arg.includes("importMenu.js"))) {
+  mongoose.connection.once("open", () => {
+    foodModel.init().then(() => console.log("Food indexes ensured")).catch(console.error);
+  });
+}
 
 export default foodModel;

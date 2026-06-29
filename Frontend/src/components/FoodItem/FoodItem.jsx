@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next'
 import { isFoodAvailable, getAvailabilityStatus } from '../../utils/timeUtils'
 import { normalizeAllergens, getAllergenInfo } from '../../utils/allergens'
 import { formatHuf } from '../../utils/currency'
+import { formatProductDisplayName } from '../../utils/productDisplay'
 import LazyImage from '../LazyImage/LazyImage'
 import { useInViewOnce } from '../../hooks/useIntersectionObserver'
 
@@ -118,6 +119,7 @@ const FoodItem = ({id, name, nameVI, nameEN, nameHU, price, description, image, 
   };
 
   const localizedName = getLocalizedName();
+  const displayName = formatProductDisplayName({ sku }, localizedName);
 
   const openDetail = useCallback(() => {
     if (!onViewDetails) return;
@@ -160,7 +162,7 @@ const FoodItem = ({id, name, nameVI, nameEN, nameHU, price, description, image, 
       const heuristicOverflow =
         (description && description.length > 60) ||
         (portion && portion.length > 40) ||
-        (localizedName && localizedName.length > 50);
+        (displayName && displayName.length > 50);
 
       setShowReadMore(titleOverflow || descOverflow || heuristicOverflow);
     };
@@ -172,7 +174,7 @@ const FoodItem = ({id, name, nameVI, nameEN, nameHU, price, description, image, 
     if (descriptionRef.current) observer?.observe(descriptionRef.current);
 
     return () => observer?.disconnect();
-  }, [compact, description, portion, localizedName]);
+  }, [compact, description, portion, displayName]);
 
   const handleCardClick = (e) => {
     if (
@@ -203,10 +205,10 @@ const FoodItem = ({id, name, nameVI, nameEN, nameHU, price, description, image, 
       <div ref={itemRef} className={itemClassName} onClick={handleCardClick}>
         <div className="food-row">
           <div className="thumb food-image-container">
-            <LazyImage src={imgSrc} alt={getLocalizedName()} withFoodBackground />
+            <LazyImage src={imgSrc} alt={displayName} withFoodBackground />
           </div>
           <div className="title-section">
-            <div className="title" ref={titleRef}>{localizedName}</div>
+            <div className="title" ref={titleRef}>{displayName}</div>
             {portion && <div className="title-portion">{portion}</div>}
             <div className="title-description" ref={descriptionRef}>
               {description || '\u00a0'}
@@ -266,7 +268,7 @@ const FoodItem = ({id, name, nameVI, nameEN, nameHU, price, description, image, 
       <div className="food-item-img-container food-image-container">
         <LazyImage
           src={imgSrc}
-          alt={getLocalizedName()}
+          alt={displayName}
           className="food-item-image"
           withFoodBackground
         />
@@ -305,7 +307,7 @@ const FoodItem = ({id, name, nameVI, nameEN, nameHU, price, description, image, 
        
       <div className="food-item-info">  
         <div className="food-item-name">  
-          <p>{getLocalizedName()}</p>  
+          <p>{displayName}</p>  
         </div>  
         
         {portion && (

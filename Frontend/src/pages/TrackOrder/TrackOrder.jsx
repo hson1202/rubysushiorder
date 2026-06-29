@@ -3,6 +3,7 @@ import './TrackOrder.css'
 import axios from 'axios'
 import { useTranslation } from 'react-i18next'
 import config from '../../config/config'
+import { formatProductDisplayName } from '../../utils/productDisplay'
 
 
 const TrackOrder = () => {
@@ -226,7 +227,7 @@ const TrackOrder = () => {
                 {order.items.map((item, index) => (
                   <div key={index} className="item-card">
                     <div className="item-info">
-                      <h4>{item.name}</h4>
+                      <h4>{formatProductDisplayName(item)}</h4>
                       <p className="item-price">{new Intl.NumberFormat('hu-HU', { style: 'currency', currency: 'HUF', minimumFractionDigits: 0, maximumFractionDigits: 0 }).format(item.price)}</p>
                     </div>
                     <div className="item-quantity">

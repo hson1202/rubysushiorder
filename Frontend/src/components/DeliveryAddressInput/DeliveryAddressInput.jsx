@@ -409,20 +409,8 @@ const DeliveryAddressInput = ({
             <div className="village-hint-banner">
               <span className="village-hint-icon">🗺️</span>
               <div className="village-hint-text">
-                <strong>
-                  {i18n.language === 'hu'
-                    ? 'Nem találja a címét a listában?'
-                    : i18n.language === 'en'
-                    ? 'Address not found in suggestions?'
-                    : 'Địa chỉ không xuất hiện trong gợi ý?'}
-                </strong>
-                <span>
-                  {i18n.language === 'hu'
-                    ? 'Ha egy közeli faluban él, amit a térkép nem ismer fel, használja az alábbi gombot, és jelölje meg a pontos helyet a térképen.'
-                    : i18n.language === 'en'
-                    ? 'If you live in a nearby village not found by the map, use the button below to pin your exact location on the map.'
-                    : 'Nếu bạn ở làng/xã lân cận không được tìm thấy trên bản đồ, hãy nhấn nút bên dưới để ghim vị trí trực tiếp.'}
-                </span>
+                <strong>{t('placeOrder.form.addressNotFoundTitle')}</strong>
+                <span>{t('placeOrder.form.addressNotFoundHint')}</span>
               </div>
             </div>
           )}

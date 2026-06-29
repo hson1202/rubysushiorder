@@ -4,6 +4,7 @@ import axios from 'axios';
 import config from '../../config/config';
 import { assets } from '../../assets/assets';
 import { useTranslation } from 'react-i18next';
+import { formatProductDisplayName } from '../../utils/productDisplay';
 import '../MyOrders/MyOrders.css';
 
 const AccountOrdersPage = () => {
@@ -148,7 +149,7 @@ const AccountOrdersPage = () => {
                                         <p className="order-items">
                                             {order.items.map((item, idx) => (
                                                 <span key={idx}>
-                                                    {item.name} × {item.quantity}
+                                                    {formatProductDisplayName(item)} × {item.quantity}
                                                     {item.options && formatOptionText(item.options) && (
                                                         <span className="item-options"> ({formatOptionText(item.options)})</span>
                                                     )}
@@ -176,7 +177,7 @@ const AccountOrdersPage = () => {
                                             <div className="order-items-list">
                                                 {order.items.map((item, idx) => (
                                                     <div key={idx} className="order-item-detail">
-                                                        <span className="item-name">{item.name} × {item.quantity}</span>
+                                                        <span className="item-name">{formatProductDisplayName(item)} × {item.quantity}</span>
                                                         <span className="item-price">{new Intl.NumberFormat('hu-HU', { style: 'currency', currency: 'HUF', minimumFractionDigits: 0, maximumFractionDigits: 0 }).format(item.price * item.quantity)}</span>
                                                         {item.options && formatOptionText(item.options) && (
                                                             <p className="item-options">{formatOptionText(item.options)}</p>
