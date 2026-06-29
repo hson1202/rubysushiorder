@@ -3,7 +3,7 @@ import userModel from "../models/userModel.js"
 import RestaurantInfo from "../models/restaurantInfoModel.js"
 import { sendOrderConfirmation, sendAdminOrderNotification } from "../services/emailService.js"
 import eventBus from "../services/eventBus.js"
-import { calculateOrderTotal, validatePrice } from "../utils/priceCalculator.js"
+import { calculateOrderTotal, getSystemFeeFromDB, validatePrice } from "../utils/priceCalculator.js"
 import { isRestaurantOpen, getRestaurantStatus, normalizeWeeklyHours } from "../utils/restaurantHours.js"
 
 // placing user order from frontend (hỗ trợ cả đăng nhập và không đăng nhập)
@@ -169,8 +169,9 @@ const placeOrder = async (req, res) => {
         // ========================================
         console.log('💰 Validating order price from database...');
 
-        const deliveryFee = req.body.deliveryInfo?.deliveryFee || 0;
-        const calculationResult = await calculateOrderTotal(processedItems, deliveryFee);
+        const deliveryFee = isDelivery ? (req.body.deliveryInfo?.deliveryFee || 0) : 0;
+        const systemFee = isDelivery ? await getSystemFeeFromDB() : 0;
+        const calculationResult = await calculateOrderTotal(processedItems, deliveryFee, systemFee);
 
         const validation = validatePrice(amount, calculationResult.total, 1); // 1 Ft tolerance
 
@@ -202,6 +203,13 @@ const placeOrder = async (req, res) => {
         console.log(`   Items total: ${Math.round(calculationResult.itemsTotal)} Ft`);
         console.log(`   Box fee total: ${Math.round(calculationResult.boxFeeTotal)} Ft`);
         console.log(`   Delivery fee: ${Math.round(calculationResult.deliveryFee)} Ft`);
+        console.log(`   System fee: ${Math.round(calculationResult.systemFee)} Ft`);
+
+        const normalizedDeliveryInfo = isDelivery ? {
+            ...(deliveryInfo || {}),
+            deliveryFee: Number(deliveryFee),
+            systemFee: Number(systemFee)
+        } : null;
 
         // Tạo đơn hàng mới
         const newOrder = new orderModel({
@@ -215,7 +223,7 @@ const placeOrder = async (req, res) => {
             language: req.body.language || 'vi', // Lưu ngôn ngữ khách hàng dùng khi đặt đơn
             payment: true, // COD - thanh toán khi nhận hàng
             status: "Pending",
-            deliveryInfo: isDelivery ? (deliveryInfo || null) : null, // Lưu thông tin delivery (zone, distance, deliveryFee, estimatedTime)
+            deliveryInfo: normalizedDeliveryInfo, // Lưu thông tin delivery (zone, distance, deliveryFee, systemFee, estimatedTime)
             note: req.body.note || "",
             preferredDeliveryTime: req.body.preferredDeliveryTime || ""
         })
@@ -486,7 +494,7 @@ const getOrderStats = async (req, res) => {
     try {
         const totalOrders = await orderModel.countDocuments();
         const pendingOrders = await orderModel.countDocuments({ status: "Pending" });
-        const outForDelivery = await orderModel.countDocuments({ status: "Out for delivery" });
+        const cancelledOrders = await orderModel.countDocuments({ status: "Cancelled" });
         const deliveredOrders = await orderModel.countDocuments({ status: "Delivered" });
 
         res.json({
@@ -494,7 +502,7 @@ const getOrderStats = async (req, res) => {
             stats: {
                 total: totalOrders,
                 pending: pendingOrders,
-                outForDelivery: outForDelivery,
+                cancelled: cancelledOrders,
                 delivered: deliveredOrders
             }
         })

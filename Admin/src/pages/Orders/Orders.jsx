@@ -10,13 +10,13 @@ import config from '../../config/config';
 const STATUS_OPTIONS = [
   { value: 'all', label: 'All' },
   { value: 'Pending', label: 'Pending' },
-  { value: 'Out for delivery', label: 'Out' },
+  { value: 'Cancelled', label: 'Cancelled' },
   { value: 'Delivered', label: 'Delivered' },
 ];
 
 const STATUS_COLORS = {
   Pending: '#f59e0b',
-  'Out for delivery': '#3b82f6',
+  Cancelled: '#ef4444',
   Delivered: '#10b981',
 };
 
@@ -104,6 +104,11 @@ const Orders = () => {
 
   const statusHandler = useCallback(
     async (nextStatus, orderId) => {
+      if (nextStatus === 'Cancelled') {
+        const confirmed = window.confirm(t('orders.cancelConfirm', 'Are you sure you want to cancel this order?'));
+        if (!confirmed) return;
+      }
+
       try {
         const adminToken = localStorage.getItem('adminToken');
         if (!adminToken) {
@@ -462,7 +467,9 @@ const OrderRow = React.memo(({ order, onStatusChange, onDetails }) => {
   const previewItems = items.slice(0, 2);
   const remainingItems = Math.max(items.length - 2, 0);
   const deliveryFee = Number(order.deliveryInfo?.deliveryFee ?? 0);
+  const systemFee = Number(order.deliveryInfo?.systemFee ?? 0);
   const showDeliveryFee = deliveryFee > 0;
+  const showSystemFee = systemFee > 0;
   const fulfillmentType = order.fulfillmentType || 'delivery';
   const fulfillmentLabel = getFulfillmentLabel(fulfillmentType, t);
   const orderCode = `#${order.shortOrderId || (order._id ? order._id.slice(-6) : 'N/A')}`;
@@ -520,6 +527,12 @@ const OrderRow = React.memo(({ order, onStatusChange, onDetails }) => {
               <span className="amount-value">{formatMoney(deliveryFee)}</span>
             </div>
           )}
+          {showSystemFee && (
+            <div className="amount-row">
+              <span className="amount-label">{t('orders.systemFee', 'System')}</span>
+              <span className="amount-value">{formatMoney(systemFee)}</span>
+            </div>
+          )}
           <div className="amount-row strong">
             <span className="amount-label">{t('orders.total', 'Total')}</span>
             <span className="amount-value">{formatMoney(order.amount)}</span>
@@ -534,7 +547,7 @@ const OrderRow = React.memo(({ order, onStatusChange, onDetails }) => {
             onChange={(e) => onStatusChange(e.target.value, order._id)}
           >
             <option value="Pending">{t('orders.pending', 'Pending')}</option>
-            <option value="Out for delivery">{t('orders.outForDelivery', 'Out for delivery')}</option>
+            <option value="Cancelled">{t('orders.cancelled', 'Cancel order')}</option>
             <option value="Delivered">{t('orders.delivered', 'Delivered')}</option>
           </select>
         </div>
@@ -554,11 +567,12 @@ OrderRow.propTypes = {
   onDetails: PropTypes.func.isRequired,
 };
 
-const OrderSummary = React.memo(({ amount, deliveryFee }) => {
-  const subtotal = (amount || 0) - (deliveryFee || 0);
+const OrderSummary = React.memo(({ amount, deliveryFee, systemFee }) => {
+  const subtotal = (amount || 0) - (deliveryFee || 0) - (systemFee || 0);
   const rows = [
     { label: 'Subtotal', value: formatMoney(subtotal) },
     { label: 'Delivery', value: formatMoney(deliveryFee) },
+    ...(systemFee > 0 ? [{ label: 'System fee', value: formatMoney(systemFee) }] : []),
     { label: 'Total', value: formatMoney(amount), strong: true },
   ];
 
@@ -577,11 +591,13 @@ const OrderSummary = React.memo(({ amount, deliveryFee }) => {
 OrderSummary.propTypes = {
   amount: PropTypes.number,
   deliveryFee: PropTypes.number,
+  systemFee: PropTypes.number,
 };
 
 const OrderDetailsModal = React.memo(({ order, onClose }) => {
   const { t } = useTranslation();
   const deliveryFee = Number(order.deliveryInfo?.deliveryFee ?? 0);
+  const systemFee = Number(order.deliveryInfo?.systemFee ?? 0);
   const fulfillmentType = order.fulfillmentType || 'delivery';
   const fulfillmentLabel = getFulfillmentLabel(fulfillmentType, t);
 
@@ -705,7 +721,7 @@ const OrderDetailsModal = React.memo(({ order, onClose }) => {
                 )}
               </div>
 
-              <OrderSummary amount={Number(order.amount || 0)} deliveryFee={deliveryFee} />
+              <OrderSummary amount={Number(order.amount || 0)} deliveryFee={deliveryFee} systemFee={systemFee} />
             </div>
           </div>
         </div>

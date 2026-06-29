@@ -515,6 +515,7 @@ const resources = {
       'placeOrder.cart.title': 'Tổng Giỏ Hàng',
       'placeOrder.cart.subtotal': 'Tạm tính',
       'placeOrder.cart.deliveryFee': 'Phí giao hàng',
+      'placeOrder.cart.systemFee': 'Phí hệ thống',
       'placeOrder.cart.deliveryFeePrompt': 'Nhập địa chỉ giao hàng để tính phí ship chính xác.',
       'placeOrder.cart.total': 'Tổng cộng',
       'placeOrder.cart.proceedButton': 'ĐẶT HÀNG',
@@ -547,9 +548,9 @@ const resources = {
       'placeOrder.errors.serverError': 'Lỗi máy chủ: {{status}}',
       'placeOrder.errors.unknownError': 'Đã xảy ra lỗi không xác định',
       'placeOrder.cart.minOrderWarning': 'Đơn tối thiểu: {{minOrder}} (Thêm {{needed}} nữa)',
-      'placeOrder.cart.boxFeeNote': '+{{boxFee}} phí hệ thống cho các món chính',
+      'placeOrder.cart.boxFeeNote': '+{{boxFee}} phí hộp cho các món chính',
       'cart.boxFeeNote': '+{{boxFee}} phí hệ thống cho các món chính',
-      'cartPopup.boxFeeNote': '+{{boxFee}} phí hệ thống cho các món chính',
+      'cartPopup.boxFeeNote': '+{{boxFee}} phí hộp cho các món chính',
       'placeOrder.address.default': 'Mặc định',
       'placeOrder.address.change': 'Thay đổi',
       'placeOrder.address.selectTitle': 'Chọn địa chỉ giao hàng',
@@ -559,15 +560,22 @@ const resources = {
 
       // Success Popup
       'successPopup.title': 'Đặt hàng thành công!',
-      'successPopup.message': 'Cảm ơn bạn đã đặt hàng. Chúng tôi sẽ xử lý đơn hàng của bạn ngay lập tức.',
+      'successPopup.message': 'Cảm ơn bạn đã đặt hàng. Tiệm sẽ xử lý đơn hàng của bạn ngay lập tức.',
       'successPopup.delivery.title': 'Thời gian giao hàng',
-      'successPopup.delivery.time': 'Đơn hàng của bạn sẽ đến trong 30-60 phút',
+      'successPopup.delivery.time': 'Tiệm sẽ giao hàng trong khoảng 30-60 phút',
       'successPopup.trackingCode': 'Mã đơn hàng',
       'successPopup.phone': 'Số điện thoại',
       'successPopup.amount': 'Tổng tiền',
       'successPopup.items': 'Sản phẩm trong đơn hàng',
       'successPopup.trackOrder': 'Dò đơn hàng',
       'successPopup.goHome': 'Về trang chủ',
+
+      // Delivery Zones
+      'deliveryZones.loading': 'Đang tải khu vực giao hàng...',
+      'deliveryZones.title': 'Khu vực giao hàng',
+      'deliveryZones.deliveryFee': 'Phí giao hàng:',
+      'deliveryZones.minOrder': 'Đơn tối thiểu:',
+      'deliveryZones.free': 'MIỄN PHÍ',
 
       // Food Item
       'food.decrease': 'Giảm số lượng',
@@ -1168,6 +1176,7 @@ const resources = {
       'placeOrder.cart.title': 'Cart Totals',
       'placeOrder.cart.subtotal': 'Subtotal',
       'placeOrder.cart.deliveryFee': 'Delivery Fee',
+      'placeOrder.cart.systemFee': 'System Fee',
       'placeOrder.cart.deliveryFeePrompt': 'Enter your delivery address to calculate the delivery fee.',
       'placeOrder.cart.total': 'Total',
       'placeOrder.cart.proceedButton': 'PLACE ORDER',
@@ -1200,9 +1209,9 @@ const resources = {
       'placeOrder.errors.serverError': 'Server error: {{status}}',
       'placeOrder.errors.unknownError': 'Unknown error occurred',
       'placeOrder.cart.minOrderWarning': 'Min. order: {{minOrder}} (Add {{needed}} more)',
-      'placeOrder.cart.boxFeeNote': '+{{boxFee}} system fee for main dishes',
+      'placeOrder.cart.boxFeeNote': '+{{boxFee}} box fee for main dishes',
       'cart.boxFeeNote': '+{{boxFee}} system fee for main dishes',
-      'cartPopup.boxFeeNote': '+{{boxFee}} system fee for main dishes',
+      'cartPopup.boxFeeNote': '+{{boxFee}} box fee for main dishes',
       'placeOrder.address.default': 'Default',
       'placeOrder.address.change': 'Change',
       'placeOrder.address.selectTitle': 'Select Delivery Address',
@@ -1221,6 +1230,13 @@ const resources = {
       'successPopup.items': 'Items in your order',
       'successPopup.trackOrder': 'Track Order',
       'successPopup.goHome': 'Go Home',
+
+      // Delivery Zones
+      'deliveryZones.loading': 'Loading delivery zones...',
+      'deliveryZones.title': 'Delivery Zones',
+      'deliveryZones.deliveryFee': 'Delivery Fee:',
+      'deliveryZones.minOrder': 'Min. Order:',
+      'deliveryZones.free': 'FREE',
 
       // Food Item
       'food.decrease': 'Decrease quantity',
@@ -1821,6 +1837,7 @@ const resources = {
       'placeOrder.cart.title': 'Kosár összesen',
       'placeOrder.cart.subtotal': 'Részösszeg',
       'placeOrder.cart.deliveryFee': 'Szállítási díj',
+      'placeOrder.cart.systemFee': 'Rendszerdíj',
       'placeOrder.cart.deliveryFeePrompt': 'Add meg a szállítási címet a pontos díj kiszámításához.',
       'placeOrder.cart.total': 'Összesen',
       'placeOrder.cart.proceedButton': 'RENDELÉS LEADÁSA',
@@ -1864,16 +1881,23 @@ const resources = {
       'placeOrder.address.useSaved': 'Mentett cím használata',
 
       // Success Popup
-      'successPopup.title': 'Order Placed Successfully!',
-      'successPopup.message': 'Thank you for your order. We will process your order immediately.',
-      'successPopup.delivery.title': 'Delivery Time',
-      'successPopup.delivery.time': 'Your order will arrive in 30-60 minutes',
-      'successPopup.trackingCode': 'Tracking Code',
-      'successPopup.phone': 'Phone Number',
-      'successPopup.amount': 'Total Amount',
-      'successPopup.items': 'Items in your order',
-      'successPopup.trackOrder': 'Track Order',
-      'successPopup.goHome': 'Go Home',
+      'successPopup.title': 'Sikeres rendelés!',
+      'successPopup.message': 'Köszönjük a rendelésed. Az étterem azonnal megkezdi a feldolgozást.',
+      'successPopup.delivery.title': 'Szállítási idő',
+      'successPopup.delivery.time': 'Az étterem kb. 30-60 percen belül kiszállítja a rendelésed',
+      'successPopup.trackingCode': 'Rendelési kód',
+      'successPopup.phone': 'Telefonszám',
+      'successPopup.amount': 'Végösszeg',
+      'successPopup.items': 'Rendelt tételek',
+      'successPopup.trackOrder': 'Rendelés követése',
+      'successPopup.goHome': 'Vissza a főoldalra',
+
+      // Delivery Zones
+      'deliveryZones.loading': 'Szállítási zónák betöltése...',
+      'deliveryZones.title': 'Szállítási zónák',
+      'deliveryZones.deliveryFee': 'Szállítási díj:',
+      'deliveryZones.minOrder': 'Minimum rendelés:',
+      'deliveryZones.free': 'INGYENES',
 
       // Food Item
       'food.decrease': 'Decrease quantity',

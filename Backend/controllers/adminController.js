@@ -991,20 +991,20 @@ const updateOrderStatus = async (req, res) => {
             });
         }
 
-        // Validate status values - support both old and new status formats
-        const validStatuses = ['Pending', 'Out for delivery', 'Delivered', 'pending', 'out for delivery', 'delivered'];
+        // Validate status values - support canonical and lowercase formats
+        const validStatuses = ['Pending', 'Cancelled', 'Delivered', 'pending', 'cancelled', 'delivered'];
         const normalizedStatus = validStatuses.find(s => s.toLowerCase() === status.toLowerCase());
 
         if (!normalizedStatus) {
             return res.status(400).json({
                 success: false,
-                message: `Invalid status. Must be one of: Pending, Out for delivery, Delivered`
+                message: `Invalid status. Must be one of: Pending, Cancelled, Delivered`
             });
         }
 
         // Use the normalized status (capitalized)
         const finalStatus = normalizedStatus === 'pending' ? 'Pending' :
-            normalizedStatus === 'out for delivery' ? 'Out for delivery' :
+            normalizedStatus === 'cancelled' ? 'Cancelled' :
                 normalizedStatus === 'delivered' ? 'Delivered' : normalizedStatus;
 
         const updatedOrder = await orderModel.findByIdAndUpdate(
