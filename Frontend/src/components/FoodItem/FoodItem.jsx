@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next'
 import { isFoodAvailable, getAvailabilityStatus } from '../../utils/timeUtils'
 import { normalizeAllergens, getAllergenInfo } from '../../utils/allergens'
 import { formatHuf } from '../../utils/currency'
-import { formatProductDisplayName } from '../../utils/productDisplay'
+import { formatProductDisplayName, getDisplayDescription } from '../../utils/productDisplay'
 import LazyImage from '../LazyImage/LazyImage'
 import { useInViewOnce } from '../../hooks/useIntersectionObserver'
 
@@ -120,6 +120,7 @@ const FoodItem = ({id, name, nameVI, nameEN, nameHU, price, description, image, 
 
   const localizedName = getLocalizedName();
   const displayName = formatProductDisplayName({ sku }, localizedName);
+  const displayDescription = getDisplayDescription(description);
 
   const openDetail = useCallback(() => {
     if (!onViewDetails) return;
@@ -160,7 +161,7 @@ const FoodItem = ({id, name, nameVI, nameEN, nameHU, price, description, image, 
       const titleOverflow = titleEl ? titleEl.scrollHeight > titleEl.clientHeight + 1 : false;
       const descOverflow = descEl ? descEl.scrollHeight > descEl.clientHeight + 1 : false;
       const heuristicOverflow =
-        (description && description.length > 60) ||
+        (displayDescription && displayDescription.length > 60) ||
         (portion && portion.length > 40) ||
         (displayName && displayName.length > 50);
 
@@ -174,7 +175,7 @@ const FoodItem = ({id, name, nameVI, nameEN, nameHU, price, description, image, 
     if (descriptionRef.current) observer?.observe(descriptionRef.current);
 
     return () => observer?.disconnect();
-  }, [compact, description, portion, displayName]);
+  }, [compact, displayDescription, portion, displayName]);
 
   const handleCardClick = (e) => {
     if (
@@ -211,9 +212,9 @@ const FoodItem = ({id, name, nameVI, nameEN, nameHU, price, description, image, 
             <div className="title" ref={titleRef}>{displayName}</div>
             {portion && <div className="title-portion">{portion}</div>}
             <div className="title-description" ref={descriptionRef}>
-              {description || '\u00a0'}
+              {displayDescription || '\u00a0'}
             </div>
-            {(showReadMore || description) && (
+            {(showReadMore || displayDescription) && (
               <button
                 type="button"
                 className="read-more-btn"
@@ -314,9 +315,9 @@ const FoodItem = ({id, name, nameVI, nameEN, nameHU, price, description, image, 
           <div className="food-item-portion">{portion}</div>
         )}
 
-        {description && (
+        {displayDescription && (
           <div className="food-item-description">
-            <p>{description}</p>
+            <p>{displayDescription}</p>
           </div>
         )}
 

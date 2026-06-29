@@ -32,7 +32,8 @@ const DeliveryZones = ({ url }) => {
     address: '',
     latitude: '',
     longitude: '',
-    boxFee: 0.3  // Default box fee
+    boxFee: 160,
+    systemFee: 0
   });
 
   useEffect(() => {
@@ -81,7 +82,8 @@ const DeliveryZones = ({ url }) => {
           address: response.data.data.address,
           latitude: response.data.data.latitude,
           longitude: response.data.data.longitude,
-          boxFee: response.data.data.boxFee !== undefined ? response.data.data.boxFee : 0.3
+          boxFee: response.data.data.boxFee !== undefined ? response.data.data.boxFee : 160,
+          systemFee: response.data.data.systemFee !== undefined ? response.data.data.systemFee : 0
         });
       }
     } catch (error) {
@@ -426,6 +428,12 @@ const DeliveryZones = ({ url }) => {
                   {new Intl.NumberFormat('hu-HU', { style: 'currency', currency: 'HUF', minimumFractionDigits: 0, maximumFractionDigits: 0 }).format(restaurantLocation.boxFee !== undefined ? restaurantLocation.boxFee : 160)}
                 </span>
               </div>
+              <div className="info-item">
+                <span className="label">{t('dz.systemFee')}:</span>
+                <span className="value" style={{ fontWeight: 'bold', color: '#2563eb' }}>
+                  {new Intl.NumberFormat('hu-HU', { style: 'currency', currency: 'HUF', minimumFractionDigits: 0, maximumFractionDigits: 0 }).format(restaurantLocation.systemFee !== undefined ? restaurantLocation.systemFee : 0)}
+                </span>
+              </div>
             </div>
           </div>
         )}
@@ -492,6 +500,22 @@ const DeliveryZones = ({ url }) => {
                 />
                 <small style={{ display: 'block', marginTop: '5px', color: '#666' }}>
                   {t('dz.defaultBoxFeeHelp')}
+                </small>
+              </div>
+              <div className="form-group">
+                <label>{t('dz.systemFee')}</label>
+                <input
+                  type="number"
+                  name="systemFee"
+                  value={locationForm.systemFee}
+                  onChange={handleLocationFormChange}
+                  step="1"
+                  min="0"
+                  placeholder="e.g., 250"
+                  required
+                />
+                <small style={{ display: 'block', marginTop: '5px', color: '#666' }}>
+                  {t('dz.systemFeeHelp')}
                 </small>
               </div>
             </div>

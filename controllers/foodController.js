@@ -45,7 +45,7 @@ const addFood = async (req, res) => {
       nameHU: nameHU?.trim(),
       // Only set slug if provided, otherwise let model generate it
       ...(slug?.trim() && { slug: slug.trim() }),
-      description: description?.trim() || "No description provided",
+      description: description?.trim() || "",
       price: Number(price),
       category: category.trim(),
       image: image_url,
@@ -285,7 +285,7 @@ const updateFood = async (req, res) => {
       nameHU: nameHU?.trim(),
       // Don't update slug if it's empty - keep existing one
       ...(slug?.trim() && { slug: slug.trim() }),
-      description: description?.trim() || "No description provided",
+      description: description?.trim() || "",
       price: Number(price),
       category: category.trim(),
       quantity: Number(quantity),

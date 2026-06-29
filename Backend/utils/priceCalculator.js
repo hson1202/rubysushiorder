@@ -32,6 +32,28 @@ export const getBoxFeeFromDB = async () => {
 };
 
 /**
+ * Fetch system fee từ database (admin delivery settings)
+ * @returns {Promise<number>} System fee (HUF)
+ */
+export const getSystemFeeFromDB = async () => {
+  try {
+    const restaurant = await restaurantLocationModel.findOne({
+      isActive: true,
+      isPrimary: true
+    });
+
+    if (!restaurant || restaurant.systemFee === undefined || restaurant.systemFee === null) {
+      return 0;
+    }
+
+    return Number(restaurant.systemFee);
+  } catch (error) {
+    console.error('❌ Error fetching system fee:', error.message);
+    return 0;
+  }
+};
+
+/**
  * Tính giá của 1 item (bao gồm options và box fee)
  * @param {Object} item - Item từ order (có quantity, selectedOptions, etc.)
  * @param {Object} product - Product từ database (có price, options, etc.)
@@ -102,15 +124,17 @@ export const calculateItemPrice = (item, product, boxFee) => {
  * Tính tổng giá cho toàn bộ đơn hàng
  * @param {Array} items - Danh sách items trong đơn hàng
  * @param {number} deliveryFee - Phí giao hàng
- * @returns {Promise<Object>} { total, itemsTotal, boxFeeTotal, deliveryFee, breakdown }
+ * @param {number} systemFee - Phí hệ thống theo đơn
+ * @returns {Promise<Object>} { total, itemsTotal, boxFeeTotal, deliveryFee, systemFee, breakdown }
  */
-export const calculateOrderTotal = async (items, deliveryFee = 0) => {
+export const calculateOrderTotal = async (items, deliveryFee = 0, systemFee = 0) => {
   if (!items || !Array.isArray(items) || items.length === 0) {
     return {
       total: 0,
       itemsTotal: 0,
       boxFeeTotal: 0,
       deliveryFee: 0,
+      systemFee: 0,
       breakdown: []
     };
   }
@@ -169,13 +193,14 @@ export const calculateOrderTotal = async (items, deliveryFee = 0) => {
     });
   }
 
-  const total = itemsTotal + Number(deliveryFee);
+  const total = itemsTotal + Number(deliveryFee) + Number(systemFee);
 
   return {
     total,
     itemsTotal,
     boxFeeTotal,
     deliveryFee: Number(deliveryFee),
+    systemFee: Number(systemFee),
     breakdown
   };
 };

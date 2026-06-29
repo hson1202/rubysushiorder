@@ -6,7 +6,7 @@ import { StoreContext } from '../../Context/StoreContext'
 import { useTranslation } from 'react-i18next'
 import { normalizeAllergens, getAllergenInfo } from '../../utils/allergens'
 import { formatHuf } from '../../utils/currency'
-import { formatProductDisplayName } from '../../utils/productDisplay'
+import { formatProductDisplayName, getDisplayDescription } from '../../utils/productDisplay'
 
 // ---- Pricing helpers ----
 const hasOverrideOpt = (product) =>
@@ -246,6 +246,7 @@ const ProductDetail = ({ product, onClose }) => {
   if (!product) return null
 
   const displayName = formatProductDisplayName(product, getLocalizedName())
+  const displayDescription = getDisplayDescription(product.description)
 
   const allergenInfos = normalizeAllergens(product.allergens)
     .map((code) => getAllergenInfo(code, i18n.language))
@@ -288,9 +289,11 @@ const ProductDetail = ({ product, onClose }) => {
               )}
             </div>
 
-            <div className="product-description">
-              <p>{product.description || t('productDetail.noDescription')}</p>
-            </div>
+            {displayDescription && (
+              <div className="product-description">
+                <p>{displayDescription}</p>
+              </div>
+            )}
 
             {allergenInfos.length > 0 && (
               <div className="product-allergens">

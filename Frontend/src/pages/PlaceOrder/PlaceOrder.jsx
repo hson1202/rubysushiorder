@@ -14,7 +14,7 @@ import { generateOrderTimeSlots, normalizeWeeklyHours } from '../../utils/restau
 
 const PlaceOrder = () => {
   const { t, i18n } = useTranslation();
-  const { getTotalCartAmount, food_list, cartItems, cartItemsData, url, setCartItems, boxFee, restaurantInfo, restaurantOpenStatus } = useContext(StoreContext);
+  const { getTotalCartAmount, food_list, cartItems, cartItemsData, url, setCartItems, boxFee, systemFee, restaurantInfo, restaurantOpenStatus } = useContext(StoreContext);
   const { token, isAuthenticated, user } = useAuth();
   const [data, setData] = useState({
     firstName: "",
@@ -389,6 +389,7 @@ const PlaceOrder = () => {
     };
 
     const deliveryFee = getDeliveryFee();
+    const orderSystemFee = getSystemFee();
     
     let orderData = {
       address: isDelivery ? {
@@ -403,7 +404,7 @@ const PlaceOrder = () => {
         coordinates: deliveryAddress.coordinates
       } : null,
       items: orderItems,
-      amount: getTotalCartAmount() + deliveryFee,
+      amount: getTotalCartAmount() + deliveryFee + orderSystemFee,
       customerInfo: customerInfo,
       orderType: isAuthenticated ? 'registered' : 'guest',
       fulfillmentType: fulfillmentType,
@@ -414,6 +415,7 @@ const PlaceOrder = () => {
         zone: deliveryInfo.zone.name,
         distance: deliveryInfo.distance,
         deliveryFee: deliveryInfo.zone.deliveryFee,
+        systemFee: orderSystemFee,
         estimatedTime: deliveryInfo.zone.estimatedTime
       } : null
     };
@@ -450,7 +452,7 @@ const PlaceOrder = () => {
         }
         
         // Tính toán số tiền trước khi xóa cart
-        const finalAmount = getTotalCartAmount() + getDeliveryFee();
+        const finalAmount = getTotalCartAmount() + getDeliveryFee() + getSystemFee();
         
         // Hiển thị popup thành công
         setOrderSuccessData({
@@ -503,7 +505,7 @@ const PlaceOrder = () => {
               console.error('Error saving last order items:', error);
             }
             
-            const finalAmount = getTotalCartAmount() + getDeliveryFee();
+            const finalAmount = getTotalCartAmount() + getDeliveryFee() + getSystemFee();
             
             setOrderSuccessData({
               trackingCode: trackingCode,
@@ -571,6 +573,12 @@ const PlaceOrder = () => {
       return deliveryInfo.zone.deliveryFee;
     }
     return 0;
+  };
+
+  const getSystemFee = () => {
+    if (getTotalCartAmount() === 0) return 0;
+    if (!isDelivery) return 0;
+    return Number(systemFee) || 0;
   };
 
   // Handle delivery calculation
@@ -981,6 +989,12 @@ const PlaceOrder = () => {
                 : '0 Ft'}
                 </p>
               </div>
+              {isDelivery && getSystemFee() > 0 && (
+                <div className='cart-total-details'>
+                  <p>{t('placeOrder.cart.systemFee')}</p>
+                  <p>{formatPrice(getSystemFee())}</p>
+                </div>
+              )}
           {isDelivery && !deliveryInfo && !hasAnyAddressSelected && (
                 <div className="min-order-warning">
                   {t('placeOrder.cart.deliveryFeePrompt')}
@@ -1006,7 +1020,7 @@ const PlaceOrder = () => {
               <hr />
               <div className='cart-total-details'>
                 <b>{t('placeOrder.cart.total')}</b>
-                <b>{formatPrice(getTotalCartAmount() === 0 ? 0 : getTotalCartAmount() + getDeliveryFee())}</b>
+                <b>{formatPrice(getTotalCartAmount() === 0 ? 0 : getTotalCartAmount() + getDeliveryFee() + getSystemFee())}</b>
               </div>
             </div>
             <button type='submit' disabled={isSubmitting || isRestaurantClosed} className="desktop-submit-btn">

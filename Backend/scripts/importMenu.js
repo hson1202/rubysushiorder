@@ -254,7 +254,7 @@ function transformItem(item, categoryId, categoryImage) {
     nameHU: item.name?.hu || '',
     nameEN: item.name?.en || '',
     nameVI: item.name?.en || '',
-    description: description || 'No description provided',
+    description: description || '',
     portion,
     price: price || 0,
     image: item.image || categoryImage || '',

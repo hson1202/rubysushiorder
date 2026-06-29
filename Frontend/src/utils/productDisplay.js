@@ -16,3 +16,8 @@ export const formatProductDisplayName = (product = {}, fallbackName = '') => {
 
   return alreadyPrefixed ? name : `${sku}. ${name}`;
 };
+
+export const getDisplayDescription = (description = '') => {
+  const text = description === undefined || description === null ? '' : String(description).trim();
+  return text.toLowerCase() === 'no description provided' ? '' : text;
+};

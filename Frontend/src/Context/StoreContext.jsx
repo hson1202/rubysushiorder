@@ -19,6 +19,7 @@ const StoreContextProvider =(props)=>{
     const [isLoadingFood, setIsLoadingFood] = useState(false);
     const [foodPagination, setFoodPagination] = useState(null);
     const [boxFee, setBoxFee] = useState(160); // Default box fee in HUF, fetched from backend
+    const [systemFee, setSystemFee] = useState(0); // Delivery system fee in HUF, fetched from backend
     const [restaurantInfo, setRestaurantInfo] = useState(null);
     const [restaurantInfoLoading, setRestaurantInfoLoading] = useState(true);
     const [restaurantOpenStatus, setRestaurantOpenStatus] = useState(null);
@@ -197,18 +198,23 @@ const StoreContextProvider =(props)=>{
         }
     }
 
-    const fetchBoxFee = async () => {
+    const fetchDeliveryFees = async () => {
         try {
             const response = await axios.get(url + "/api/delivery/restaurant-location");
             if (response.data.success && response.data.data) {
-                const fee = response.data.data.boxFee;
-                if (fee !== undefined && fee !== null) {
-                    setBoxFee(Number(fee));
+                const nextBoxFee = response.data.data.boxFee;
+                if (nextBoxFee !== undefined && nextBoxFee !== null) {
+                    setBoxFee(Number(nextBoxFee));
+                }
+
+                const nextSystemFee = response.data.data.systemFee;
+                if (nextSystemFee !== undefined && nextSystemFee !== null) {
+                    setSystemFee(Number(nextSystemFee));
                 }
             }
         } catch (error) {
-            console.error('Error fetching box fee:', error);
-            // Keep default 160 HUF if fetch fails
+            console.error('Error fetching delivery fees:', error);
+            // Keep defaults if fetch fails
         }
     }
     
@@ -248,7 +254,7 @@ const StoreContextProvider =(props)=>{
         async function loadData(){
             await fetchRestaurantInfo();
             await fetchFoodList();
-            await fetchBoxFee(); // Fetch box fee from restaurant settings
+            await fetchDeliveryFees(); // Fetch delivery fees from restaurant settings
             
             // Check for token in localStorage
             const localToken = localStorage.getItem("token");
@@ -311,6 +317,7 @@ const StoreContextProvider =(props)=>{
         loadMoreFood,
         fetchFoodList,
         boxFee,  // Dynamic box fee from restaurant settings
+        systemFee,
         restaurantInfo,
         restaurantInfoLoading,
         restaurantOpenStatus,

@@ -7,7 +7,7 @@ const foodSchema = new mongoose.Schema({
   nameEN: { type: String, trim: true },
   nameHU: { type: String, trim: true },
   slug: { type: String, required: true, unique: true, trim: true },
-  description: { type: String, required: true, default: "No description provided" },
+  description: { type: String, trim: true, default: "" },
   price: { type: Number, required: true, min: 0 },
   image: { type: String, default: "" },
   category: { type: String, required: true, trim: true },

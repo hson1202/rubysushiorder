@@ -1476,6 +1476,7 @@ const getEmailTranslations = (lang, brandName = 'Restaurant') => {
       orderItems: 'Món đã đặt',
       subtotal: 'Tạm tính',
       deliveryFee: 'Phí giao hàng',
+      systemFee: 'Phí hệ thống',
       total: 'Tổng cộng',
       deliveryAddress: 'Địa chỉ nhận hàng',
       phone: 'Số điện thoại',
@@ -1513,6 +1514,7 @@ const getEmailTranslations = (lang, brandName = 'Restaurant') => {
       orderItems: 'Your Order',
       subtotal: 'Subtotal',
       deliveryFee: 'Delivery Fee',
+      systemFee: 'System Fee',
       total: 'Total',
       deliveryAddress: 'Delivery Address',
       phone: 'Phone',
@@ -1550,6 +1552,7 @@ const getEmailTranslations = (lang, brandName = 'Restaurant') => {
       orderItems: 'Rendelése',
       subtotal: 'Részösszeg',
       deliveryFee: 'Kiszállítási díj',
+      systemFee: 'Rendszerdíj',
       total: 'Összesen',
       deliveryAddress: 'Szállítási cím',
       phone: 'Telefon',
@@ -1666,7 +1669,8 @@ const generateOrderConfirmationEmailHTML = (order, branding = {}) => {
   
   // Get delivery fee from order.deliveryInfo, fallback to 0 if not available
   const deliveryFee = order.deliveryInfo?.deliveryFee ?? 0;
-  const subtotal = order.amount - deliveryFee;
+  const systemFee = order.deliveryInfo?.systemFee ?? 0;
+  const subtotal = order.amount - deliveryFee - systemFee;
   const fulfillmentLabel = order.fulfillmentType === 'pickup'
     ? t.fulfillmentPickup
     : order.fulfillmentType === 'dinein'
@@ -1770,6 +1774,12 @@ const generateOrderConfirmationEmailHTML = (order, branding = {}) => {
               <span>${t.deliveryFee}:</span>
               <span>${formatCurrency(deliveryFee)}</span>
             </div>
+            ${systemFee > 0 ? `
+            <div class="total-row">
+              <span>${t.systemFee}:</span>
+              <span>${formatCurrency(systemFee)}</span>
+            </div>
+            ` : ''}
             <div class="total-row total-final">
               <span>${t.total}:</span>
               <span>${formatCurrency(order.amount)}</span>
@@ -1860,7 +1870,8 @@ const generateOrderConfirmationEmailText = (order, branding = {}) => {
   
   // Get delivery fee from order.deliveryInfo, fallback to 0 if not available
   const deliveryFee = order.deliveryInfo?.deliveryFee ?? 0;
-  const subtotal = order.amount - deliveryFee;
+  const systemFee = order.deliveryInfo?.systemFee ?? 0;
+  const subtotal = order.amount - deliveryFee - systemFee;
   const fulfillmentLabel = order.fulfillmentType === 'pickup'
     ? t.fulfillmentPickup
     : order.fulfillmentType === 'dinein'
@@ -1894,7 +1905,7 @@ ${order.items.map(item => `- ${getLocalizedItemName(item, langCode)}${formatSele
 ${t.orderDetails.toUpperCase()}:
 ${t.subtotal}: ${formatCurrency(subtotal)}
 ${t.deliveryFee}: ${formatCurrency(deliveryFee)}
-${t.total}: ${formatCurrency(order.amount)}
+${systemFee > 0 ? `${t.systemFee}: ${formatCurrency(systemFee)}\n` : ''}${t.total}: ${formatCurrency(order.amount)}
 
 ${t.deliveryAddress.toUpperCase()}:
 ${hasAddress ? `${addressLine}
@@ -2101,7 +2112,8 @@ const generateAdminOrderNotificationEmailHTML = async (order, branding = {}) => 
   
   // Get delivery fee from order.deliveryInfo, fallback to 0 if not available
   const deliveryFee = order.deliveryInfo?.deliveryFee ?? 0;
-  const subtotal = order.amount - deliveryFee;
+  const systemFee = order.deliveryInfo?.systemFee ?? 0;
+  const subtotal = order.amount - deliveryFee - systemFee;
   const fulfillmentLabel = order.fulfillmentType === 'pickup'
     ? 'Lấy tại quán'
     : order.fulfillmentType === 'dinein'
@@ -2218,6 +2230,12 @@ const generateAdminOrderNotificationEmailHTML = async (order, branding = {}) => 
                 <span>Phí giao hàng:</span>
                 <span>${formatCurrency(deliveryFee)}</span>
               </div>
+              ${systemFee > 0 ? `
+              <div class="total-row">
+                <span>Phí hệ thống:</span>
+                <span>${formatCurrency(systemFee)}</span>
+              </div>
+              ` : ''}
               <div class="total-row final">
                 <span>Tổng cộng:</span>
                 <span>${formatCurrency(order.amount)}</span>
@@ -2305,7 +2323,8 @@ const generateAdminOrderNotificationEmailText = async (order, branding = {}) => 
   
   // Get delivery fee from order.deliveryInfo, fallback to 0 if not available
   const deliveryFee = order.deliveryInfo?.deliveryFee ?? 0;
-  const subtotal = order.amount - deliveryFee;
+  const systemFee = order.deliveryInfo?.systemFee ?? 0;
+  const subtotal = order.amount - deliveryFee - systemFee;
   const fulfillmentLabel = order.fulfillmentType === 'pickup'
     ? 'Lấy tại quán'
     : order.fulfillmentType === 'dinein'
@@ -2348,7 +2367,7 @@ ${(await Promise.all(order.items.map(async (item) => {
 
 Tạm tính: ${formatCurrency(subtotal)}
 Phí giao hàng: ${formatCurrency(deliveryFee)}
-TỔNG CỘNG: ${formatCurrency(order.amount)}
+${systemFee > 0 ? `Phí hệ thống: ${formatCurrency(systemFee)}\n` : ''}TỔNG CỘNG: ${formatCurrency(order.amount)}
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 

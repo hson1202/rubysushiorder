@@ -10,6 +10,7 @@ import { toast } from 'react-toastify'
 import { useTranslation } from 'react-i18next'
 import config from '../../config/config'
 import { isFoodAvailable } from '../../utils/timeUtils'
+import { getDisplayDescription } from '../../utils/productDisplay'
 
 const Menu = () => {
   const { food_list, isLoadingFood } = useContext(StoreContext)
@@ -118,7 +119,7 @@ const Menu = () => {
     const searchLower = normalizeValue(searchTerm)
     return availableFoods.filter((food) => {
       const localizedName = getLocalizedName(food)
-      const description = food.description || ''
+      const description = getDisplayDescription(food.description)
       return (
         normalizeValue(localizedName).includes(searchLower) ||
         normalizeValue(food.name).includes(searchLower) ||

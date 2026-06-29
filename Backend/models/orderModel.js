@@ -35,6 +35,7 @@ const orderSchema = new mongoose.Schema({
         zone: { type: String, required: false },
         distance: { type: Number, required: false },
         deliveryFee: { type: Number, required: false },
+        systemFee: { type: Number, required: false, default: 0 },
         estimatedTime: { type: Number, required: false }
     }
 }, {
