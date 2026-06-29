@@ -84,13 +84,13 @@ const Menu = () => {
   const normalizeValue = (value) =>
     typeof value === 'string' ? value.trim().toLowerCase() : ''
 
-  const menuNameCollator = useMemo(
+  const menuSkuCollator = useMemo(
     () =>
-      new Intl.Collator(i18n.language || undefined, {
+      new Intl.Collator(undefined, {
         numeric: true,
         sensitivity: 'base',
       }),
-    [i18n.language]
+    []
   )
 
   const getSortableFoodName = useCallback(
@@ -98,18 +98,18 @@ const Menu = () => {
     [getLocalizedName]
   )
 
-  const sortFoodsByDisplayName = useCallback(
+  const sortFoodsBySku = useCallback(
     (foods) =>
       [...foods].sort((firstFood, secondFood) => {
-        const nameCompare = menuNameCollator.compare(
-          getSortableFoodName(firstFood),
-          getSortableFoodName(secondFood)
+        const skuCompare = menuSkuCollator.compare(
+          firstFood.sku || '',
+          secondFood.sku || ''
         )
 
-        if (nameCompare !== 0) return nameCompare
-        return menuNameCollator.compare(firstFood.sku || '', secondFood.sku || '')
+        if (skuCompare !== 0) return skuCompare
+        return menuSkuCollator.compare(getSortableFoodName(firstFood), getSortableFoodName(secondFood))
       }),
-    [getSortableFoodName, menuNameCollator]
+    [getSortableFoodName, menuSkuCollator]
   )
 
   const doesFoodBelongToCategory = useCallback((food, category) => {
@@ -156,7 +156,7 @@ const Menu = () => {
     })
   }, [food_list, searchTerm, getLocalizedName])
 
-  // Build one block per category, then sort dishes by the display name users see.
+  // Build one block per category, then sort dishes by menu SKU.
   const menuBlocks = useMemo(() => {
     if (!categories.length) return []
 
@@ -177,7 +177,7 @@ const Menu = () => {
           ...category,
           key: categoryKey,
           localizedName: getLocalizedName(category),
-          foods: sortFoodsByDisplayName(foods),
+          foods: sortFoodsBySku(foods),
         }
       })
       .filter((block) => block.foods.length > 0)
@@ -189,12 +189,12 @@ const Menu = () => {
         _id: 'fallback',
         key: 'fallback-category',
         localizedName: fallbackCategoryLabel,
-        foods: sortFoodsByDisplayName(ungroupedFoods),
+        foods: sortFoodsBySku(ungroupedFoods),
       })
     }
 
     return blocks
-  }, [categories, filteredFoods, t, getLocalizedName, doesFoodBelongToCategory, sortFoodsByDisplayName])
+  }, [categories, filteredFoods, t, getLocalizedName, doesFoodBelongToCategory, sortFoodsBySku])
 
   // CategoryFilter expects a list of sections each with a `categories` array.
   // With parent categories removed, we expose a single anonymous section.
