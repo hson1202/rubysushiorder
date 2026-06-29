@@ -58,10 +58,11 @@
 }
 
 /* Quick CSS-only fix for image sizing inside list items */
-.food-display-list > * img:first-of-type{
+.food-display-list > * img:first-of-type,
+.food-display-list > * .lazy-image:first-of-type{
     width: 100%;
     height: 220px;
-    object-fit: cover;
+    object-fit: contain;
     border-radius: 12px;
     display: block;
 }

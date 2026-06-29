@@ -40,7 +40,10 @@ const config = {
     FOOD: '/images',      // For food images
     BLOG: '/uploads',     // For blog images
     CATEGORY: '/images'   // For category images
-  }
+  },
+
+  // Wooden background for food images (transparent PNGs)
+  FOOD_BACKGROUND_URL: 'https://pub-e3da109533764cb29410b35fc1bd8b42.r2.dev/ruby/background.jpg',
 };
 
 export default config;

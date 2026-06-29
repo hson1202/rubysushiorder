@@ -13,6 +13,19 @@
   --brand-accent-hover: #c52b37;
   --brand-radius: 16px;
   --brand-radius-small: 12px;
+  --food-image-bg: url('https://pub-e3da109533764cb29410b35fc1bd8b42.r2.dev/ruby/background.jpg');
+}
+
+/* Shared wooden background for transparent food images */
+.food-image-container {
+  background-image: var(--food-image-bg);
+  background-size: cover;
+  background-position: center;
+}
+
+.food-image-container img,
+.food-image-container .lazy-image {
+  object-fit: contain !important;
 }
 
 *{

@@ -148,18 +148,14 @@
   line-height: 1.5;
 }
 
-/* Dish rows — flat list with line separators */
+/* Dish cards */
 .menu-category-dishes {
   display: flex;
   flex-direction: column;
-  gap: 0;
+  gap: 12px;
 }
 
 .menu-category-item {
-  border-bottom: 1px solid var(--menu-border);
-}
-
-.menu-category-item:last-child {
   border-bottom: none;
 }
 

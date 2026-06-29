@@ -254,7 +254,7 @@ const ProductDetail = ({ product, onClose }) => {
 
         {/* PHẦN SCROLL */}
         <div className="product-detail-content">
-          <div className="product-detail-image">
+          <div className="product-detail-image food-image-container">
             <img 
               src={(() => {
                 const candidate = currentImage || product.image;

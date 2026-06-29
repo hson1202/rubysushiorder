@@ -245,13 +245,12 @@
   border-radius: 8px;
   overflow: hidden;
   flex-shrink: 0;
-  background: var(--brand-surface-2);
 }
 
 .cart-item-image img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
 }
 
 .cart-item-info {
@@ -413,13 +412,12 @@
   height: 96px;
   border-radius: 10px;
   overflow: hidden;
-  background: var(--brand-border);
 }
 
 .recommend-card-image img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
 }
 
 /* Badge */

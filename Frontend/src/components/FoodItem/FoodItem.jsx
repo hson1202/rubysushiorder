@@ -6,6 +6,10 @@ import { useTranslation } from 'react-i18next'
 import { isFoodAvailable, getAvailabilityStatus } from '../../utils/timeUtils'
 import { normalizeAllergens, getAllergenInfo } from '../../utils/allergens'
 import { formatHuf } from '../../utils/currency'
+import LazyImage from '../LazyImage/LazyImage'
+import { useInViewOnce } from '../../hooks/useIntersectionObserver'
+
+const FOOD_ITEM_IN_VIEW_OPTIONS = { rootMargin: '60px' }
 
 const FoodItem = ({id, name, nameVI, nameEN, nameHU, price, description, image, sku, isPromotion, originalPrice, promotionPrice, soldCount = 0, likes = 0, options, portion, allergens, onViewDetails, compact = false, availableFrom, availableTo, dailyAvailability, weeklySchedule}) => {
   const {cartItems, addToCart, removeFromCart, url} = useContext(StoreContext);
@@ -143,6 +147,7 @@ const FoodItem = ({id, name, nameVI, nameEN, nameHU, price, description, image, 
   const titleRef = useRef(null);
   const descriptionRef = useRef(null);
   const [showReadMore, setShowReadMore] = useState(false);
+  const [itemRef, isInView] = useInViewOnce(FOOD_ITEM_IN_VIEW_OPTIONS);
 
   useLayoutEffect(() => {
     if (!compact) return;
@@ -191,30 +196,22 @@ const FoodItem = ({id, name, nameVI, nameEN, nameHU, price, description, image, 
 
   const currentPrice = isPromotion && promotionPrice ? promotionPrice : price;
 
+  const itemClassName = `food-item${compact ? ' compact' : ''}${isInView ? ' in-view' : ''}`;
+
   if (compact) {
     return (
-      <div className="food-item compact" onClick={handleCardClick}>
+      <div ref={itemRef} className={itemClassName} onClick={handleCardClick}>
         <div className="food-row">
-          <div className="thumb">
-            <img src={imgSrc} alt={getLocalizedName()} loading="lazy" decoding="async" />
+          <div className="thumb food-image-container">
+            <LazyImage src={imgSrc} alt={getLocalizedName()} withFoodBackground />
           </div>
           <div className="title-section">
             <div className="title" ref={titleRef}>{localizedName}</div>
-            <div className="title-portion">{portion || '\u00a0'}</div>
+            {portion && <div className="title-portion">{portion}</div>}
             <div className="title-description" ref={descriptionRef}>
               {description || '\u00a0'}
             </div>
-            <div className="compact-meta-row">
-              {allergenInfos.length > 0 && (
-                <div className="allergen-pill" aria-label="allergens">
-                  {allergenInfos.map((a) => (
-                    <span key={a.code} className="allergen-icon" title={a.label}>{a.icon}</span>
-                  ))}
-                </div>
-              )}
-            </div>
-            <div className="compact-footer-row">
-              <div className="price-now">{getPriceDisplay()}</div>
+            {(showReadMore || description) && (
               <button
                 type="button"
                 className="read-more-btn"
@@ -225,6 +222,16 @@ const FoodItem = ({id, name, nameVI, nameEN, nameHU, price, description, image, 
               >
                 {t('food.viewDetails')}
               </button>
+            )}
+            <div className="price-now">{getPriceDisplay()}</div>
+            <div className="compact-meta-row">
+              {allergenInfos.length > 0 && (
+                <div className="allergen-pill" aria-label="allergens">
+                  {allergenInfos.map((a) => (
+                    <span key={a.code} className="allergen-icon" title={a.label}>{a.icon}</span>
+                  ))}
+                </div>
+              )}
             </div>
           </div>
           <div className="compact-controls" onClick={(e) => e.stopPropagation()}>
@@ -255,14 +262,13 @@ const FoodItem = ({id, name, nameVI, nameEN, nameHU, price, description, image, 
   }
 
   return (
-    <div className="food-item" onClick={handleCardClick}>
-      <div className="food-item-img-container">
-        <img 
+    <div ref={itemRef} className={itemClassName} onClick={handleCardClick}>
+      <div className="food-item-img-container food-image-container">
+        <LazyImage
           src={imgSrc}
           alt={getLocalizedName()}
           className="food-item-image"
-          loading="lazy"
-          decoding="async"
+          withFoodBackground
         />
         
         {/* Promotion Badge */}

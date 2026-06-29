@@ -301,7 +301,7 @@ const CartPopup = ({ onClose }) => {
                   <div className="cart-items-list">
                     {cartItemsList.map((item) => (
                       <div key={item.cartItemId} className="cart-item">
-                        <div className="cart-item-image">
+                        <div className="cart-item-image food-image-container">
                           {(() => {
                             const fallback = pickImageFromSelections(item, item.selectedOptions) || item.image;
                             const imgSrc = item.currentImage
@@ -387,7 +387,7 @@ const CartPopup = ({ onClose }) => {
 
                         return (
                           <div key={item._id} className="recommend-card">
-                            <div className="recommend-card-image">
+                            <div className="recommend-card-image food-image-container">
                               <img
                                 src={
                                   item.image && item.image.startsWith('http')

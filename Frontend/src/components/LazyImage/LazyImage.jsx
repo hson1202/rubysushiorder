@@ -9,6 +9,7 @@ const LazyImage = ({
   height,
   style = {},
   onError,
+  withFoodBackground = false,
   placeholder = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTIwIiBoZWlnaHQ9IjkwIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxyZWN0IHdpZHRoPSIxMjAiIGhlaWdodD0iOTAiIGZpbGw9IiNmNWY1ZjUiLz48L3N2Zz4='
 }) => {
   const [imageSrc, setImageSrc] = useState(placeholder);
@@ -29,7 +30,7 @@ const LazyImage = ({
         });
       },
       {
-        rootMargin: '100px', // Load trước 100px (smooth UX)
+        rootMargin: '50px',
         threshold: 0.01
       }
     );
@@ -63,10 +64,12 @@ const LazyImage = ({
     }
   }, [isInView, src, placeholder, onError]);
 
+  const objectFit = withFoodBackground ? 'contain' : 'cover';
+
   return (
     <div 
       ref={imgRef} 
-      className={`lazy-image-wrapper ${className}`}
+      className={`lazy-image-wrapper${withFoodBackground ? ' with-food-background' : ''} ${className}`}
       style={{ 
         width: width || '100%', 
         height: height || '100%', 
@@ -77,7 +80,7 @@ const LazyImage = ({
         src={imageSrc}
         alt={alt}
         className={`lazy-image ${isLoaded ? 'loaded' : 'loading'} ${hasError ? 'error' : ''}`}
-        style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+        style={{ width: '100%', height: '100%', objectFit }}
       />
       {!isLoaded && <div className="lazy-image-spinner"></div>}
     </div>

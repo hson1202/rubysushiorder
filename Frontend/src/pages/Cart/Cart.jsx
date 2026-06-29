@@ -56,7 +56,9 @@ const Cart = () => {
                 <div>
 
                   <div className="cart-items-title  cart-items-item">
-                  <img src={(item.image && item.image.startsWith('http')) ? item.image : (url+"/images/"+item.image)} alt=''/>
+                  <div className="cart-item-thumb food-image-container">
+                    <img src={(item.image && item.image.startsWith('http')) ? item.image : (url+"/images/"+item.image)} alt=''/>
+                  </div>
                   <p>{item.name}</p>
                   <p>{formatPrice(item.isPromotion && item.promotionPrice ? item.promotionPrice : item.price)}</p>
                   <p>{cartItems[item._id]}</p>
