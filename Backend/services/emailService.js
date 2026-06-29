@@ -29,6 +29,24 @@ const getRestaurantBranding = async () => {
   }
 }
 
+const getSupportEmail = () => process.env.SUPPORT_EMAIL || process.env.ADMIN_EMAIL || ''
+
+const getSupportLine = (lang = 'en') => {
+  const email = getSupportEmail()
+  if (!email) return { html: '', text: '' }
+
+  const langCode = lang?.split('-')[0] || 'en'
+  const templates = {
+    vi: 'Nếu cần hỗ trợ, vui lòng gửi email về: {email}',
+    en: 'If you need support, please email: {email}',
+    hu: 'Ha segítségre van szüksége, kérjük írjon ide: {email}'
+  }
+  const template = templates[langCode] || templates.en
+  const text = template.replace('{email}', email)
+  const html = `<p>${template.replace('{email}', `<a href="mailto:${email}">${email}</a>`)}</p>`
+  return { html, text }
+}
+
 // Create transporter (supports Gmail, Resend, and custom SMTP)
 export const createTransporter = () => {
   const resendKey = process.env.RESEND_API_KEY
@@ -831,6 +849,7 @@ const generateConfirmationEmailHTML = (reservation, branding = {}) => {
         
         <div class="footer">
           <p>This is an automated email. Please do not reply directly to this message.</p>
+          ${getSupportLine('en').html}
           <p>${copyrightText}</p>
         </div>
       </div>
@@ -884,6 +903,7 @@ The ${name} Team
 
 ---
 This is an automated email. Please do not reply directly to this message.
+${getSupportLine('en').text}
 ${copyrightText}
   `
 }
@@ -985,6 +1005,7 @@ const generateStatusUpdateEmailHTML = (reservation, oldStatus, newStatus, brandi
         
         <div class="footer">
           <p>This is an automated email. Please do not reply directly to this message.</p>
+          ${getSupportLine('en').html}
           <p>${copyrightText}</p>
         </div>
       </div>
@@ -1053,6 +1074,7 @@ The ${name} Team
 
 ---
 This is an automated email. Please do not reply directly to this message.
+${getSupportLine('en').text}
 ${copyrightText}
   `
 }
@@ -1156,6 +1178,7 @@ const generateContactConfirmationEmailHTML = (contactMessage, adminResponse = nu
         
         <div class="footer">
           <p>This is an automated email. Please do not reply directly to this message.</p>
+          ${getSupportLine('en').html}
           <p>${copyrightText}</p>
         </div>
       </div>
@@ -1225,6 +1248,7 @@ The ${name} Team
 
 ---
 This is an automated email. Please do not reply directly to this message.
+${getSupportLine('en').text}
 ${copyrightText}
   `
 }
@@ -1792,6 +1816,7 @@ const generateOrderConfirmationEmailHTML = (order, branding = {}) => {
         
         <div class="footer">
           <p>${t.footer1}</p>
+          ${getSupportLine(lang).html}
           <p>${t.footer2}</p>
         </div>
       </div>
@@ -1883,6 +1908,7 @@ ${t.team}
 
 ---
 ${t.footer1}
+${getSupportLine(lang).text}
 ${t.footer2}
   `
 }

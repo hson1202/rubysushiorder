@@ -14,6 +14,9 @@ const ALLOWED_MIME_TYPES = [
 
 const BUCKET = process.env.R2_BUCKET_NAME
 const PUBLIC_URL = process.env.R2_PUBLIC_URL?.replace(/\/$/, "")
+const R2_PREFIX = (process.env.R2_PREFIX || "rubysushi")
+  .replace(/^\/+|\/+$/g, "")
+  .replace(/\/+/g, "/")
 
 class R2Storage {
   async _handleFile(req, file, cb) {
@@ -28,7 +31,7 @@ class R2Storage {
 
       const isSvg = file.mimetype === "image/svg+xml"
       const ext = isSvg ? "svg" : "webp"
-      const key = `uploads/image-${Date.now()}-${randomBytes(4).toString("hex")}.${ext}`
+      const key = `${R2_PREFIX}/image-${Date.now()}-${randomBytes(4).toString("hex")}.${ext}`
 
       const chunks = []
       for await (const chunk of file.stream) {
