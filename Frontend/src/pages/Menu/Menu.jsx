@@ -84,6 +84,34 @@ const Menu = () => {
   const normalizeValue = (value) =>
     typeof value === 'string' ? value.trim().toLowerCase() : ''
 
+  const menuNameCollator = useMemo(
+    () =>
+      new Intl.Collator(i18n.language || undefined, {
+        numeric: true,
+        sensitivity: 'base',
+      }),
+    [i18n.language]
+  )
+
+  const getSortableFoodName = useCallback(
+    (food) => getLocalizedName(food) || food.name || food.sku || '',
+    [getLocalizedName]
+  )
+
+  const sortFoodsByDisplayName = useCallback(
+    (foods) =>
+      [...foods].sort((firstFood, secondFood) => {
+        const nameCompare = menuNameCollator.compare(
+          getSortableFoodName(firstFood),
+          getSortableFoodName(secondFood)
+        )
+
+        if (nameCompare !== 0) return nameCompare
+        return menuNameCollator.compare(firstFood.sku || '', secondFood.sku || '')
+      }),
+    [getSortableFoodName, menuNameCollator]
+  )
+
   const doesFoodBelongToCategory = useCallback((food, category) => {
     if (!category) return false
     const categoryId = category._id?.toString()
@@ -128,7 +156,7 @@ const Menu = () => {
     })
   }, [food_list, searchTerm, getLocalizedName])
 
-  // Build one block per category (already sorted by the backend).
+  // Build one block per category, then sort dishes by the display name users see.
   const menuBlocks = useMemo(() => {
     if (!categories.length) return []
 
@@ -149,7 +177,7 @@ const Menu = () => {
           ...category,
           key: categoryKey,
           localizedName: getLocalizedName(category),
-          foods,
+          foods: sortFoodsByDisplayName(foods),
         }
       })
       .filter((block) => block.foods.length > 0)
@@ -161,12 +189,12 @@ const Menu = () => {
         _id: 'fallback',
         key: 'fallback-category',
         localizedName: fallbackCategoryLabel,
-        foods: ungroupedFoods,
+        foods: sortFoodsByDisplayName(ungroupedFoods),
       })
     }
 
     return blocks
-  }, [categories, filteredFoods, t, getLocalizedName, doesFoodBelongToCategory])
+  }, [categories, filteredFoods, t, getLocalizedName, doesFoodBelongToCategory, sortFoodsByDisplayName])
 
   // CategoryFilter expects a list of sections each with a `categories` array.
   // With parent categories removed, we expose a single anonymous section.
