@@ -8,13 +8,13 @@ import {
 
 const ensureWeeklyHours = async (info) => {
   const normalized = normalizeWeeklyHours(info.weeklyHours)
-  const needsSave = !Array.isArray(info.weeklyHours) || info.weeklyHours.length !== 7
+  const needsWeeklySave = !Array.isArray(info.weeklyHours) || info.weeklyHours.length !== 7
   info.weeklyHours = normalized
-  if (needsSave) {
-    const legacy = formatOpeningHoursLegacy(normalized, 'vi')
-    if (!info.openingHours?.weekdays) {
-      info.openingHours = { weekdays: legacy.weekdays, sunday: legacy.sunday }
-    }
+  const legacy = formatOpeningHoursLegacy(normalized, 'vi')
+  if (!info.openingHours?.weekdays || !info.openingHours?.sunday) {
+    info.openingHours = { weekdays: legacy.weekdays, sunday: legacy.sunday }
+  }
+  if (needsWeeklySave) {
     await info.save()
   }
   return info
@@ -162,14 +162,17 @@ const resetToDefaults = async (req, res) => {
   }
 }
 
-// Upload logo image (admin only) — returns the Cloudinary URL
+// Upload logo image (admin only) — saves URL to DB and returns it
 const uploadLogo = async (req, res) => {
   try {
     if (!req.file) {
       return res.status(400).json({ success: false, message: "No file uploaded" })
     }
     const url = req.file.path || req.file.secure_url || req.file.url
-    return res.json({ success: true, url })
+    const info = await RestaurantInfo.getSingleton()
+    info.logoUrl = url
+    await info.save()
+    return res.json({ success: true, url, data: info })
   } catch (error) {
     console.error("Error uploading logo:", error)
     return res.status(500).json({ success: false, message: "Upload failed" })

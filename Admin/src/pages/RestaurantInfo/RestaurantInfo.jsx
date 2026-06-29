@@ -195,19 +195,24 @@ const RestaurantInfo = ({ url }) => {
       const fd = new FormData();
       fd.append('logo', file);
       const res = await axios.post(`${url}/api/restaurant-info/upload-logo`, fd, {
-        headers: { token, 'Content-Type': 'multipart/form-data' }
+        headers: { token }
       });
       if (res.data.success) {
-        setFormData(prev => ({ ...prev, logoUrl: res.data.url }));
-        setLogoPreview(res.data.url);
-        toast.success('Logo uploaded!');
+        const newLogoUrl = res.data.url || res.data.data?.logoUrl || '';
+        setFormData(prev => ({ ...prev, logoUrl: newLogoUrl }));
+        setLogoPreview(newLogoUrl);
+        if (res.data.data) setInfo(res.data.data);
+        window.dispatchEvent(new CustomEvent('restaurantInfoUpdated'));
+        toast.success('Logo đã được cập nhật!');
       } else {
         toast.error(res.data.message || 'Upload failed');
       }
     } catch (err) {
-      toast.error('Logo upload failed');
+      toast.error(err.response?.data?.message || 'Logo upload failed');
+      setLogoPreview(formData.logoUrl || '');
     } finally {
       setIsUploadingLogo(false);
+      if (logoInputRef.current) logoInputRef.current.value = '';
     }
   };
 
@@ -222,7 +227,13 @@ const RestaurantInfo = ({ url }) => {
       });
       if (response.data.success) {
         toast.success('Cập nhật thông tin thành công!');
-        setInfo(response.data.data);
+        const saved = response.data.data;
+        setInfo(saved);
+        if (saved?.logoUrl !== undefined) {
+          setFormData(prev => ({ ...prev, logoUrl: saved.logoUrl }));
+          setLogoPreview(saved.logoUrl || '');
+        }
+        window.dispatchEvent(new CustomEvent('restaurantInfoUpdated'));
       } else {
         toast.error(response.data.message || 'Cập nhật thất bại');
       }

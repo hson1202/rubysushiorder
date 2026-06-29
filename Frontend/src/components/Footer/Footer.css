@@ -65,6 +65,10 @@
     font-size: 14px;
 }
 
+.footer-hours {
+    line-height: 1.5;
+}
+
 .footer-text {
     color: #cccccc;
     font-size: 14px;

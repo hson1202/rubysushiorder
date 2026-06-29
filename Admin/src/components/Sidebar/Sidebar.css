@@ -30,6 +30,22 @@
   flex-shrink: 0;
 }
 
+.brand-logo-img {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+  border-radius: 8px;
+  flex-shrink: 0;
+  background: #fff;
+}
+
+.brand-text {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
 .brand-logo {
   font-size: 1.35rem;
   font-weight: 700;

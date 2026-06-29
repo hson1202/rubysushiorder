@@ -8,17 +8,32 @@ import config from '../../config/config'
 const Sidebar = ({ isOpen, onClose }) => {
   const { t } = useTranslation();
   const [restaurantName, setRestaurantName] = useState('');
+  const [logoUrl, setLogoUrl] = useState('');
 
-  useEffect(() => {
+  const loadRestaurantBranding = () => {
     axios.get(`${config.BACKEND_URL}/api/restaurant-info`)
       .then(res => {
-        if (res.data.success && res.data.data?.restaurantName) {
-          const name = res.data.data.restaurantName;
-          setRestaurantName(name);
-          document.title = `${name} Admin`;
+        if (res.data.success && res.data.data) {
+          const { restaurantName: name, logoUrl: logo, updatedAt } = res.data.data;
+          if (name) {
+            setRestaurantName(name);
+            document.title = `${name} Admin`;
+          }
+          if (logo) {
+            const version = updatedAt ? new Date(updatedAt).getTime() : Date.now();
+            setLogoUrl(`${logo}${logo.includes('?') ? '&' : '?'}v=${version}`);
+          } else {
+            setLogoUrl('');
+          }
         }
       })
       .catch(() => {});
+  };
+
+  useEffect(() => {
+    loadRestaurantBranding();
+    window.addEventListener('restaurantInfoUpdated', loadRestaurantBranding);
+    return () => window.removeEventListener('restaurantInfoUpdated', loadRestaurantBranding);
   }, []);
 
   const menuItems = [
@@ -144,8 +159,13 @@ const Sidebar = ({ isOpen, onClose }) => {
   return (
     <div className="sidebar-container">
       <div className="sidebar-header">
-        <h2 className="brand-logo">{restaurantName || 'Admin'}</h2>
-        <span className="brand-subtitle">Admin Panel</span>
+        {logoUrl && (
+          <img src={logoUrl} alt={restaurantName || 'Restaurant'} className="brand-logo-img" />
+        )}
+        <div className="brand-text">
+          <h2 className="brand-logo">{restaurantName || 'Admin'}</h2>
+          <span className="brand-subtitle">Admin Panel</span>
+        </div>
       </div>
 
       <nav className="sidebar-nav">

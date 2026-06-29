@@ -1,16 +1,33 @@
-import React, { useContext } from 'react'
+import React, { useContext, useMemo } from 'react'
 import './Footer.css'
 import { assets } from '../../assets/assets'
 import { useTranslation } from 'react-i18next'
 import { useLocation } from 'react-router-dom'
 import { StoreContext } from '../../Context/StoreContext'
 import config from '../../config/config'
+import { formatWeeklyHoursDisplay, normalizeWeeklyHours } from '../../utils/restaurantHours'
 
 const Footer = () => {
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
   const location = useLocation()
   const { restaurantInfo, restaurantInfoLoading: loading } = useContext(StoreContext)
   const isContactPage = location?.pathname === '/contact'
+
+  const openingHoursText = useMemo(() => {
+    if (!restaurantInfo) return ''
+    const lang = (i18n.language || 'vi').split('-')[0]
+    if (restaurantInfo.weeklyHours?.length === 7) {
+      return formatWeeklyHoursDisplay(
+        normalizeWeeklyHours(restaurantInfo.weeklyHours),
+        lang
+      )
+    }
+    const parts = [
+      restaurantInfo.openingHours?.weekdays,
+      restaurantInfo.openingHours?.sunday
+    ].filter(Boolean)
+    return parts.join(' · ')
+  }, [restaurantInfo, i18n.language])
 
   return (
     <footer className='footer' id='footer'>
@@ -59,6 +76,14 @@ const Footer = () => {
                   <li>
                     <span className='footer-label'>{t('footer.address') || 'Address'}:</span>
                     <span className='footer-value'>{loading ? '...' : restaurantInfo.address}</span>
+                  </li>
+                )}
+                {(loading || openingHoursText) && (
+                  <li>
+                    <span className='footer-label'>{t('footer.openingHours') || 'Opening Hours'}:</span>
+                    <span className='footer-value footer-hours'>
+                      {loading ? '...' : openingHoursText}
+                    </span>
                   </li>
                 )}
               </ul>
