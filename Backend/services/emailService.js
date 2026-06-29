@@ -1861,6 +1861,17 @@ const generateOrderConfirmationEmailText = (order, branding = {}) => {
   // Get delivery fee from order.deliveryInfo, fallback to 0 if not available
   const deliveryFee = order.deliveryInfo?.deliveryFee ?? 0;
   const subtotal = order.amount - deliveryFee;
+  const fulfillmentLabel = order.fulfillmentType === 'pickup'
+    ? t.fulfillmentPickup
+    : order.fulfillmentType === 'dinein'
+      ? t.fulfillmentDineIn
+      : t.fulfillmentDelivery;
+  const hasAddress = !!(order.address && (order.address.street || order.address.address || order.address.fullAddress));
+  const addressLine = order.address ? formatOrderStreetLine(order.address) || order.address.street || order.address.address || '' : '';
+  const addressCity = order.address?.city || '';
+  const addressState = order.address?.state || '';
+  const addressZip = order.address?.zipcode || '';
+  const addressCountry = order.address?.country || '';
   
   return `
 ${brandName} - ${t.title}

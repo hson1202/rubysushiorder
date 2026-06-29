@@ -28,6 +28,36 @@ const MESSAGES = {
   }
 }
 
+const RESTAURANT_TIME_ZONE = 'Europe/Budapest'
+const WEEKDAY_INDEX = {
+  Sun: 0,
+  Mon: 1,
+  Tue: 2,
+  Wed: 3,
+  Thu: 4,
+  Fri: 5,
+  Sat: 6
+}
+
+const getRestaurantDateParts = (date = new Date()) => {
+  const parts = new Intl.DateTimeFormat('en-US', {
+    timeZone: RESTAURANT_TIME_ZONE,
+    weekday: 'short',
+    hour: '2-digit',
+    minute: '2-digit',
+    hour12: false
+  }).formatToParts(date)
+
+  const values = Object.fromEntries(parts.map((part) => [part.type, part.value]))
+  const hour = Number(values.hour) === 24 ? 0 : Number(values.hour)
+
+  return {
+    dayIndex: WEEKDAY_INDEX[values.weekday] ?? date.getDay(),
+    hour,
+    minute: Number(values.minute) || 0
+  }
+}
+
 export const getDefaultWeeklyHours = () => {
   return Array.from({ length: 7 }, (_, day) => ({
     isClosed: false,
@@ -56,7 +86,7 @@ const timeToMinutes = (timeStr) => {
 
 const getDaySchedule = (weeklyHours, date) => {
   const normalized = normalizeWeeklyHours(weeklyHours)
-  const dayIndex = date.getDay()
+  const { dayIndex } = getRestaurantDateParts(date)
   return normalized[dayIndex]
 }
 
@@ -67,7 +97,8 @@ export const isRestaurantOpen = (weeklyHours, date = new Date()) => {
   const { openTime, closeTime } = schedule
   if (!openTime || !closeTime) return false
 
-  const nowMinutes = date.getHours() * 60 + date.getMinutes()
+  const restaurantNow = getRestaurantDateParts(date)
+  const nowMinutes = restaurantNow.hour * 60 + restaurantNow.minute
   const openMinutes = timeToMinutes(openTime)
   const closeMinutes = timeToMinutes(closeTime)
 
@@ -77,8 +108,9 @@ export const isRestaurantOpen = (weeklyHours, date = new Date()) => {
 export const getRestaurantStatus = (weeklyHours, lang = 'vi', date = new Date()) => {
   const t = MESSAGES[lang] || MESSAGES.vi
   const dayLabels = DAY_LABELS[lang] || DAY_LABELS.vi
+  const restaurantNow = getRestaurantDateParts(date)
   const schedule = getDaySchedule(weeklyHours, date)
-  const dayName = dayLabels[date.getDay()]
+  const dayName = dayLabels[restaurantNow.dayIndex]
 
   if (!schedule || schedule.isClosed) {
     return {
@@ -92,7 +124,7 @@ export const getRestaurantStatus = (weeklyHours, lang = 'vi', date = new Date())
   }
 
   const { openTime, closeTime } = schedule
-  const nowMinutes = date.getHours() * 60 + date.getMinutes()
+  const nowMinutes = restaurantNow.hour * 60 + restaurantNow.minute
   const openMinutes = timeToMinutes(openTime)
   const closeMinutes = timeToMinutes(closeTime)
 
@@ -240,25 +272,20 @@ export const generateOrderTimeSlots = (weeklyHours, now = new Date()) => {
   const hours = getHoursForDate(normalized, now)
   if (hours.isClosed || !hours.openTime || !hours.closeTime) return []
 
-  const [openH, openM] = hours.openTime.split(':').map(Number)
-  const [closeH, closeM] = hours.closeTime.split(':').map(Number)
+  const restaurantNow = getRestaurantDateParts(now)
+  const openMinutes = timeToMinutes(hours.openTime)
+  const closeMinutes = timeToMinutes(hours.closeTime)
+  const currentMinutes = restaurantNow.hour * 60 + restaurantNow.minute
+  let slotMinutes = Math.max(currentMinutes + 30, openMinutes)
 
-  const openDate = new Date(now)
-  openDate.setHours(openH, openM, 0, 0)
-  const closeDate = new Date(now)
-  closeDate.setHours(closeH, closeM, 0, 0)
-
-  let start = new Date(now.getTime() + 30 * 60000)
-  if (start < openDate) start = openDate
-  if (start >= closeDate) return []
+  if (slotMinutes >= closeMinutes) return []
 
   const slots = []
-  const slot = new Date(start)
-  while (slot < closeDate) {
-    slots.push(
-      `${String(slot.getHours()).padStart(2, '0')}:${String(slot.getMinutes()).padStart(2, '0')}`
-    )
-    slot.setMinutes(slot.getMinutes() + 30)
+  while (slotMinutes < closeMinutes) {
+    const slotHour = Math.floor(slotMinutes / 60)
+    const slotMinute = slotMinutes % 60
+    slots.push(`${String(slotHour).padStart(2, '0')}:${String(slotMinute).padStart(2, '0')}`)
+    slotMinutes += 30
   }
   return slots
 }
