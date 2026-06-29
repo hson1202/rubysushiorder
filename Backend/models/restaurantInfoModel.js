@@ -52,7 +52,7 @@ const restaurantInfoSchema = new mongoose.Schema(
       default: ""
     },
 
-    // Opening Hours
+    // Opening Hours (legacy display text, auto-generated from weeklyHours)
     openingHours: {
       weekdays: {
         type: String,
@@ -63,6 +63,13 @@ const restaurantInfoSchema = new mongoose.Schema(
         default: ""
       }
     },
+
+    // Per-day schedule: index 0=Sunday … 6=Saturday
+    weeklyHours: [{
+      isClosed: { type: Boolean, default: false },
+      openTime: { type: String, default: "11:00" },
+      closeTime: { type: String, default: "20:00" }
+    }],
 
     // Social Media Links
     socialMedia: {

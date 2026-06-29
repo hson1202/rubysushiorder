@@ -30,12 +30,9 @@ const Navbar = ({ setShowLogin }) => {
     // Update active menu based on current location
     useEffect(() => {
         const path = location.pathname;
-        if (path === '/') setMenu("home");
+        if (path === '/') setMenu("menu");
         else if (path === '/menu') setMenu("menu");
-        else if (path === '/about') setMenu("about");
-        // else if (path === '/blog') setMenu("blog");
         else if (path === '/contact') setMenu("contact");
-        else if (path === '/reservation') setMenu("reservation");
         else if (path === '/track-order') setMenu("track");
         else setMenu("");
     }, [location]);
@@ -69,7 +66,7 @@ const Navbar = ({ setShowLogin }) => {
     return (
         <div className='navbar-wrapper'>
             <div className='navbar'>
-                <Link to='/' onClick={() => handleNavLinkClick("home")}>
+                <a href={config.EXTERNAL_LINKS.HOME} onClick={() => handleNavLinkClick("home")}>
                     <div className="logo-frame">
                         {restaurantInfo?.logoUrl && (
                             <img
@@ -79,7 +76,7 @@ const Navbar = ({ setShowLogin }) => {
                             />
                         )}
                     </div>
-                </Link>
+                </a>
 
             {/* Mobile center language switcher */}
             <div className="mobile-lang-center">
@@ -88,11 +85,12 @@ const Navbar = ({ setShowLogin }) => {
 
             {/* Desktop Menu */}
             <ul className='navbar-menu desktop-menu'>
+                <a href={config.EXTERNAL_LINKS.HOME}>{t('nav.home')}</a>
                 <Link to='/menu' onClick={()=>setMenu("menu")} className={menu==="menu"?"active":""}>{t('nav.menu')}</Link>
-                <Link to='/about' onClick={()=>setMenu("about")} className={menu==="about"?"active":""}>{t('nav.about')}</Link>
+                <a href={config.EXTERNAL_LINKS.ABOUT}>{t('nav.about')}</a>
                 {/* <Link to='/blog' onClick={()=>setMenu("blog")} className={menu==="blog"?"active":""}>{t('nav.blog')}</Link> */}
                 <Link to='/contact' onClick={()=>setMenu("contact")} className={menu==="contact"?"active":""}>{t('nav.contact')}</Link>
-                <Link to='/reservation' onClick={()=>setMenu("reservation")} className={menu==="reservation"?"active":""}>{t('nav.booking')}</Link>
+                <a href={config.EXTERNAL_LINKS.RESERVATION}>{t('nav.booking')}</a>
                 {isAuthenticated && user?.role === 'admin' && (
                     <Link
                         to='/admin'
@@ -107,11 +105,12 @@ const Navbar = ({ setShowLogin }) => {
             {/* Mobile Menu Overlay */}
             <div className={`mobile-menu-overlay ${isMobileMenuOpen ? 'active' : ''}`}>
                 <ul className='navbar-menu mobile-menu'>
+                    <a href={config.EXTERNAL_LINKS.HOME} onClick={() => handleNavLinkClick("home")}>{t('nav.home')}</a>
                     <Link to='/menu' onClick={() => handleNavLinkClick("menu")} className={menu==="menu"?"active":""}>{t('nav.menu')}</Link>
-                    <Link to='/about' onClick={() => handleNavLinkClick("about")} className={menu==="about"?"active":""}>{t('nav.about')}</Link>
+                    <a href={config.EXTERNAL_LINKS.ABOUT} onClick={() => handleNavLinkClick("about")}>{t('nav.about')}</a>
                     {/* <Link to='/blog' onClick={() => handleNavLinkClick("blog")} className={menu==="blog"?"active":""}>{t('nav.blog')}</Link> */}
                     <Link to='/contact' onClick={() => handleNavLinkClick("contact")} className={menu==="contact"?"active":""}>{t('nav.contact')}</Link>
-                    <Link to='/reservation' onClick={() => handleNavLinkClick("reservation")} className={menu==="reservation"?"active":""}>{t('nav.booking')}</Link>
+                    <a href={config.EXTERNAL_LINKS.RESERVATION} onClick={() => handleNavLinkClick("reservation")}>{t('nav.booking')}</a>
                     
                     {/* Account Section in Mobile Menu */}
                     <div className="mobile-account-section">

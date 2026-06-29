@@ -1,6 +1,8 @@
-import { createContext,useEffect,useState } from "react";
+import { createContext,useEffect,useState,useCallback } from "react";
 import axios from "axios"
 import config from "../config/config"
+import i18n from "../i18n"
+import { getRestaurantStatus, normalizeWeeklyHours, isRestaurantOpen } from "../utils/restaurantHours"
 
 
 export const StoreContext= createContext(null)
@@ -19,8 +21,29 @@ const StoreContextProvider =(props)=>{
     const [boxFee, setBoxFee] = useState(160); // Default box fee in HUF, fetched from backend
     const [restaurantInfo, setRestaurantInfo] = useState(null);
     const [restaurantInfoLoading, setRestaurantInfoLoading] = useState(true);
+    const [restaurantOpenStatus, setRestaurantOpenStatus] = useState(null);
 
-    const addToCart =async (itemId, itemData = null) =>{  
+    const updateRestaurantOpenStatus = useCallback((info) => {
+        if (!info) {
+            setRestaurantOpenStatus(null);
+            return;
+        }
+        const weeklyHours = normalizeWeeklyHours(info.weeklyHours);
+        const lang = (i18n.language || 'vi').split('-')[0];
+        setRestaurantOpenStatus(getRestaurantStatus(weeklyHours, lang));
+    }, []);
+
+    const addToCart =async (itemId, itemData = null) =>{
+        if (restaurantInfo) {
+            const weeklyHours = normalizeWeeklyHours(restaurantInfo.weeklyHours);
+            if (!isRestaurantOpen(weeklyHours)) {
+                const lang = (i18n.language || 'vi').split('-')[0];
+                const status = getRestaurantStatus(weeklyHours, lang);
+                window.alert(status.message || 'Restaurant is closed');
+                return false;
+            }
+        }
+
         if (!cartItems[itemId]) {  
             setCartItems((prev)=>({...prev,[itemId]:1}))  
         }  
@@ -40,6 +63,7 @@ const StoreContextProvider =(props)=>{
             // For now, just send itemId. In the future, you might want to send options data
             await axios.post(url+"/api/cart/add",{itemId},{headers:{token}})
         }
+        return true;
     }  
   
     const removeFromCart = async(itemId) => {
@@ -164,6 +188,7 @@ const StoreContextProvider =(props)=>{
             const response = await axios.get(url + "/api/restaurant-info");
             if (response.data.success) {
                 setRestaurantInfo(response.data.data);
+                updateRestaurantOpenStatus(response.data.data);
             }
         } catch (error) {
             console.error('Error fetching restaurant info:', error);
@@ -251,7 +276,24 @@ const StoreContextProvider =(props)=>{
         loadData();
     },[])
 
-    const contextValue = {  
+    useEffect(() => {
+        updateRestaurantOpenStatus(restaurantInfo);
+    }, [restaurantInfo, updateRestaurantOpenStatus]);
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            updateRestaurantOpenStatus(restaurantInfo);
+        }, 60000);
+        return () => clearInterval(interval);
+    }, [restaurantInfo, updateRestaurantOpenStatus]);
+
+    useEffect(() => {
+        const handleLanguageChange = () => updateRestaurantOpenStatus(restaurantInfo);
+        i18n.on('languageChanged', handleLanguageChange);
+        return () => i18n.off('languageChanged', handleLanguageChange);
+    }, [restaurantInfo, updateRestaurantOpenStatus]);
+
+    const contextValue = {
         food_list,  
         cartItems,  
         cartItemsData,
@@ -270,7 +312,9 @@ const StoreContextProvider =(props)=>{
         fetchFoodList,
         boxFee,  // Dynamic box fee from restaurant settings
         restaurantInfo,
-        restaurantInfoLoading
+        restaurantInfoLoading,
+        restaurantOpenStatus,
+        isRestaurantOpenNow: restaurantOpenStatus?.isOpen ?? true
     }
 
     return (

@@ -562,6 +562,12 @@
   background: var(--brand-accent-hover);
 }
 
+.checkout-btn:disabled {
+  background: #9ca3af;
+  cursor: not-allowed;
+  transform: none;
+}
+
 /* Tablet Design */
 @media (max-width: 1024px) and (min-width: 768px) {
   .cart-popup-overlay {

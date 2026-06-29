@@ -17,7 +17,7 @@ const LanguageSwitcher = () => {
       case 'vi': return { flag: 'fi fi-vn', code: 'VI', name: t('language.vietnamese') };
       case 'en': return { flag: 'fi fi-us', code: 'EN', name: t('language.english') };
       case 'hu': return { flag: 'fi fi-hu', code: 'HU', name: t('language.hungarian') };
-      default: return { flag: 'fi fi-us', code: 'EN', name: t('language.english') };
+      default: return { flag: 'fi fi-hu', code: 'HU', name: t('language.hungarian') };
     }
   };
 
@@ -49,19 +49,19 @@ const LanguageSwitcher = () => {
 
             <div className="language-options-list">
               <button
-                className={`language-option ${i18n.language === 'vi' ? 'active' : ''}`}
+                className={`language-option ${i18n.language === 'hu' ? 'active' : ''}`}
                 onMouseDown={(e) => e.preventDefault()}
                 onClick={(e) => {
                   e.stopPropagation();
-                  changeLanguage('vi');
+                  changeLanguage('hu');
                 }}
               >
-                <span className="fi fi-vn"></span>
+                <span className="fi fi-hu"></span>
                 <span className="language-option-text">
-                  <span className="language-name">{t('language.vietnamese')}</span>
-                  <span className="language-meta">Tiếng Việt</span>
+                  <span className="language-name">{t('language.hungarian')}</span>
+                  <span className="language-meta">Magyar</span>
                 </span>
-                {i18n.language === 'vi' && <span className="language-current-dot" />}
+                {i18n.language === 'hu' && <span className="language-current-dot" />}
               </button>
 
               <button
@@ -81,19 +81,19 @@ const LanguageSwitcher = () => {
               </button>
 
               <button
-                className={`language-option ${i18n.language === 'hu' ? 'active' : ''}`}
+                className={`language-option ${i18n.language === 'vi' ? 'active' : ''}`}
                 onMouseDown={(e) => e.preventDefault()}
                 onClick={(e) => {
                   e.stopPropagation();
-                  changeLanguage('hu');
+                  changeLanguage('vi');
                 }}
               >
-                <span className="fi fi-hu"></span>
+                <span className="fi fi-vn"></span>
                 <span className="language-option-text">
-                  <span className="language-name">{t('language.hungarian')}</span>
-                  <span className="language-meta">Magyar</span>
+                  <span className="language-name">{t('language.vietnamese')}</span>
+                  <span className="language-meta">Tiếng Việt</span>
                 </span>
-                {i18n.language === 'hu' && <span className="language-current-dot" />}
+                {i18n.language === 'vi' && <span className="language-current-dot" />}
               </button>
             </div>
           </div>

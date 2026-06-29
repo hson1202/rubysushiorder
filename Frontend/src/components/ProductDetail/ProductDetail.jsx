@@ -72,7 +72,7 @@ const resolveImageUrl = (raw, baseUrl) => {
 };
 
 const ProductDetail = ({ product, onClose }) => {
-  const { cartItems, addToCart, removeFromCart, url } = useContext(StoreContext)
+  const { cartItems, addToCart, removeFromCart, url, restaurantOpenStatus } = useContext(StoreContext)
   const { t, i18n } = useTranslation()
   
   // State for selected options
@@ -177,7 +177,10 @@ const ProductDetail = ({ product, onClose }) => {
     setCurrentImage(newImage);
   }
 
+  const isRestaurantClosed = restaurantOpenStatus && !restaurantOpenStatus.isOpen
+
   const handleAddToCart = () => {
+    if (isRestaurantClosed) return
     // Create a unique cart key that includes selected options
     const cartKey = product.options && product.options.length > 0 
       ? `${product._id}_${JSON.stringify(selectedOptions)}`
@@ -413,8 +416,11 @@ const ProductDetail = ({ product, onClose }) => {
               <button 
                 className="footer-add-to-cart-btn"
                 onClick={handleAddToCart}
+                disabled={isRestaurantClosed}
               >
-                {t('food.addToCart')}
+                {isRestaurantClosed
+                  ? (restaurantOpenStatus?.message || t('restaurant.closedNow'))
+                  : t('food.addToCart')}
               </button>
             ) : (
               <div className="footer-quantity-controls">

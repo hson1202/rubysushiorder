@@ -1,5 +1,13 @@
 import reservationModel from "../models/reservationModel.js"
+import RestaurantInfo from "../models/restaurantInfoModel.js"
 import { sendReservationConfirmation, sendAdminReservationNotification, sendStatusUpdateEmail } from "../services/emailService.js"
+import {
+  normalizeWeeklyHours,
+  isTimeWithinBusinessHours,
+  generateTimeSlotsForDate,
+  getHoursForDate,
+  formatOpeningHoursLegacy
+} from "../utils/restaurantHours.js"
 
 // Helper function to validate email
 const isValidEmail = (email) => {
@@ -23,42 +31,18 @@ const isDateInPast = (date) => {
   return reservationDate < today
 }
 
-// Helper function to check business hours
-const isWithinBusinessHours = (date, time) => {
-  const reservationDate = new Date(date)
-  const dayOfWeek = reservationDate.getDay() // 0 = Sunday, 1 = Monday, ..., 6 = Saturday
-  const timeHour = parseInt(time.split(':')[0])
-  
-  if (dayOfWeek === 0) { // Sunday
-    return timeHour >= 11 && timeHour < 17
-  } else { // Monday to Saturday
-    return timeHour >= 11 && timeHour < 20
-  }
+// Helper function to check business hours using restaurant weekly schedule
+const isWithinBusinessHours = async (date, time) => {
+  const info = await RestaurantInfo.getSingleton()
+  const weeklyHours = normalizeWeeklyHours(info.weeklyHours)
+  return isTimeWithinBusinessHours(weeklyHours, date, time)
 }
 
-// Helper function to generate available time slots based on day
-const generateAvailableTimeSlots = (date) => {
-  const reservationDate = new Date(date)
-  const dayOfWeek = reservationDate.getDay()
-  const slots = []
-  
-  if (dayOfWeek === 0) { // Sunday: 11:00 - 17:00
-    for (let hour = 11; hour < 17; hour++) {
-      slots.push(`${hour.toString().padStart(2, '0')}:00`)
-      if (hour < 16) {
-        slots.push(`${hour.toString().padStart(2, '0')}:30`)
-      }
-    }
-  } else { // Monday to Saturday: 11:00 - 20:00
-    for (let hour = 11; hour < 20; hour++) {
-      slots.push(`${hour.toString().padStart(2, '0')}:00`)
-      if (hour < 19) {
-        slots.push(`${hour.toString().padStart(2, '0')}:30`)
-      }
-    }
-  }
-  
-  return slots
+// Helper function to generate available time slots based on weekly schedule
+const generateAvailableTimeSlots = async (date) => {
+  const info = await RestaurantInfo.getSingleton()
+  const weeklyHours = normalizeWeeklyHours(info.weeklyHours)
+  return generateTimeSlotsForDate(weeklyHours, date)
 }
 
 // Create new reservation
@@ -111,19 +95,20 @@ export const createReservation = async (req, res) => {
         }
 
         // Validate business hours
-        if (!isWithinBusinessHours(reservationDate, reservationTime)) {
-            const dayOfWeek = new Date(reservationDate).getDay()
-            if (dayOfWeek === 0) {
-                return res.status(400).json({ 
-                    success: false, 
-                    message: "Sunday reservations are only available from 11:00 AM to 5:00 PM" 
-                })
-            } else {
-                return res.status(400).json({ 
-                    success: false, 
-                    message: "Monday to Saturday reservations are only available from 11:00 AM to 8:00 PM" 
+        if (!(await isWithinBusinessHours(reservationDate, reservationTime))) {
+            const info = await RestaurantInfo.getSingleton()
+            const weeklyHours = normalizeWeeklyHours(info.weeklyHours)
+            const hours = getHoursForDate(weeklyHours, new Date(reservationDate))
+            if (hours.isClosed) {
+                return res.status(400).json({
+                    success: false,
+                    message: "The restaurant is closed on the selected date"
                 })
             }
+            return res.status(400).json({
+                success: false,
+                message: `Reservations are only available from ${hours.openTime} to ${hours.closeTime}`
+            })
         }
 
         // Validate number of people
@@ -447,16 +432,22 @@ export const getAvailableTimeSlots = async (req, res) => {
             })
         }
 
-        const availableSlots = generateAvailableTimeSlots(date)
+        const info = await RestaurantInfo.getSingleton()
+        const weeklyHours = normalizeWeeklyHours(info.weeklyHours)
+        const availableSlots = await generateAvailableTimeSlots(date)
+        const hours = getHoursForDate(weeklyHours, new Date(date))
+        const legacy = formatOpeningHoursLegacy(weeklyHours, 'en')
+        const businessHours = new Date(date).getDay() === 0
+            ? legacy.sunday
+            : legacy.weekdays
         
         res.status(200).json({
             success: true,
             data: {
                 date,
                 availableSlots,
-                businessHours: new Date(date).getDay() === 0 
-                    ? "Sunday: 11:00 AM - 5:00 PM"
-                    : "Monday to Saturday: 11:00 AM - 8:00 PM"
+                businessHours,
+                isClosed: hours.isClosed
             }
         })
     } catch (error) {

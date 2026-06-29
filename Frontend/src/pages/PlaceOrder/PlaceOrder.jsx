@@ -10,10 +10,11 @@ import DeliveryAddressInput from '../../components/DeliveryAddressInput/Delivery
 import DeliveryZoneDisplay from '../../components/DeliveryZoneDisplay/DeliveryZoneDisplay'
 import '../../i18n'
 import { formatHuf } from '../../utils/currency'
+import { generateOrderTimeSlots, normalizeWeeklyHours } from '../../utils/restaurantHours'
 
 const PlaceOrder = () => {
   const { t, i18n } = useTranslation();
-  const { getTotalCartAmount, food_list, cartItems, cartItemsData, url, setCartItems, boxFee } = useContext(StoreContext);
+  const { getTotalCartAmount, food_list, cartItems, cartItemsData, url, setCartItems, boxFee, restaurantInfo, restaurantOpenStatus } = useContext(StoreContext);
   const { token, isAuthenticated, user } = useAuth();
   const [data, setData] = useState({
     firstName: "",
@@ -86,30 +87,22 @@ const PlaceOrder = () => {
     setData(data => ({ ...data, [name]: value }))
   }
 
-  // Generate time slots (30-min intervals starting from now)
+  // Generate time slots within restaurant opening hours
   const generateTimeSlots = () => {
-    const slots = [];
-    const now = new Date();
-    const startTime = new Date(now.getTime() + 30 * 60000); // Start from 30 mins later
-    
-    for (let i = 0; i < 12; i++) { // Generate 12 slots (6 hours)
-      const slotTime = new Date(startTime.getTime() + i * 30 * 60000);
-      const hours = slotTime.getHours().toString().padStart(2, '0');
-      const minutes = slotTime.getMinutes().toString().padStart(2, '0');
-      slots.push(`${hours}:${minutes}`);
-    }
-    
-    return slots;
+    const weeklyHours = normalizeWeeklyHours(restaurantInfo?.weeklyHours)
+    return generateOrderTimeSlots(weeklyHours)
   }
 
-  // Initialize time slots on mount
+  // Initialize time slots on mount and when restaurant hours change
   useEffect(() => {
     const slots = generateTimeSlots();
     setTimeSlots(slots);
     if (slots.length > 0) {
       setData(prev => ({ ...prev, preferredDeliveryTime: slots[0] }));
+    } else {
+      setData(prev => ({ ...prev, preferredDeliveryTime: '' }));
     }
-  }, []);
+  }, [restaurantInfo]);
 
   // Pre-fill user data if authenticated
   useEffect(() => {
@@ -289,6 +282,12 @@ const PlaceOrder = () => {
     event.preventDefault();
     
     if (isSubmitting) return;
+
+    if (restaurantOpenStatus && !restaurantOpenStatus.isOpen) {
+      alert(restaurantOpenStatus.message || t('restaurant.closedNow'));
+      return;
+    }
+
     setIsSubmitting(true);
     
     if (isDelivery) {
@@ -408,7 +407,7 @@ const PlaceOrder = () => {
       customerInfo: customerInfo,
       orderType: isAuthenticated ? 'registered' : 'guest',
       fulfillmentType: fulfillmentType,
-      language: i18n.language || 'vi', // Lưu ngôn ngữ khách hàng đang dùng
+      language: i18n.language || 'hu',
       note: data.note || '',
       preferredDeliveryTime: data.preferredDeliveryTime || '',
       deliveryInfo: isDelivery && deliveryInfo ? {
@@ -697,9 +696,16 @@ const PlaceOrder = () => {
 
 
   
+  const isRestaurantClosed = restaurantOpenStatus && !restaurantOpenStatus.isOpen;
+
   return (
     <>
       <form onSubmit={placeOrder} className="place-order">
+        {isRestaurantClosed && (
+          <div className="restaurant-closed-order-notice" role="alert">
+            {restaurantOpenStatus.message || t('restaurant.closedNow')}
+          </div>
+        )}
         <div className="place-order-left">
           <p className="title">{t('placeOrder.title')}</p>
           
@@ -1003,8 +1009,10 @@ const PlaceOrder = () => {
                 <b>{formatPrice(getTotalCartAmount() === 0 ? 0 : getTotalCartAmount() + getDeliveryFee())}</b>
               </div>
             </div>
-            <button type='submit' disabled={isSubmitting} className="desktop-submit-btn">
-              {isSubmitting ? t('placeOrder.cart.submitting') : t('placeOrder.cart.proceedButton')}
+            <button type='submit' disabled={isSubmitting || isRestaurantClosed} className="desktop-submit-btn">
+              {isRestaurantClosed
+                ? (restaurantOpenStatus.message || t('restaurant.closedNow'))
+                : (isSubmitting ? t('placeOrder.cart.submitting') : t('placeOrder.cart.proceedButton'))}
             </button>
           </div>
           
@@ -1013,9 +1021,11 @@ const PlaceOrder = () => {
             <button 
               type='submit' 
               className="mobile-submit-btn"
-              disabled={isSubmitting}
+              disabled={isSubmitting || isRestaurantClosed}
             >
-              {isSubmitting ? t('placeOrder.cart.submitting') : t('placeOrder.cart.proceedButton')}
+              {isRestaurantClosed
+                ? (restaurantOpenStatus.message || t('restaurant.closedNow'))
+                : (isSubmitting ? t('placeOrder.cart.submitting') : t('placeOrder.cart.proceedButton'))}
             </button>
           </div>
         </div>

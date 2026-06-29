@@ -13,6 +13,26 @@ const emptyTranslation = () => ({
   openingHours: { weekdays: '', sunday: '' }
 });
 
+const getDefaultWeeklyHours = () =>
+  Array.from({ length: 7 }, (_, day) => ({
+    isClosed: false,
+    openTime: '11:00',
+    closeTime: day === 0 ? '17:00' : '20:00'
+  }));
+
+const normalizeWeeklyHours = (weeklyHours) => {
+  const defaults = getDefaultWeeklyHours();
+  if (!Array.isArray(weeklyHours) || weeklyHours.length !== 7) return defaults;
+  return weeklyHours.map((day, index) => ({
+    isClosed: Boolean(day?.isClosed),
+    openTime: day?.openTime || defaults[index].openTime,
+    closeTime: day?.closeTime || defaults[index].closeTime
+  }));
+};
+
+// Display Mon–Sat then Sun; index matches JS getDay() (0=Sun … 6=Sat)
+const DAY_DISPLAY_ORDER = [1, 2, 3, 4, 5, 6, 0];
+
 const RestaurantInfo = ({ url }) => {
   const { t } = useTranslation();
   const [info, setInfo] = useState(null);
@@ -35,6 +55,7 @@ const RestaurantInfo = ({ url }) => {
     email: '',
     address: '',
     openingHours: { weekdays: '', sunday: '' },
+    weeklyHours: getDefaultWeeklyHours(),
     socialMedia: { facebook: '', twitter: '', linkedin: '', instagram: '' },
     googleMapsUrl: '',
     copyrightText: '',
@@ -72,6 +93,7 @@ const RestaurantInfo = ({ url }) => {
             weekdays: d.openingHours?.weekdays || '',
             sunday: d.openingHours?.sunday || ''
           },
+          weeklyHours: normalizeWeeklyHours(d.weeklyHours),
           socialMedia: {
             facebook: d.socialMedia?.facebook || '',
             twitter: d.socialMedia?.twitter || '',
@@ -125,6 +147,25 @@ const RestaurantInfo = ({ url }) => {
     }
   };
 
+  const handleWeeklyHourChange = (dayIndex, field, value) => {
+    setFormData(prev => {
+      const weeklyHours = [...prev.weeklyHours];
+      weeklyHours[dayIndex] = { ...weeklyHours[dayIndex], [field]: value };
+      return { ...prev, weeklyHours };
+    });
+  };
+
+  const validateWeeklyHours = () => {
+    for (let i = 0; i < formData.weeklyHours.length; i++) {
+      const day = formData.weeklyHours[i];
+      if (!day.isClosed && day.openTime >= day.closeTime) {
+        toast.error(t('ri.hoursInvalid', { day: t(`ri.day${i}`) }));
+        return false;
+      }
+    }
+    return true;
+  };
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     if (name.includes('.')) {
@@ -172,6 +213,7 @@ const RestaurantInfo = ({ url }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!validateWeeklyHours()) return;
     try {
       setIsSaving(true);
       const token = localStorage.getItem('adminToken');
@@ -373,15 +415,42 @@ const RestaurantInfo = ({ url }) => {
         {activeTab === 'hours' && (
           <div className="form-section">
             <h2>{t('ri.openingHours')}</h2>
-            <div className="form-group">
-              <label>{t('ri.weekdays')}</label>
-              <input type="text" name="openingHours.weekdays" value={formData.openingHours.weekdays}
-                onChange={handleInputChange} placeholder="e.g. Mon – Sat: 11:00 AM – 8:00 PM" />
-            </div>
-            <div className="form-group">
-              <label>{t('ri.sunday')}</label>
-              <input type="text" name="openingHours.sunday" value={formData.openingHours.sunday}
-                onChange={handleInputChange} placeholder="e.g. Sunday: 11:00 AM – 5:00 PM" />
+            <p className="hours-help">{t('ri.hoursHelp')}</p>
+            <div className="weekly-hours-table">
+              <div className="weekly-hours-header">
+                <span>{t('ri.dayColumn')}</span>
+                <span>{t('ri.closedColumn')}</span>
+                <span>{t('ri.openTimeColumn')}</span>
+                <span>{t('ri.closeTimeColumn')}</span>
+              </div>
+              {DAY_DISPLAY_ORDER.map((dayIndex) => {
+                const day = formData.weeklyHours[dayIndex];
+                return (
+                  <div className="weekly-hours-row" key={dayIndex}>
+                    <span className="day-label">{t(`ri.day${dayIndex}`)}</span>
+                    <label className="closed-checkbox">
+                      <input
+                        type="checkbox"
+                        checked={day.isClosed}
+                        onChange={(e) => handleWeeklyHourChange(dayIndex, 'isClosed', e.target.checked)}
+                      />
+                      {t('ri.closedLabel')}
+                    </label>
+                    <input
+                      type="time"
+                      value={day.openTime}
+                      disabled={day.isClosed}
+                      onChange={(e) => handleWeeklyHourChange(dayIndex, 'openTime', e.target.value)}
+                    />
+                    <input
+                      type="time"
+                      value={day.closeTime}
+                      disabled={day.isClosed}
+                      onChange={(e) => handleWeeklyHourChange(dayIndex, 'closeTime', e.target.value)}
+                    />
+                  </div>
+                );
+              })}
             </div>
           </div>
         )}

@@ -1,8 +1,10 @@
 import orderModel from "../models/orderModel.js";
 import userModel from "../models/userModel.js"
+import RestaurantInfo from "../models/restaurantInfoModel.js"
 import { sendOrderConfirmation, sendAdminOrderNotification } from "../services/emailService.js"
 import eventBus from "../services/eventBus.js"
 import { calculateOrderTotal, validatePrice } from "../utils/priceCalculator.js"
+import { isRestaurantOpen, getRestaurantStatus, normalizeWeeklyHours } from "../utils/restaurantHours.js"
 
 // placing user order from frontend (hỗ trợ cả đăng nhập và không đăng nhập)
 const placeOrder = async (req, res) => {
@@ -13,6 +15,17 @@ const placeOrder = async (req, res) => {
         const isDelivery = normalizedFulfillmentType === 'delivery';
 
         console.log('📦 Placing order with userId:', userId, 'orderType:', orderType, 'fulfillmentType:', normalizedFulfillmentType);
+
+        const restaurantInfo = await RestaurantInfo.getSingleton()
+        const weeklyHours = normalizeWeeklyHours(restaurantInfo.weeklyHours)
+        if (!isRestaurantOpen(weeklyHours)) {
+            const status = getRestaurantStatus(weeklyHours, 'vi')
+            return res.status(403).json({
+                success: false,
+                code: 'RESTAURANT_CLOSED',
+                message: status.message || 'Nhà hàng hiện đang đóng cửa'
+            })
+        }
 
         // Validate required fields
         if (!items || !Array.isArray(items) || items.length === 0) {

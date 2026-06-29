@@ -2,13 +2,14 @@ import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import config from '../../config/config'
 import useRestaurantInfo from '../../hooks/useRestaurantInfo'
+import { formatWeeklyHoursDisplay, normalizeWeeklyHours } from '../../utils/restaurantHours'
 import './ContactUs.css'
 // Load all hero images at once using Vite glob import
 // You can place hero images in `src/assets/` and select by file name
 const HERO_IMAGES = import.meta.glob('../../assets/*.{jpg,jpeg,png,webp}', { eager: true, as: 'url' })
 
 const ContactUs = () => {
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
   const { restaurantInfo, loading: infoLoading } = useRestaurantInfo()
   // Removed reservation tab - now separate page
   
@@ -210,11 +211,18 @@ const ContactUs = () => {
                       <h3>{t('contact.openingHours')}</h3>
                       <p>
                         {infoLoading ? '...' : (
-                          <>
-                            {restaurantInfo?.openingHours?.weekdays || t('contact.weekdays')}
-                            <br />
-                            {restaurantInfo?.openingHours?.sunday || t('contact.sunday')}
-                          </>
+                          restaurantInfo?.weeklyHours?.length === 7
+                            ? formatWeeklyHoursDisplay(
+                                normalizeWeeklyHours(restaurantInfo.weeklyHours),
+                                (i18n.language || 'vi').split('-')[0]
+                              )
+                            : (
+                              <>
+                                {restaurantInfo?.openingHours?.weekdays || t('contact.weekdays')}
+                                <br />
+                                {restaurantInfo?.openingHours?.sunday || t('contact.sunday')}
+                              </>
+                            )
                         )}
                       </p>
                     </div>

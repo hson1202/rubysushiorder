@@ -39,6 +39,12 @@ const resources = {
       'common.error': 'Lỗi',
       'common.success': 'Thành công',
 
+      // Restaurant hours
+      'restaurant.closedToday': 'Hôm nay đóng cửa',
+      'restaurant.closedNow': 'Nhà hàng đóng cửa',
+      'restaurant.opensAt': 'Mở cửa lúc {{time}}',
+      'restaurant.closedAfterHours': 'Đã hết giờ phục vụ hôm nay',
+
       // Header
       'header.title': 'Đặt món ăn yêu thích của bạn tại đây',
       'header.subtitle': 'Chọn từ thực đơn đa dạng với nhiều món ăn ngon được chế biến từ những nguyên liệu tốt nhất và kỹ thuật nấu ăn chuyên nghiệp. Sứ mệnh của chúng tôi là thỏa mãn cơn thèm của bạn và nâng cao trải nghiệm ăn uống, một bữa ăn ngon tại một thời điểm.',
@@ -680,6 +686,12 @@ const resources = {
       'common.loading': 'Loading...',
       'common.error': 'Error',
       'common.success': 'Success',
+
+      // Restaurant hours
+      'restaurant.closedToday': 'Closed today',
+      'restaurant.closedNow': 'Restaurant is closed',
+      'restaurant.opensAt': 'Opens at {{time}}',
+      'restaurant.closedAfterHours': 'We are closed for today',
 
       // Header
       'header.title': 'Order your favourite food here',
@@ -1325,6 +1337,12 @@ const resources = {
       'common.error': 'Hiba',
       'common.success': 'Siker',
 
+      // Restaurant hours
+      'restaurant.closedToday': 'Ma zárva',
+      'restaurant.closedNow': 'Az étterem zárva',
+      'restaurant.opensAt': 'Nyitás: {{time}}',
+      'restaurant.closedAfterHours': 'Ma már nem fogadunk rendelést',
+
       // Header
       'header.title': 'Rendelje meg kedvenc ételét itt',
       'header.subtitle': 'Válasszon változatos menünkből, melyet a legjobb alapanyagokból és szakértelemmel készítünk. Célunk, hogy kielégítsük étvágyát és felemeljük étkezési élményét, egy finom fogással egyszerre.',
@@ -1947,16 +1965,14 @@ i18n
   .use(initReactI18next)
   .init({
     resources,
-    // Do NOT force a fixed language here so that LanguageDetector
-    // can read the last chosen language from localStorage.
-    // First-time users will fall back to Hungarian.
+    lng: 'hu',
     fallbackLng: ['hu', 'en'],
-    debug: false, // Disable debug for production
+    debug: false,
     interpolation: {
       escapeValue: false,
     },
     detection: {
-      order: ['localStorage', 'navigator'],
+      order: ['localStorage'],
       caches: ['localStorage'],
     },
   });

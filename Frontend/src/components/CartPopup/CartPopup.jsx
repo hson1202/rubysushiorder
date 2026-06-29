@@ -83,7 +83,7 @@ const pickImageFromSelections = (product, selectedOptions = {}) => {
 };
 
 const CartPopup = ({ onClose }) => {
-  const { cartItems, cartItemsData, food_list, addToCart, removeFromCart, getTotalCartAmount, url, boxFee } = useContext(StoreContext)
+  const { cartItems, cartItemsData, food_list, addToCart, removeFromCart, getTotalCartAmount, url, boxFee, restaurantOpenStatus } = useContext(StoreContext)
   const { t, i18n } = useTranslation()
   const navigate = useNavigate()
   const [recommendedItems, setRecommendedItems] = useState([])
@@ -259,6 +259,10 @@ const CartPopup = ({ onClose }) => {
   }
 
   const handleCheckout = () => {
+    if (restaurantOpenStatus && !restaurantOpenStatus.isOpen) {
+      window.alert(restaurantOpenStatus.message || t('restaurant.closedNow'))
+      return
+    }
     onClose()
     navigate('/order')
   }
@@ -462,8 +466,14 @@ const CartPopup = ({ onClose }) => {
                 <span>{t('cart.total')}</span>
                 <span>{formatPrice(getTotalCartAmount())}</span>
               </div>
-              <button className="checkout-btn" onClick={handleCheckout}>
-                {t('cart.checkout')} ({getTotalItems()} {t('cart.items')})
+              <button
+                className="checkout-btn"
+                onClick={handleCheckout}
+                disabled={restaurantOpenStatus && !restaurantOpenStatus.isOpen}
+              >
+                {restaurantOpenStatus && !restaurantOpenStatus.isOpen
+                  ? (restaurantOpenStatus.message || t('restaurant.closedNow'))
+                  : `${t('cart.checkout')} (${getTotalItems()} ${t('cart.items')})`}
               </button>
             </div>
           )}

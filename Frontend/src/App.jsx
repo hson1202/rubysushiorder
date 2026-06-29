@@ -1,13 +1,10 @@
 import React , { useState, useEffect, useContext }from 'react'
 import Navbar from './pages/Navbar/Navbar';
 import { Route, Routes, Navigate } from 'react-router-dom';
-import Home from './pages/Home/Home'
 import Menu from './pages/Menu/Menu'
-import AboutUs from './pages/AboutUs/AboutUs'
 // import Blog from './pages/Blog/Blog'
 // import BlogDetail from './pages/Blog/BlogDetail'
 import ContactUs from './pages/ContactUs/ContactUs'
-import Reservation from './pages/Reservation/Reservation'
 import Cart from './pages/Cart/Cart'
 import PlaceOrder from './pages/PlaceOrder/PlaceOrder';
 import Footer from './components/Footer/Footer';
@@ -16,12 +13,15 @@ import MyOrders from './pages/MyOrders/MyOrders'
 import TrackOrder from './pages/TrackOrder/TrackOrder'
 import Admin from './pages/Admin/Admin'
 import FloatingCartBtn from './components/FloatingCartBtn/FloatingCartBtn'
+import RestaurantClosedBanner from './components/RestaurantClosedBanner/RestaurantClosedBanner'
 import RequireAuth from './components/RequireAuth/RequireAuth'
 import AccountLayout from './pages/Account/AccountLayout'
 import ProfilePage from './pages/Account/ProfilePage'
 import ChangePasswordPage from './pages/Account/ChangePasswordPage'
 import AddressBookPage from './pages/Account/AddressBookPage'
 import AccountOrdersPage from './pages/Account/AccountOrdersPage'
+import ExternalRedirect from './components/ExternalRedirect/ExternalRedirect'
+import config from './config/config'
 import i18n from './i18n';
 import { StoreContext } from './Context/StoreContext';
 
@@ -86,17 +86,18 @@ const App = () => {
   return (
     <>
     {showLogin?<LoginPopup setShowLogin={setShowLogin}/>:<></>}
-    <Navbar setShowLogin={setShowLogin}/>  
+    <Navbar setShowLogin={setShowLogin}/>
+    <RestaurantClosedBanner />
     <div className='app'>
       <Routes>
         <Route path='/' element={<Menu/>}/>
-        <Route path='/home' element={<Home/>}/>
+        <Route path='/home' element={<ExternalRedirect to={config.EXTERNAL_LINKS.HOME} />}/>
         <Route path='/menu' element={<Menu/>}/>
-        <Route path='/about' element={<AboutUs/>}/>
+        <Route path='/about' element={<ExternalRedirect to={config.EXTERNAL_LINKS.ABOUT} />}/>
         {/* <Route path='/blog' element={<Blog/>}/> */}
         {/* <Route path='/blog/:slug' element={<BlogDetail/>}/> */}
         <Route path='/contact' element={<ContactUs/>}/>
-        <Route path='/reservation' element={<Reservation/>}/>
+        <Route path='/reservation' element={<ExternalRedirect to={config.EXTERNAL_LINKS.RESERVATION} />}/>
         <Route path='/cart' element={<Cart/>}/>
         <Route path='/order' element={<PlaceOrder/>}/>
         <Route path='/myorders' element={<MyOrders />} />

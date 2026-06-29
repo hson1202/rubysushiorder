@@ -44,6 +44,13 @@ const config = {
 
   // Wooden background for food images (transparent PNGs)
   FOOD_BACKGROUND_URL: 'https://pub-e3da109533764cb29410b35fc1bd8b42.r2.dev/ruby/background.jpg',
+
+  // Main Ruby Sushi website (order app links out for non-order pages)
+  EXTERNAL_LINKS: {
+    HOME: 'https://budaors.rubysushi.hu/',
+    ABOUT: 'https://budaors.rubysushi.hu/Home/About',
+    RESERVATION: 'https://budaors.rubysushi.hu/Home/Booking',
+  },
 };
 
 export default config;

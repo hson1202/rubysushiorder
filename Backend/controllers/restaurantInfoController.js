@@ -1,9 +1,30 @@
 import RestaurantInfo from "../models/restaurantInfoModel.js"
+import {
+  normalizeWeeklyHours,
+  getDefaultWeeklyHours,
+  validateWeeklyHours,
+  formatOpeningHoursLegacy
+} from "../utils/restaurantHours.js"
+
+const ensureWeeklyHours = async (info) => {
+  const normalized = normalizeWeeklyHours(info.weeklyHours)
+  const needsSave = !Array.isArray(info.weeklyHours) || info.weeklyHours.length !== 7
+  info.weeklyHours = normalized
+  if (needsSave) {
+    const legacy = formatOpeningHoursLegacy(normalized, 'vi')
+    if (!info.openingHours?.weekdays) {
+      info.openingHours = { weekdays: legacy.weekdays, sunday: legacy.sunday }
+    }
+    await info.save()
+  }
+  return info
+}
 
 // Get restaurant information (public)
 const getRestaurantInfo = async (req, res) => {
   try {
     const info = await RestaurantInfo.getSingleton()
+    await ensureWeeklyHours(info)
     return res.json({ success: true, data: info })
   } catch (error) {
     console.error("Error fetching restaurant info:", error)
@@ -29,6 +50,7 @@ const updateRestaurantInfo = async (req, res) => {
       email,
       address,
       openingHours,
+      weeklyHours,
       socialMedia,
       googleMapsUrl,
       copyrightText,
@@ -47,12 +69,26 @@ const updateRestaurantInfo = async (req, res) => {
     if (phone !== undefined) updates.phone = phone
     if (email !== undefined) updates.email = email
     if (address !== undefined) updates.address = address
-    if (openingHours !== undefined) updates.openingHours = openingHours
     if (socialMedia !== undefined) updates.socialMedia = socialMedia
     if (googleMapsUrl !== undefined) updates.googleMapsUrl = googleMapsUrl
     if (copyrightText !== undefined) updates.copyrightText = copyrightText
     if (translations !== undefined) updates.translations = translations
     if (isActive !== undefined) updates.isActive = isActive
+
+    if (weeklyHours !== undefined) {
+      const validation = validateWeeklyHours(weeklyHours)
+      if (!validation.valid) {
+        return res.status(400).json({ success: false, message: validation.message })
+      }
+      const normalized = normalizeWeeklyHours(weeklyHours)
+      updates.weeklyHours = normalized
+      const legacy = formatOpeningHoursLegacy(normalized, 'vi')
+      updates.openingHours = openingHours !== undefined
+        ? openingHours
+        : { weekdays: legacy.weekdays, sunday: legacy.sunday }
+    } else if (openingHours !== undefined) {
+      updates.openingHours = openingHours
+    }
 
     const info = await RestaurantInfo.getSingleton()
     Object.assign(info, updates)
@@ -76,6 +112,8 @@ const updateRestaurantInfo = async (req, res) => {
 const resetToDefaults = async (req, res) => {
   try {
     const info = await RestaurantInfo.getSingleton()
+    const defaultHours = getDefaultWeeklyHours()
+    const legacy = formatOpeningHoursLegacy(defaultHours, 'vi')
 
     info.restaurantName = ""
     info.logoUrl = ""
@@ -87,7 +125,8 @@ const resetToDefaults = async (req, res) => {
     info.phone = ""
     info.email = ""
     info.address = ""
-    info.openingHours = { weekdays: "", sunday: "" }
+    info.openingHours = { weekdays: legacy.weekdays, sunday: legacy.sunday }
+    info.weeklyHours = defaultHours
     info.socialMedia = { facebook: "", twitter: "", linkedin: "", instagram: "" }
     info.googleMapsUrl = ""
     info.translations = {
@@ -99,7 +138,7 @@ const resetToDefaults = async (req, res) => {
         restaurantName: "", address: "", tagline: "", heroHeadline: "", heroSubtext: "",
         openingHours: { weekdays: "", sunday: "" }
       },
-      sk: {
+      hu: {
         restaurantName: "", address: "", tagline: "", heroHeadline: "", heroSubtext: "",
         openingHours: { weekdays: "", sunday: "" }
       }
@@ -138,4 +177,3 @@ const uploadLogo = async (req, res) => {
 }
 
 export { getRestaurantInfo, updateRestaurantInfo, resetToDefaults, uploadLogo }
-

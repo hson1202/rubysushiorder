@@ -3,11 +3,12 @@ import './Header.css'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { StoreContext } from '../../Context/StoreContext'
+import config from '../../config/config'
 
 const Header = () => {
   const { t, i18n } = useTranslation();
   const { restaurantInfo } = useContext(StoreContext);
-  const lang = i18n.language?.split('-')[0] || 'en';
+  const lang = i18n.language?.split('-')[0] || 'hu';
 
   const headline = restaurantInfo?.translations?.[lang]?.heroHeadline
     || restaurantInfo?.heroHeadline
@@ -26,9 +27,9 @@ const Header = () => {
               <Link to='/menu'>
                 <button className="view-menu-btn">{t('header.viewMenu', 'View Menu')}</button>
               </Link>
-              <Link to='/reservation'>
+              <a href={config.EXTERNAL_LINKS.RESERVATION}>
                 <button className="booking-btn">{t('header.bookTable', 'Book a Table')}</button>
-              </Link>
+              </a>
             </div>
         </div>
     </div>

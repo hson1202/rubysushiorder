@@ -30,6 +30,21 @@ const TodaySpecialMenu = () => {
       ended: 'Đã hết giờ',
       items: 'món'
     },
+    hu: {
+      title: '🕐 Mai Menü',
+      subtitle: 'Időalapú elérhetőségű ételek',
+      breakfast: '🌅 Reggeli',
+      lunch: '🍱 Ebéd',
+      dinner: '🌙 Vacsora',
+      special: '⭐ Különlegesség',
+      noItems: 'Jelenleg nincs elérhető tétel',
+      noItemsDesc: 'Az időalapú menü tételei itt jelennek meg, amikor elérhetők',
+      loading: 'Menü betöltése...',
+      availableNow: 'Most elérhető',
+      comingSoon: 'Hamarosan',
+      ended: 'Véget ért',
+      items: 'tétel'
+    },
     en: {
       title: '🕐 Today\'s Menu',
       subtitle: 'Time-based availability dishes',
@@ -62,7 +77,7 @@ const TodaySpecialMenu = () => {
     }
   }
 
-  const t = translations[i18n.language] || translations.en
+  const t = translations[i18n.language?.split('-')[0]] || translations.hu
 
   // Auto-refresh current time every minute
   useEffect(() => {

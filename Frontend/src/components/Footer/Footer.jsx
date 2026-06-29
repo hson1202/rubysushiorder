@@ -2,12 +2,12 @@ import React, { useContext } from 'react'
 import './Footer.css'
 import { assets } from '../../assets/assets'
 import { useTranslation } from 'react-i18next'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { useLocation } from 'react-router-dom'
 import { StoreContext } from '../../Context/StoreContext'
+import config from '../../config/config'
 
 const Footer = () => {
   const { t } = useTranslation()
-  const navigate = useNavigate()
   const location = useLocation()
   const { restaurantInfo, restaurantInfoLoading: loading } = useContext(StoreContext)
   const isContactPage = location?.pathname === '/contact'
@@ -20,8 +20,8 @@ const Footer = () => {
           <div className='footer-col'>
             <h3 className='footer-title'>{t('footer.companyTitle') || 'Company'}</h3>
             <ul className='footer-list'>
-              <li><a href='/'>Home</a></li>
-              <li><a href='/#about-us'>{t('footer.aboutUs') || 'About Us'}</a></li>
+              <li><a href={config.EXTERNAL_LINKS.HOME}>{t('footer.home') || 'Home'}</a></li>
+              <li><a href={config.EXTERNAL_LINKS.ABOUT}>{t('footer.aboutUs') || 'About Us'}</a></li>
               <li><a href='/menu'>Menu</a></li>
               <li><a href='/blog'>{t('footer.blog') || 'Blog'}</a></li>
             </ul>
@@ -33,7 +33,7 @@ const Footer = () => {
             <ul className='footer-list'>
               <li><a href='/menu'>{t('footer.delivery') || 'Delivery'}</a></li>
               <li><a href='/menu'>{t('footer.takeaway') || 'Takeaway'}</a></li>
-              <li><a href='/reservation'>{t('footer.reservation') || 'Reservation'}</a></li>
+              <li><a href={config.EXTERNAL_LINKS.RESERVATION}>{t('footer.reservation') || 'Reservation'}</a></li>
               <li><a href='/catering'>{t('footer.catering') || 'Catering'}</a></li>
             </ul>
           </div>
@@ -71,12 +71,12 @@ const Footer = () => {
             <p className='footer-text'>
               {restaurantInfo?.tagline || t('footer.reserveDescription') || ''}
             </p>
-            <button
+            <a
               className='footer-reserve-btn'
-              onClick={() => navigate('/reservation')}
+              href={config.EXTERNAL_LINKS.RESERVATION}
             >
               {t('footer.reserveButton') || 'Book Now'}
-            </button>
+            </a>
             <div className='footer-social'>
               {restaurantInfo?.socialMedia?.facebook && (
                 <a href={restaurantInfo.socialMedia.facebook} target='_blank' rel='noreferrer'>

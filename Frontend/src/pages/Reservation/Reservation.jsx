@@ -4,9 +4,14 @@ import { useNavigate } from 'react-router-dom';
 import config from '../../config/config';
 import './Reservation.css';
 import { StoreContext } from '../../Context/StoreContext';
+import {
+  normalizeWeeklyHours,
+  generateTimeSlotsForDate,
+  formatOpeningHoursLegacy
+} from '../../utils/restaurantHours';
 
 const Reservation = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const navigate = useNavigate();
   const { restaurantInfo } = useContext(StoreContext);
   
@@ -147,52 +152,11 @@ const Reservation = () => {
     }
   };
 
-  // Parse a time string like "11:00 AM" or "11:00" into a 24-hour integer hour
-  const parseHour = (timeStr) => {
-    if (!timeStr) return null;
-    const match = timeStr.match(/(\d{1,2})(?::(\d{2}))?\s*(AM|PM)?/i);
-    if (!match) return null;
-    let hour = parseInt(match[1], 10);
-    const ampm = match[3]?.toUpperCase();
-    if (ampm === 'PM' && hour !== 12) hour += 12;
-    if (ampm === 'AM' && hour === 12) hour = 0;
-    return hour;
-  };
-
-  // Parse open/close hours from restaurantInfo for a given date
-  const getHoursForDate = (selectedDate) => {
-    if (!selectedDate) return { start: 11, end: 20 };
-    const dayOfWeek = new Date(selectedDate).getDay();
-    const isSunday = dayOfWeek === 0;
-    const hoursStr = isSunday
-      ? restaurantInfo?.openingHours?.sunday
-      : restaurantInfo?.openingHours?.weekdays;
-
-    if (hoursStr) {
-      // Try to extract two times separated by "-" or "–"
-      const parts = hoursStr.split(/[-–]/);
-      if (parts.length >= 2) {
-        const startHour = parseHour(parts[parts.length - 2].trim());
-        const endHour = parseHour(parts[parts.length - 1].trim());
-        if (startHour !== null && endHour !== null) {
-          return { start: startHour, end: endHour };
-        }
-      }
-    }
-    // Fallback defaults
-    return { start: 11, end: isSunday ? 17 : 20 };
-  };
-
   // Generate available time slots based on business hours
   const generateTimeSlots = (selectedDate) => {
     if (!selectedDate) return [];
-    const { start, end } = getHoursForDate(selectedDate);
-    const timeSlots = [];
-    for (let hour = start; hour < end; hour++) {
-      timeSlots.push(`${hour.toString().padStart(2, '0')}:00`);
-      timeSlots.push(`${hour.toString().padStart(2, '0')}:30`);
-    }
-    return timeSlots;
+    const weeklyHours = normalizeWeeklyHours(restaurantInfo?.weeklyHours);
+    return generateTimeSlotsForDate(weeklyHours, selectedDate);
   };
 
   // Get minimum date (today)
@@ -204,10 +168,11 @@ const Reservation = () => {
   // Get business hours text for selected date
   const getBusinessHoursText = (selectedDate) => {
     if (!selectedDate) return '';
+    const weeklyHours = normalizeWeeklyHours(restaurantInfo?.weeklyHours);
+    const lang = (i18n.language || 'vi').split('-')[0];
+    const legacy = formatOpeningHoursLegacy(weeklyHours, lang);
     const isSunday = new Date(selectedDate).getDay() === 0;
-    return isSunday
-      ? (restaurantInfo?.openingHours?.sunday || '')
-      : (restaurantInfo?.openingHours?.weekdays || '');
+    return isSunday ? legacy.sunday : legacy.weekdays;
   };
 
   // Update time slots when date changes

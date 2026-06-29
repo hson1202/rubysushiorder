@@ -155,7 +155,7 @@ const DeliveryAddressInput = ({
 
         // Lấy thông báo phù hợp với ngôn ngữ hiện tại
         let errorMessage = deliveryData.message || t('placeOrder.form.deliveryNotAvailable');
-        const currentLang = i18n.language || 'vi';
+        const currentLang = i18n.language || 'hu';
         if (currentLang === 'en' && deliveryData.messageEn) {
           errorMessage = deliveryData.messageEn;
         } else if (currentLang === 'hu' && deliveryData.messageHu) {
