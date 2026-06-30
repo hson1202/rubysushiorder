@@ -1935,59 +1935,76 @@ ${t.footer2}
   `
 }
 
+const getItemProductId = (item = {}) => {
+  return item._id || item.id || item.foodId || item.productId;
+};
+
+const getItemSku = (item = {}, product = null) => {
+  return (item.sku || item.SKU || item.productSku || product?.sku || '').toString().trim();
+};
+
+const getProductForEmailItem = async (item = {}) => {
+  try {
+    const productId = getItemProductId(item);
+    if (productId && /^[0-9a-fA-F]{24}$/.test(productId.toString())) {
+      const product = await foodModel.findById(productId);
+      if (product) return product;
+    }
+
+    const sku = getItemSku(item);
+    if (sku) {
+      const product = await foodModel.findOne({ sku });
+      if (product) return product;
+    }
+  } catch (error) {
+    console.log('⚠️ Could not query product for admin email item:', error.message);
+  }
+
+  return null;
+};
+
 // Helper function to get Vietnamese product name (for admin emails)
-// Tự động query từ database nếu không có nameVI trong item
-const getVietnameseProductName = async (item) => {
+const getVietnameseProductName = (item, product = null) => {
   // Ưu tiên nameVI nếu có
   if (item.nameVI) {
     return item.nameVI;
   }
-  
-  // Nếu không có nameVI, thử query từ database bằng _id hoặc sku
-  try {
-    if (item._id || item.id) {
-      const product = await foodModel.findById(item._id || item.id);
-      if (product && product.nameVI) {
-        return product.nameVI;
-      }
-    }
-    
-    if (item.sku) {
-      const product = await foodModel.findOne({ sku: item.sku });
-      if (product && product.nameVI) {
-        return product.nameVI;
-      }
-    }
-  } catch (error) {
-    console.log('⚠️ Could not query product for Vietnamese name:', error.message);
+
+  if (product?.nameVI) {
+    return product.nameVI;
   }
-  
+
   // Fallback về name nếu không tìm thấy
-  return item.name || 'Sản phẩm';
+  return item.name || item.nameEN || item.nameHU || product?.name || product?.nameEN || product?.nameHU || 'Sản phẩm';
+};
+
+const formatAdminItemName = (item, product = null) => {
+  const sku = getItemSku(item, product);
+  const name = getVietnameseProductName(item, product);
+
+  if (!sku) return name;
+  if (!name) return sku;
+
+  const normalizedSku = sku.toLowerCase();
+  const normalizedName = name.toLowerCase().trim();
+  const alreadyPrefixed =
+    normalizedName === normalizedSku ||
+    normalizedName.startsWith(`${normalizedSku}.`) ||
+    normalizedName.startsWith(`${normalizedSku} `);
+
+  return alreadyPrefixed ? name : `${sku}. ${name}`;
 };
 
 // Helper function to format selected options for display (for admin emails - always Vietnamese)
 // Luôn query từ database để lấy đầy đủ thông tin đa ngôn ngữ
-const formatSelectedOptionsForAdmin = async (item) => {
+const formatSelectedOptionsForAdmin = async (item, product = null) => {
   if (!item.selectedOptions || Object.keys(item.selectedOptions).length === 0) {
     return '';
   }
   
   // Luôn query từ database để đảm bảo có đầy đủ thông tin đa ngôn ngữ
-  let options = null;
+  let options = product?.options || null;
   try {
-    if (item._id || item.id) {
-      const product = await foodModel.findById(item._id || item.id);
-      if (product && product.options) {
-        options = product.options;
-      }
-    } else if (item.sku) {
-      const product = await foodModel.findOne({ sku: item.sku });
-      if (product && product.options) {
-        options = product.options;
-      }
-    }
-    
     // Nếu không query được, thử dùng options từ item
     if (!options && item.options && Array.isArray(item.options) && item.options.length > 0) {
       options = item.options;
@@ -2207,8 +2224,9 @@ const generateAdminOrderNotificationEmailHTML = async (order, branding = {}) => 
             <div class="items-list">
               ${(await Promise.all(order.items.map(async (item) => {
                 // Luôn dùng tiếng Việt cho admin email
-                const productNameVI = await getVietnameseProductName(item);
-                const optionsText = await formatSelectedOptionsForAdmin(item);
+                const product = await getProductForEmailItem(item);
+                const productNameVI = formatAdminItemName(item, product);
+                const optionsText = await formatSelectedOptionsForAdmin(item, product);
                 const cleanOptionsText = optionsText ? optionsText.replace(/^ \(/, '').replace(/\)$/, '') : '';
                 return `
                 <div class="item-row">
@@ -2360,8 +2378,9 @@ Hình thức: ${fulfillmentLabel}
 MÓN ĂN ĐÃ ĐẶT:
 ${(await Promise.all(order.items.map(async (item) => {
     // Luôn dùng tiếng Việt cho admin email
-    const productNameVI = await getVietnameseProductName(item);
-    const optionsText = await formatSelectedOptionsForAdmin(item);
+    const product = await getProductForEmailItem(item);
+    const productNameVI = formatAdminItemName(item, product);
+    const optionsText = await formatSelectedOptionsForAdmin(item, product);
     return `- ${productNameVI}${optionsText ? optionsText : ''} x${item.quantity || 1}`;
   }))).join('\n')}
 
