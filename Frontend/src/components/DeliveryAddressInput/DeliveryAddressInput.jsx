@@ -48,8 +48,19 @@ const DeliveryAddressInput = ({
   const [deliveryInfo, setDeliveryInfo] = useState(null);
   const [error, setError] = useState('');
   const [isManualPickerOpen, setIsManualPickerOpen] = useState(false);
-  // Các trường địa chỉ chi tiết - luôn hiển thị và luôn sửa được, được tự điền
-  // từ kết quả tìm kiếm/ghim bản đồ nhưng khách có thể chỉnh lại trước khi đặt hàng
+  const hasStructuredAddress = (data) => Boolean(
+    data && (
+      (data.street || '').trim() ||
+      (data.houseNumber || '').toString().trim() ||
+      (data.city || '').trim() ||
+      (data.zipcode || '').toString().trim() ||
+      (typeof data.latitude === 'number' && typeof data.longitude === 'number') ||
+      (data.coordinates?.latitude && data.coordinates?.longitude)
+    )
+  );
+
+  // 4 ô chi tiết ẩn lúc đầu — chỉ hiện sau khi chọn gợi ý / geocode / ghim bản đồ
+  const [showDetailFields, setShowDetailFields] = useState(() => hasStructuredAddress(addressData));
   const [manualFields, setManualFields] = useState({
     street: addressData?.street || '',
     houseNumber: addressData?.houseNumber || '',
@@ -71,7 +82,10 @@ const DeliveryAddressInput = ({
       city: addressData.city || '',
       zipcode: addressData.zipcode || ''
     });
-  }, [addressData?.street, addressData?.houseNumber, addressData?.city, addressData?.zipcode]);
+    if (hasStructuredAddress(addressData)) {
+      setShowDetailFields(true);
+    }
+  }, [addressData?.street, addressData?.houseNumber, addressData?.city, addressData?.zipcode, addressData?.latitude, addressData?.longitude, addressData?.coordinates]);
 
   // Khách tự sửa 1 trong 4 ô chi tiết - không re-geocode, giữ nguyên toạ độ đã chọn
   const handleManualFieldChange = (field) => (e) => {
@@ -93,6 +107,7 @@ const DeliveryAddressInput = ({
       city: normalized.city || prev.city,
       zipcode: normalized.zipcode || prev.zipcode
     }));
+    setShowDetailFields(true);
   };
 
   // Fetch autocomplete suggestions
@@ -303,6 +318,7 @@ const DeliveryAddressInput = ({
     setSelectedAddress(null);
     setDeliveryInfo(null);
     setError('');
+    setShowDetailFields(false);
 
     if (onChange) {
       onChange(buildAddressPayload({ address: newValue }));
@@ -426,8 +442,9 @@ const DeliveryAddressInput = ({
         )}
       </div>
 
-      {/* Các ô địa chỉ chi tiết - luôn hiển thị, luôn sửa được */}
-      <div className="manual-address-fields">
+      {/* 4 ô chi tiết — chỉ hiện sau khi đã chọn/ghim địa chỉ */}
+      {showDetailFields && (
+      <div className="manual-address-fields manual-address-fields-reveal">
         <p className="manual-fields-hint">{t('placeOrder.form.manualFieldsHint')}</p>
         <div className="manual-fields-row">
           <div className="manual-field manual-field-street">
@@ -489,6 +506,7 @@ const DeliveryAddressInput = ({
           </div>
         </div>
       </div>
+      )}
 
       {/* Delivery info display */}
       {deliveryInfo && (

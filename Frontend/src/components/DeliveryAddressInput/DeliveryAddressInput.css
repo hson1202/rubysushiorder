@@ -124,13 +124,28 @@
   font-style: italic;
 }
 
-/* Manual address fields - always visible, always editable */
+/* Manual address fields - shown after address search/pin selection */
 .manual-address-fields {
   margin-top: 14px;
   padding: 14px;
   background: var(--brand-surface-2);
   border: 1px solid var(--brand-border);
   border-radius: 10px;
+}
+
+.manual-address-fields-reveal {
+  animation: revealDetailFields 0.35s ease-out;
+}
+
+@keyframes revealDetailFields {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .manual-fields-hint {
