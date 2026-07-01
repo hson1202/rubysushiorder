@@ -816,101 +816,6 @@
     letter-spacing: -0.01em;
 }
 
-.house-number-field {
-    margin-top: 12px;
-}
-
-.house-number-field label {
-    display: block;
-    font-weight: 600;
-    margin-bottom: 8px;
-    color: var(--brand-text);
-    font-size: 0.95rem;
-}
-
-.house-helper {
-    margin: 6px 0 0 0;
-    font-size: 0.85rem;
-    color: var(--brand-muted);
-}
-
-.house-number-field input {
-    width: 100%;
-    padding: 12px 16px;
-    border: 1px solid var(--brand-border);
-    border-radius: 8px;
-    outline: none;
-    font-size: 15px;
-    color: var(--brand-text);
-    background: var(--brand-surface-2);
-    transition: border-color 0.15s ease;
-}
-
-.house-number-field input::placeholder {
-    color: var(--brand-muted);
-}
-
-.house-number-field input:focus {
-    border-color: var(--brand-accent);
-}
-
-.house-warning {
-    margin-top: 8px;
-    font-size: 0.85rem;
-    color: var(--brand-muted);
-    background: var(--brand-surface-2);
-    border: 1px solid var(--brand-border);
-    border-radius: 6px;
-    padding: 10px 12px;
-}
-
-/* Enhanced warning box */
-.house-warning-enhanced {
-    margin-top: 12px;
-    display: flex;
-    gap: 12px;
-    padding: 14px 16px;
-    background: var(--brand-surface-2);
-    border: 2px solid var(--brand-accent);
-    border-radius: 8px;
-    animation: slideIn 0.3s ease-out;
-}
-
-.warning-icon {
-    font-size: 24px;
-    flex-shrink: 0;
-}
-
-.warning-content {
-    flex: 1;
-}
-
-.warning-content strong {
-    display: block;
-    color: #ff6b6b;
-    font-size: 0.95rem;
-    font-weight: 600;
-    margin-bottom: 4px;
-}
-
-.warning-content p {
-    margin: 0;
-    color: var(--brand-muted);
-    font-size: 0.85rem;
-    line-height: 1.5;
-}
-
-/* Input warning state */
-.house-number-input-warning {
-    border-color: var(--brand-accent) !important;
-    background-color: var(--brand-surface-2) !important;
-}
-
-.house-number-input-warning:focus {
-    border-color: var(--brand-accent) !important;
-    box-shadow: 0 0 0 3px rgba(226, 55, 68, 0.25) !important;
-}
-
 /* Flash animation for error input */
 @keyframes inputErrorFlash {
     0%, 100% {
@@ -926,18 +831,6 @@
 
 .input-error-flash {
     animation: inputErrorFlash 0.5s ease-in-out;
-}
-
-/* Slide in animation for warning */
-@keyframes slideIn {
-    from {
-        opacity: 0;
-        transform: translateY(-10px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
 }
 
 /* Delivery Time Section */

@@ -4,6 +4,7 @@ import axios from 'axios'
 import { useTranslation } from 'react-i18next'
 import config from '../../config/config'
 import { formatProductDisplayName } from '../../utils/productDisplay'
+import { formatFullAddress } from '../../utils/formatAddress'
 
 
 const TrackOrder = () => {
@@ -80,21 +81,6 @@ const TrackOrder = () => {
       hour: '2-digit',
       minute: '2-digit'
     })
-  }
-
-  const formatFullAddress = (addr) => {
-    if (!addr) return '';
-    const street = (addr.street || '').trim();
-    const house = (addr.houseNumber || '').toString().trim();
-    // Avoid duplicating if street already starts with a number (or already contains the house number)
-    const streetAlreadyHasNumber = /^\d+/.test(street);
-    const streetHasHouse = house && street.toLowerCase().includes(house.toLowerCase());
-    const line1 = house && street && !streetAlreadyHasNumber && !streetHasHouse
-      ? `${house} ${street}`.trim()
-      : (street || house);
-    const city = (addr.city || '').trim();
-    const zip = (addr.zipcode || addr.postalCode || '').toString().trim();
-    return [line1, [zip, city].filter(Boolean).join(' ')].filter(Boolean).join(', ');
   }
 
   return (

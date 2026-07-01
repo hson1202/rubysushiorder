@@ -6,7 +6,7 @@ import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import SuccessPopup from '../../components/SuccessPopup/SuccessPopup'
-import DeliveryAddressInput from '../../components/DeliveryAddressInput/DeliveryAddressInput'
+import DeliveryAddressInput, { isValidHungarianZipcode } from '../../components/DeliveryAddressInput/DeliveryAddressInput'
 import DeliveryZoneDisplay from '../../components/DeliveryZoneDisplay/DeliveryZoneDisplay'
 import '../../i18n'
 import { formatHuf } from '../../utils/currency'
@@ -147,6 +147,7 @@ const PlaceOrder = () => {
                 // Set delivery address from default address for order submission
                 setDeliveryAddress({
                   address: defaultAddr.street || '',
+                  street: defaultAddr.street || '',
                   houseNumber: defaultAddr.houseNumber || '',
                   city: defaultAddr.city || '',
                   state: defaultAddr.state || '',
@@ -218,51 +219,6 @@ const PlaceOrder = () => {
     fetchUserAddresses();
   }, [isAuthenticated, token, url, restaurantLocation]);
 
-  // Helper function to check if address has house number
-  const hasHouseNumber = (address) => {
-    if (!address) return false;
-    // Regex để tìm số nhà: số đứng đầu hoặc sau ký tự đặc biệt
-    const patterns = [
-      /^\d+/,                    // Số ở đầu: "123 Main St"
-      /\s\d+\s/,                 // Số giữa: "Street 123 Name"
-      /\s\d+$/,                  // Số ở cuối: "Main Street 123"
-      /\d+[a-zA-Z]?\s/,          // Số có thể kèm chữ: "123A Main St"
-    ];
-    return patterns.some(pattern => pattern.test(address));
-  };
-
-  const escapeRegExp = (s) => String(s).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-
-  // Pick a clean street line for storing in order.address.street (avoid long geocoded strings / duplicates)
-  const getStreetLineForOrder = () => {
-    const streetFromComponents = (deliveryAddress?.street || '').trim();
-    if (streetFromComponents) return streetFromComponents;
-
-    const raw = (deliveryAddress?.address || '').trim();
-    if (!raw) return '';
-
-    // Try to strip noisy region fragments if present (e.g. "Region of Nitra")
-    let s = raw.replace(/,\s*region of[^,]+/gi, '').replace(/\s+region of[^,]+/gi, '');
-
-    // If we already store city/zip separately, remove them from the street line to avoid duplication in admin/email
-    const city = (deliveryAddress?.city || '').trim();
-    const zip = (deliveryAddress?.zipcode || deliveryAddress?.postalCode || '').toString().trim();
-    if (city) {
-      s = s.replace(new RegExp(`,\\s*${escapeRegExp(city)}\\b`, 'gi'), '');
-      s = s.replace(new RegExp(`\\b${escapeRegExp(city)}\\b`, 'gi'), '');
-    }
-    if (zip) {
-      s = s.replace(new RegExp(`,\\s*${escapeRegExp(zip)}\\b`, 'g'), '');
-      s = s.replace(new RegExp(`\\b${escapeRegExp(zip)}\\b`, 'g'), '');
-    }
-
-    // Cleanup punctuation
-    s = s.replace(/\s*,\s*/g, ', ').replace(/,{2,}/g, ',').replace(/^,|,$/g, '').trim();
-
-    // If stripping made it empty, fall back to the raw string
-    return s || raw;
-  };
-
   // Simple retry helper for transient errors (e.g., 502/503/network)
   const postWithRetry = async (endpoint, data, options, retries = 2, delayMs = 800) => {
     try {
@@ -307,25 +263,33 @@ const PlaceOrder = () => {
     }
 
     // ============================================
-    // ✨ THÊM MỚI: Kiểm tra số nhà
+    // Kiểm tra đủ 4 trường địa chỉ chi tiết: Street, Số nhà, Thành phố, Zip code
+    // (thay cho việc đoán bằng regex trong chuỗi geocode như trước)
     // ============================================
     if (isDelivery) {
-      const addressHasNumber = hasHouseNumber(deliveryAddress.address);
-      const hasManualHouseNumber = deliveryAddress.houseNumber && deliveryAddress.houseNumber.trim().length > 0;
-      
-      if (!addressHasNumber && !hasManualHouseNumber) {
-        // Scroll đến ô số nhà và highlight
-        const houseNumberInput = document.querySelector('.house-number-field input');
-        if (houseNumberInput) {
-          houseNumberInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
-          houseNumberInput.focus();
-          houseNumberInput.classList.add('input-error-flash');
+      const missingFields = [
+        { key: 'street', selector: '.manual-field-street input' },
+        { key: 'houseNumber', selector: '.manual-field-house-number input' },
+        { key: 'city', selector: '.manual-field-city input' },
+        { key: 'zipcode', selector: '.manual-field-zipcode input' }
+      ].filter(({ key }) => {
+        const val = (deliveryAddress?.[key] || '').toString().trim();
+        if (key === 'zipcode') return !val || !isValidHungarianZipcode(val);
+        return !val;
+      });
+
+      if (missingFields.length > 0) {
+        const firstInvalidInput = document.querySelector(missingFields[0].selector);
+        if (firstInvalidInput) {
+          firstInvalidInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          firstInvalidInput.focus();
+          firstInvalidInput.classList.add('input-error-flash');
           setTimeout(() => {
-            houseNumberInput.classList.remove('input-error-flash');
+            firstInvalidInput.classList.remove('input-error-flash');
           }, 2000);
         }
-        
-        alert(t('placeOrder.errors.missingHouseNumber'));
+
+        alert(t('placeOrder.errors.missingAddressFields'));
         setIsSubmitting(false);
         return;
       }
@@ -393,8 +357,9 @@ const PlaceOrder = () => {
     
     let orderData = {
       address: isDelivery ? {
-        // Store short street line (for admin/driver), keep full geocoded string separately for reference
-        street: getStreetLineForOrder(),
+        // street/houseNumber/city/zipcode là các trường khách đã tự xác nhận/sửa trực tiếp
+        // (không còn suy đoán bằng regex từ chuỗi geocode như trước)
+        street: (deliveryAddress.street || '').trim(),
         fullAddress: deliveryAddress.address,
         houseNumber: deliveryAddress.houseNumber || '',
         city: deliveryAddress.city || '',
@@ -594,19 +559,12 @@ const PlaceOrder = () => {
     }));
   };
 
-  const handleHouseNumberChange = (e) => {
-    const value = e.target.value;
-    setDeliveryAddress((prev) => ({
-      ...(prev || {}),
-      houseNumber: value
-    }));
-  };
-
   // Handle address selection from modal
   const handleSelectAddress = async (address) => {
     setSelectedAddressId(address._id);
     const newDeliveryAddress = {
       address: address.street || '',
+      street: address.street || '',
       houseNumber: address.houseNumber || '',
       city: address.city || '',
       state: address.state || '',
@@ -828,6 +786,7 @@ const PlaceOrder = () => {
                         setSelectedAddressId(defaultAddr._id);
                         setDeliveryAddress({
                           address: defaultAddr.street || '',
+                          street: defaultAddr.street || '',
                           houseNumber: defaultAddr.houseNumber || '',
                           city: defaultAddr.city || '',
                           state: defaultAddr.state || '',
@@ -844,44 +803,12 @@ const PlaceOrder = () => {
               )}
               <DeliveryAddressInput
                 value={deliveryAddress?.address || ''}
+                addressData={deliveryAddress}
                 onChange={handleDeliveryAddressChange}
                 onDeliveryCalculated={handleDeliveryCalculated}
                 url={url}
                 restaurantLocation={restaurantLocation}
               />
-              <div className="house-number-field">
-                <label>
-                  {t('placeOrder.form.houseNumberLabel')}
-                  <span className="required-indicator" style={{color: 'red', marginLeft: '4px'}}>*</span>
-                </label>
-                <input
-                  type="text"
-                  placeholder={t('placeOrder.form.houseNumberPlaceholder')}
-                  value={deliveryAddress?.houseNumber || ''}
-                  onChange={handleHouseNumberChange}
-                  className={
-                    !deliveryAddress?.houseNumber && 
-                    deliveryAddress?.address && 
-                    !hasHouseNumber(deliveryAddress.address)
-                      ? 'house-number-input-warning'
-                      : ''
-                  }
-                />
-                <p className="house-helper">{t('placeOrder.form.houseNumberHint')}</p>
-                
-                {/* ✨ CẢNH BÁO RÕ RÀNG HƠN */}
-                {!deliveryAddress?.houseNumber && 
-                 deliveryAddress?.address && 
-                 !hasHouseNumber(deliveryAddress.address) && (
-                  <div className="house-warning-enhanced">
-                    <div className="warning-icon">⚠️</div>
-                    <div className="warning-content">
-                      <strong>{t('placeOrder.form.houseNumberWarningTitle')}</strong>
-                      <p>{t('placeOrder.form.houseNumberWarningBody')}</p>
-                    </div>
-                  </div>
-                )}
-              </div>
             </div>
           ) : null}
 

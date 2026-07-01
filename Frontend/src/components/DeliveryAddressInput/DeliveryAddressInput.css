@@ -47,8 +47,8 @@
   }
 }
 
-/* Suggestions dropdown */
-.suggestions-dropdown {
+/* Suggestions dropdown — anchored to address input */
+.address-input-wrapper .suggestions-dropdown {
   position: absolute;
   top: calc(100% + 5px);
   left: 0;
@@ -122,6 +122,81 @@
   color: #856404;
   margin-top: 4px;
   font-style: italic;
+}
+
+/* Manual address fields - always visible, always editable */
+.manual-address-fields {
+  margin-top: 14px;
+  padding: 14px;
+  background: var(--brand-surface-2);
+  border: 1px solid var(--brand-border);
+  border-radius: 10px;
+}
+
+.manual-fields-hint {
+  margin: 0 0 12px;
+  font-size: 12.5px;
+  color: var(--brand-muted);
+  line-height: 1.5;
+}
+
+.manual-fields-row {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.manual-fields-row:last-child {
+  margin-bottom: 0;
+}
+
+.manual-field {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.manual-field label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--brand-text);
+  margin-bottom: 6px;
+}
+
+.manual-field input {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid var(--brand-border);
+  border-radius: 8px;
+  font-size: 14px;
+  background: var(--brand-surface);
+  color: var(--brand-text);
+  transition: all 0.2s ease;
+}
+
+.manual-field input:focus {
+  outline: none;
+  border-color: var(--brand-accent);
+  box-shadow: 0 0 0 3px rgba(226, 55, 68, 0.2);
+}
+
+.manual-field-input-warning {
+  border-color: #ff9800 !important;
+  background-color: rgba(255, 152, 0, 0.08) !important;
+}
+
+.manual-field-error {
+  margin: 6px 0 0;
+  font-size: 12px;
+  color: #d84315;
+}
+
+@media (max-width: 600px) {
+  .manual-fields-row {
+    flex-direction: column;
+    gap: 10px;
+  }
 }
 
 /* Delivery info card */

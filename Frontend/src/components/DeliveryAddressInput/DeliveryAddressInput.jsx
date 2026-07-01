@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import './DeliveryAddressInput.css';
 import axios from 'axios';
 import { useTranslation } from 'react-i18next';
@@ -6,6 +6,10 @@ import i18n from '../../i18n';
 import ManualLocationPicker from '../ManualLocationPicker/ManualLocationPicker';
 
 const DEFAULT_COORDS = { latitude: 47.4979, longitude: 19.0402 }; // Budapest (fallback)
+
+// Mã bưu điện Hungary luôn gồm đúng 4 chữ số (ví dụ: 1061)
+const HU_ZIPCODE_REGEX = /^\d{4}$/;
+export const isValidHungarianZipcode = (zipcode) => HU_ZIPCODE_REGEX.test((zipcode || '').toString().trim());
 
 const buildAddressPayload = ({ address = '', components = {}, latitude, longitude }) => {
   const hasCoords =
@@ -29,6 +33,7 @@ const buildAddressPayload = ({ address = '', components = {}, latitude, longitud
 
 const DeliveryAddressInput = ({
   value,
+  addressData,
   onChange,
   onDeliveryCalculated,
   url,
@@ -43,10 +48,52 @@ const DeliveryAddressInput = ({
   const [deliveryInfo, setDeliveryInfo] = useState(null);
   const [error, setError] = useState('');
   const [isManualPickerOpen, setIsManualPickerOpen] = useState(false);
+  // Các trường địa chỉ chi tiết - luôn hiển thị và luôn sửa được, được tự điền
+  // từ kết quả tìm kiếm/ghim bản đồ nhưng khách có thể chỉnh lại trước khi đặt hàng
+  const [manualFields, setManualFields] = useState({
+    street: addressData?.street || '',
+    houseNumber: addressData?.houseNumber || '',
+    city: addressData?.city || '',
+    zipcode: addressData?.zipcode || ''
+  });
   const debounceTimer = useRef(null);
   const inputRef = useRef(null);
   // OpenStreetMap/Nominatim không cần API key, luôn available
   const manualPinAvailable = true;
+
+  // Đồng bộ lại các ô chi tiết khi component cha nạp một địa chỉ khác từ bên ngoài
+  // (ví dụ: chọn địa chỉ đã lưu trong sổ địa chỉ)
+  useEffect(() => {
+    if (!addressData) return;
+    setManualFields({
+      street: addressData.street || '',
+      houseNumber: addressData.houseNumber || '',
+      city: addressData.city || '',
+      zipcode: addressData.zipcode || ''
+    });
+  }, [addressData?.street, addressData?.houseNumber, addressData?.city, addressData?.zipcode]);
+
+  // Khách tự sửa 1 trong 4 ô chi tiết - không re-geocode, giữ nguyên toạ độ đã chọn
+  const handleManualFieldChange = (field) => (e) => {
+    const val = e.target.value;
+    setManualFields((prev) => ({ ...prev, [field]: val }));
+    if (onChange) {
+      onChange({ [field]: val });
+    }
+  };
+
+  const zipcodeInvalid = manualFields.zipcode.trim().length > 0 && !isValidHungarianZipcode(manualFields.zipcode);
+
+  // Tự điền lại 4 ô chi tiết khi có kết quả tìm kiếm/geocode mới, nhưng không xoá
+  // giá trị khách đã tự gõ nếu geocode không trả về (OSM ở Hungary hay thiếu số nhà)
+  const applyAutofillFields = (normalized) => {
+    setManualFields((prev) => ({
+      street: normalized.street || prev.street,
+      houseNumber: normalized.houseNumber || prev.houseNumber,
+      city: normalized.city || prev.city,
+      zipcode: normalized.zipcode || prev.zipcode
+    }));
+  };
 
   // Fetch autocomplete suggestions
   const fetchSuggestions = useCallback(async (searchQuery) => {
@@ -142,6 +189,7 @@ const DeliveryAddressInput = ({
         if (onChange) {
           onChange(normalized);
         }
+        applyAutofillFields(normalized);
 
         if (!suppressQueryUpdate && normalized.address) {
           setQuery(normalized.address);
@@ -167,10 +215,12 @@ const DeliveryAddressInput = ({
         console.log('❌ Error message to display:', errorMessage);
 
         if (deliveryData.address) {
-          // Use coordinates from selectedAddress if available, otherwise from request
-          const currentCoords = selectedAddress?.latitude && selectedAddress?.longitude
-            ? { latitude: selectedAddress.latitude, longitude: selectedAddress.longitude }
-            : { latitude, longitude };
+          const currentCoords =
+            typeof latitude === 'number' && typeof longitude === 'number'
+              ? { latitude, longitude }
+              : selectedAddress?.latitude && selectedAddress?.longitude
+                ? { latitude: selectedAddress.latitude, longitude: selectedAddress.longitude }
+                : { latitude, longitude };
 
           if (!suppressQueryUpdate) {
             setQuery(deliveryData.address);
@@ -182,11 +232,13 @@ const DeliveryAddressInput = ({
           });
 
           if (onChange) {
-            onChange(buildAddressPayload({
+            const normalizedFallback = buildAddressPayload({
               address: deliveryData.address,
               latitude: currentCoords.latitude,
               longitude: currentCoords.longitude
-            }));
+            });
+            onChange(normalizedFallback);
+            applyAutofillFields(normalizedFallback);
           }
         }
 
@@ -204,10 +256,13 @@ const DeliveryAddressInput = ({
       if (onDeliveryCalculated) {
         onDeliveryCalculated(null);
       }
+      if (typeof latitude === 'number' && typeof longitude === 'number') {
+        setQuery(`${latitude.toFixed(5)}, ${longitude.toFixed(5)}`);
+      }
     } finally {
       setIsLoading(false);
     }
-  }, [url, onDeliveryCalculated, onChange]);
+  }, [url, onDeliveryCalculated, onChange, selectedAddress, t]);
 
   // Handle suggestion selection
   const handleSelectSuggestion = (suggestion) => {
@@ -222,12 +277,14 @@ const DeliveryAddressInput = ({
 
     // Update parent component
     if (onChange) {
-      onChange(buildAddressPayload({
+      const normalized = buildAddressPayload({
         address: suggestion.address,
         components: suggestion.components || {},
         latitude: suggestion.latitude,
         longitude: suggestion.longitude
-      }));
+      });
+      onChange(normalized);
+      applyAutofillFields(normalized);
     }
 
     // Calculate delivery
@@ -309,9 +366,16 @@ const DeliveryAddressInput = ({
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
+  const pickerInitialCoords = useMemo(() => {
+    if (restaurantLocation?.latitude && restaurantLocation?.longitude) {
+      return { latitude: restaurantLocation.latitude, longitude: restaurantLocation.longitude };
+    }
+    return DEFAULT_COORDS;
+  }, [restaurantLocation?.latitude, restaurantLocation?.longitude]);
+
   return (
-    <div className="delivery-address-input" ref={inputRef}>
-      <div className="address-input-wrapper">
+    <div className="delivery-address-input">
+      <div className="address-input-wrapper" ref={inputRef}>
         <input
           type="text"
           value={query}
@@ -323,46 +387,108 @@ const DeliveryAddressInput = ({
           autoComplete="off"
         />
         {isLoading && <div className="loading-spinner">🔄</div>}
-      </div>
 
-      {/* Autocomplete suggestions */}
-      {showSuggestions && suggestions.length > 0 && (
-        <div className="suggestions-dropdown">
-          {suggestions.map((suggestion) => {
-            // Kiểm tra xem địa chỉ có số nhà không
-            const hasHouseNumber = suggestion.components?.houseNumber &&
-              suggestion.components.houseNumber.trim().length > 0;
-            const isGeneralAddress = !hasHouseNumber &&
-              (suggestion.components?.street || suggestion.shortAddress);
+        {showSuggestions && suggestions.length > 0 && (
+          <div className="suggestions-dropdown">
+            {suggestions.map((suggestion) => {
+              const hasHouseNumber = suggestion.components?.houseNumber &&
+                suggestion.components.houseNumber.trim().length > 0;
+              const isGeneralAddress = !hasHouseNumber &&
+                (suggestion.components?.street || suggestion.shortAddress);
 
-            return (
-              <div
-                key={suggestion.id}
-                className={`suggestion-item ${isGeneralAddress ? 'suggestion-item-warning' : ''}`}
-                onMouseDown={() => handleSelectSuggestion(suggestion)}
-              >
-                <span className="suggestion-icon">📍</span>
-                <div className="suggestion-text">
-                  <div className="suggestion-main">
-                    {suggestion.shortAddress}
+              return (
+                <div
+                  key={suggestion.id}
+                  className={`suggestion-item ${isGeneralAddress ? 'suggestion-item-warning' : ''}`}
+                  onMouseDown={() => handleSelectSuggestion(suggestion)}
+                >
+                  <span className="suggestion-icon">📍</span>
+                  <div className="suggestion-text">
+                    <div className="suggestion-main">
+                      {suggestion.shortAddress}
+                      {isGeneralAddress && (
+                        <span className="suggestion-warning-badge" title={t('placeOrder.form.houseNumberMapboxMissing')}>
+                          ⚠️
+                        </span>
+                      )}
+                    </div>
+                    <div className="suggestion-detail">{suggestion.address}</div>
                     {isGeneralAddress && (
-                      <span className="suggestion-warning-badge" title={t('placeOrder.form.houseNumberMapboxMissing')}>
-                        ⚠️
-                      </span>
+                      <div className="suggestion-warning-text">
+                        {t('placeOrder.form.houseNumberMapboxMissing')}
+                      </div>
                     )}
                   </div>
-                  <div className="suggestion-detail">{suggestion.address}</div>
-                  {isGeneralAddress && (
-                    <div className="suggestion-warning-text">
-                      {t('placeOrder.form.houseNumberMapboxMissing')}
-                    </div>
-                  )}
                 </div>
-              </div>
-            );
-          })}
+              );
+            })}
+          </div>
+        )}
+      </div>
+
+      {/* Các ô địa chỉ chi tiết - luôn hiển thị, luôn sửa được */}
+      <div className="manual-address-fields">
+        <p className="manual-fields-hint">{t('placeOrder.form.manualFieldsHint')}</p>
+        <div className="manual-fields-row">
+          <div className="manual-field manual-field-street">
+            <label>
+              {t('placeOrder.form.street')}
+              <span className="required-indicator" style={{ color: 'red', marginLeft: '4px' }}>*</span>
+            </label>
+            <input
+              type="text"
+              value={manualFields.street}
+              onChange={handleManualFieldChange('street')}
+              placeholder={t('placeOrder.form.streetPlaceholder')}
+            />
+          </div>
+          <div className="manual-field manual-field-house-number">
+            <label>
+              {t('placeOrder.form.houseNumberLabel')}
+              <span className="required-indicator" style={{ color: 'red', marginLeft: '4px' }}>*</span>
+            </label>
+            <input
+              type="text"
+              value={manualFields.houseNumber}
+              onChange={handleManualFieldChange('houseNumber')}
+              placeholder={t('placeOrder.form.houseNumberPlaceholder')}
+              className="house-number-field-input"
+            />
+          </div>
         </div>
-      )}
+        <div className="manual-fields-row">
+          <div className="manual-field manual-field-city">
+            <label>
+              {t('placeOrder.form.city')}
+              <span className="required-indicator" style={{ color: 'red', marginLeft: '4px' }}>*</span>
+            </label>
+            <input
+              type="text"
+              value={manualFields.city}
+              onChange={handleManualFieldChange('city')}
+              placeholder={t('placeOrder.form.cityPlaceholder')}
+            />
+          </div>
+          <div className="manual-field manual-field-zipcode">
+            <label>
+              {t('placeOrder.form.zipcode')}
+              <span className="required-indicator" style={{ color: 'red', marginLeft: '4px' }}>*</span>
+            </label>
+            <input
+              type="text"
+              inputMode="numeric"
+              maxLength={4}
+              value={manualFields.zipcode}
+              onChange={handleManualFieldChange('zipcode')}
+              placeholder={t('placeOrder.form.zipcodePlaceholder')}
+              className={zipcodeInvalid ? 'manual-field-input-warning' : ''}
+            />
+            {zipcodeInvalid && (
+              <p className="manual-field-error">{t('placeOrder.form.zipcodeInvalid')}</p>
+            )}
+          </div>
+        </div>
+      </div>
 
       {/* Delivery info display */}
       {deliveryInfo && (
@@ -425,11 +551,7 @@ const DeliveryAddressInput = ({
             isOpen={isManualPickerOpen}
             onClose={() => setIsManualPickerOpen(false)}
             onConfirm={handleManualLocationConfirm}
-            initialCoords={
-              restaurantLocation?.latitude && restaurantLocation?.longitude
-                ? { latitude: restaurantLocation.latitude, longitude: restaurantLocation.longitude }
-                : DEFAULT_COORDS
-            }
+            initialCoords={pickerInitialCoords}
             restaurantLocation={restaurantLocation}
           />
         </>

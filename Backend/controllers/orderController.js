@@ -6,6 +6,9 @@ import eventBus from "../services/eventBus.js"
 import { calculateOrderTotal, getSystemFeeFromDB, validatePrice } from "../utils/priceCalculator.js"
 import { isRestaurantOpen, getRestaurantStatus, normalizeWeeklyHours } from "../utils/restaurantHours.js"
 
+// Mã bưu điện Hungary luôn gồm đúng 4 chữ số (ví dụ: 1061)
+const HU_ZIPCODE_REGEX = /^\d{4}$/;
+
 // placing user order from frontend (hỗ trợ cả đăng nhập và không đăng nhập)
 const placeOrder = async (req, res) => {
     try {
@@ -59,58 +62,34 @@ const placeOrder = async (req, res) => {
         // Extract deliveryInfo from request body if provided
         const { deliveryInfo } = req.body;
 
+        // ============================================
+        // Validate địa chỉ giao hàng: yêu cầu đủ 4 trường rõ ràng
+        // (street, houseNumber, city, zipcode - không còn suy đoán số nhà bằng regex
+        // trong chuỗi geocode như trước, vì dữ liệu OpenStreetMap ở Hungary hay thiếu
+        // số nhà/zipcode. Frontend nay bắt khách tự xác nhận/sửa các trường này trực tiếp)
+        // ============================================
         let normalizedAddress = null;
         if (isDelivery) {
-            // Normalize address payload (support older keys / optional fields)
-            // NOTE: We intentionally do NOT require city/state/zipcode/country because map/reverse-geocode can fail.
             normalizedAddress = {
                 ...address,
                 street: (address.street || address.address || '').trim(),
                 houseNumber: (address.houseNumber || '').toString().trim(),
+                city: (address.city || '').trim(),
                 // accept postalCode alias from older frontend pages
                 zipcode: (address.zipcode || address.postalCode || '').toString().trim(),
             };
 
-            if (!normalizedAddress.street) {
+            const missingAddressFields = [];
+            if (!normalizedAddress.street) missingAddressFields.push('street');
+            if (!normalizedAddress.houseNumber) missingAddressFields.push('houseNumber');
+            if (!normalizedAddress.city) missingAddressFields.push('city');
+            if (!HU_ZIPCODE_REGEX.test(normalizedAddress.zipcode)) missingAddressFields.push('zipcode');
+
+            if (missingAddressFields.length > 0) {
                 return res.status(400).json({
                     success: false,
-                    message: "Address field 'street' is required"
-                });
-            }
-        }
-
-        // ============================================
-        // ✨ BACKEND VALIDATION: Kiểm tra số nhà
-        // ============================================
-        // Helper function to check if address has house number
-        const isCoordinateString = (s) => {
-            if (!s) return false;
-            // e.g. "48.12345, 17.12345"
-            return /^\s*-?\d+(\.\d+)?\s*,\s*-?\d+(\.\d+)?\s*$/.test(String(s).trim());
-        };
-
-        const hasHouseNumber = (addr) => {
-            if (!addr) return false;
-            const patterns = [
-                /^\d+/,                    // Số ở đầu: "123 Main St"
-                /\s\d+\s/,                 // Số giữa: "Street 123 Name"
-                /\s\d+$/,                  // Số ở cuối: "Main Street 123"
-                /\d+[a-zA-Z]?\s/,          // Số có thể kèm chữ: "123A Main St"
-            ];
-            return patterns.some(pattern => pattern.test(addr));
-        };
-
-        // If street looks like coordinates, never treat digits as a "house number"
-        if (isDelivery) {
-            const addressHasNumber =
-                !isCoordinateString(normalizedAddress.street) &&
-                hasHouseNumber(normalizedAddress.street);
-            const hasManualHouseNumber = normalizedAddress.houseNumber && normalizedAddress.houseNumber.trim().length > 0;
-
-            if (!addressHasNumber && !hasManualHouseNumber) {
-                return res.status(400).json({
-                    success: false,
-                    message: "House number is required. Please provide a house number in the address or in the house number field."
+                    message: `Address is incomplete or invalid. Missing/invalid fields: ${missingAddressFields.join(', ')}. Street, house number, city and a valid 4-digit Hungarian zipcode are required.`,
+                    missingAddressFields
                 });
             }
         }

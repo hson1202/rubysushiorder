@@ -3,6 +3,7 @@ import { Resend } from 'resend'
 import foodModel from '../models/foodModel.js'
 import restaurantLocationModel from '../models/restaurantLocationModel.js'
 import RestaurantInfo from '../models/restaurantInfoModel.js'
+import { formatOrderStreetLine } from '../utils/addressFormat.js'
 
 /**
  * Fetches current restaurant branding from DB.
@@ -1578,17 +1579,6 @@ const getEmailTranslations = (lang, brandName = 'Restaurant') => {
 
 // Build a human-friendly "house number + street" line for orders.
 // Avoid duplicating if street already contains a leading number or includes the house number.
-const formatOrderStreetLine = (address = {}) => {
-  const street = (address.street || '').toString().trim();
-  const house = (address.houseNumber || '').toString().trim();
-  if (!street && !house) return '';
-  if (!house) return street;
-  const streetAlreadyHasNumber = /^\d+/.test(street);
-  const streetHasHouse = street && street.toLowerCase().includes(house.toLowerCase());
-  if (streetAlreadyHasNumber || streetHasHouse) return street || house;
-  return `${house} ${street}`.trim();
-};
-
 // Calculate item price including box fee and options (same logic as frontend)
 const calculateItemPrice = async (item, globalBoxFee = 0.3) => {
   // Tính giá gốc (chưa bao gồm box fee)

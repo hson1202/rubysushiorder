@@ -6,6 +6,7 @@ import axios from 'axios';
 import { useTranslation } from 'react-i18next';
 import '../../i18n';
 import config from '../../config/config';
+import { formatFullAddress } from '../../utils/formatAddress';
 
 const STATUS_OPTIONS = [
   { value: 'all', label: 'All' },
@@ -601,21 +602,6 @@ const OrderDetailsModal = React.memo(({ order, onClose }) => {
   const fulfillmentType = order.fulfillmentType || 'delivery';
   const fulfillmentLabel = getFulfillmentLabel(fulfillmentType, t);
 
-  const formatFullAddress = (addr) => {
-    if (!addr) return 'N/A';
-    const street = (addr.street || '').trim();
-    const house = (addr.houseNumber || '').toString().trim();
-    const streetAlreadyHasNumber = /^\d+/.test(street);
-    const streetHasHouse = house && street.toLowerCase().includes(house.toLowerCase());
-    const line1 =
-      house && street && !streetAlreadyHasNumber && !streetHasHouse
-        ? `${house} ${street}`.trim()
-        : (street || house);
-    const city = (addr.city || '').trim();
-    const state = (addr.state || '').trim();
-    const zip = (addr.zipcode || addr.postalCode || '').toString().trim();
-    return [line1, [zip, city, state].filter(Boolean).join(' ')].filter(Boolean).join(', ') || 'N/A';
-  };
   const copyId = () => {
     const id = order.shortOrderId || order._id || '';
     navigator.clipboard.writeText(id).then(() => toast.success(t('orders.copied', 'Order ID copied')));

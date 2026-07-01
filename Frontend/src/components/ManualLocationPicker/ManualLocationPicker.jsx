@@ -112,6 +112,7 @@ const ManualLocationPicker = ({
   const [mapCenter, setMapCenter] = useState(selectedCoords);
   const debounceTimer = useRef(null);
   const markerRef = useRef(null);
+  const prevIsOpenRef = useRef(false);
 
   // Search for addresses using Nominatim API
   const searchAddresses = useCallback(async (query) => {
@@ -124,7 +125,7 @@ const ManualLocationPicker = ({
     setIsSearching(true);
     try {
       const encodedQuery = encodeURIComponent(query);
-      let url = `${NOMINATIM_BASE_URL}/search?q=${encodedQuery}&format=json&limit=5&countrycodes=sk&addressdetails=1&accept-language=en`;
+      let url = `${NOMINATIM_BASE_URL}/search?q=${encodedQuery}&format=json&limit=5&countrycodes=hu&addressdetails=1&accept-language=en`;
       
       // Add viewbox if restaurant location is available
       if (restaurantLocation?.longitude && restaurantLocation?.latitude) {
@@ -227,13 +228,16 @@ const ManualLocationPicker = ({
   };
 
   useEffect(() => {
-    if (!isOpen) return;
+    const justOpened = isOpen && !prevIsOpenRef.current;
+    prevIsOpenRef.current = isOpen;
+
+    if (!justOpened) return;
 
     setLocalError('');
     setSearchQuery('');
     setSuggestions([]);
     setShowSuggestions(false);
-    
+
     const startCoords =
       initialCoords ||
       (restaurantLocation?.latitude && restaurantLocation?.longitude
@@ -242,7 +246,13 @@ const ManualLocationPicker = ({
 
     setSelectedCoords(startCoords);
     setMapCenter(startCoords);
-  }, [isOpen, initialCoords, restaurantLocation]);
+  }, [
+    isOpen,
+    initialCoords?.latitude,
+    initialCoords?.longitude,
+    restaurantLocation?.latitude,
+    restaurantLocation?.longitude
+  ]);
 
   // Close suggestions when clicking outside
   useEffect(() => {
