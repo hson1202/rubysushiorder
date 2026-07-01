@@ -196,6 +196,7 @@ const resources = {
 
       // Footer
       'footer.companyTitle': 'Công ty',
+      'footer.home': 'Trang chủ',
       'footer.aboutUs': 'Về chúng tôi',
       'footer.blog': 'Blog',
       'footer.servicesTitle': 'Dịch vụ',
@@ -861,6 +862,7 @@ const resources = {
 
       // Footer
       'footer.companyTitle': 'Company',
+      'footer.home': 'Home',
       'footer.aboutUs': 'About Us',
       'footer.blog': 'Blog',
       'footer.servicesTitle': 'Services',
@@ -1527,40 +1529,41 @@ const resources = {
       'contact.tabs.makeReservation': 'Make Reservation',
 
       // Footer
-      'footer.companyTitle': 'Company',
-      'footer.aboutUs': 'About Us',
+      'footer.companyTitle': 'Cég',
+      'footer.home': 'Kezdőlap',
+      'footer.aboutUs': 'Rólunk',
       'footer.blog': 'Blog',
-      'footer.servicesTitle': 'Services',
-      'footer.delivery': 'Delivery',
-      'footer.takeaway': 'Takeaway',
-      'footer.reservation': 'Reservation',
-      'footer.catering': 'Catering',
-      'footer.phone': 'Phone',
-      'footer.email': 'Email',
-      'footer.address': 'Address',
-      'footer.openingHours': 'Opening Hours',
-      'footer.reserveTitle': 'Reserve a Table',
-      'footer.reserveDescription': 'Book your table now and enjoy authentic Vietnamese cuisine',
-      'footer.reserveButton': 'Book Now',
-      'footer.allRightsReserved': 'All rights reserved.',
+      'footer.servicesTitle': 'Szolgáltatások',
+      'footer.delivery': 'Kiszállítás',
+      'footer.takeaway': 'Elvitel',
+      'footer.reservation': 'Asztalfoglalás',
+      'footer.catering': 'Rendezvény catering',
+      'footer.phone': 'Telefon',
+      'footer.email': 'E-mail',
+      'footer.address': 'Cím',
+      'footer.openingHours': 'Nyitvatartás',
+      'footer.reserveTitle': 'Asztalfoglalás',
+      'footer.reserveDescription': 'Foglaljon asztalt még ma, és élvezze az autentikus vietnami konyhát',
+      'footer.reserveButton': 'Foglalás most',
+      'footer.allRightsReserved': 'Minden jog fenntartva.',
       'footer.brandDescription': '',
-      'footer.cta': 'Order now',
-      'footer.navTitle': 'Explore',
-      'footer.serviceTitle': 'Services',
-      'footer.contactTitle': 'Connect',
-      'footer.bottomTagline': 'Fresh bowls crafted daily.',
+      'footer.cta': 'Rendelés most',
+      'footer.navTitle': 'Fedezze fel',
+      'footer.serviceTitle': 'Szolgáltatások',
+      'footer.contactTitle': 'Kapcsolat',
+      'footer.bottomTagline': 'Friss tálak minden nap.',
       'footer.bottomCopyright': '',
       'footer.navLinks': [
-        { label: 'Home', href: '#hero' },
-        { label: 'Menu', href: '#menu' },
-        { label: 'Specials', href: '#promo' },
-        { label: 'About', href: '#about' }
+        { label: 'Kezdőlap', href: '#hero' },
+        { label: 'Menü', href: '#menu' },
+        { label: 'Különlegességek', href: '#promo' },
+        { label: 'Rólunk', href: '#about' }
       ],
       'footer.serviceLinks': [
-        { label: 'Reservations', href: '#reservation' },
-        { label: 'Delivery', href: '#delivery' },
-        { label: 'Policies', href: '#policy' },
-        { label: 'Support', href: '#support' }
+        { label: 'Asztalfoglalás', href: '#reservation' },
+        { label: 'Kiszállítás', href: '#delivery' },
+        { label: 'Szabályzatok', href: '#policy' },
+        { label: 'Támogatás', href: '#support' }
       ],
       'footer.contactInfo': [],
       'footer.socialLabels': {
@@ -1630,14 +1633,14 @@ const resources = {
       'contact.faq.payment.answer': 'We accept cash, credit cards, debit cards, and digital payments including Apple Pay and Google Pay.',
 
       // Footer
-      'footer.company': 'COMPANY',
-      'footer.home': 'Home',
-      'footer.about': 'About us',
-      'footer.delivery': 'Delivery',
-      'footer.privacy': 'Privacy Policy',
-      'footer.getInTouch': 'GET IN TOUCH',
-      'footer.phone': 'Phone',
-      'footer.email': 'Email',
+      'footer.company': 'CÉG',
+      'footer.home': 'Kezdőlap',
+      'footer.about': 'Rólunk',
+      'footer.delivery': 'Kiszállítás',
+      'footer.privacy': 'Adatvédelmi irányelvek',
+      'footer.getInTouch': 'KAPCSOLAT',
+      'footer.phone': 'Telefon',
+      'footer.email': 'E-mail',
       'footer.copyright': '',
 
       // Language Switcher

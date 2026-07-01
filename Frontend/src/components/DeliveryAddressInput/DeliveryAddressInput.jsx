@@ -68,6 +68,7 @@ const DeliveryAddressInput = ({
     zipcode: addressData?.zipcode || ''
   });
   const debounceTimer = useRef(null);
+  const recalcTimer = useRef(null);
   const inputRef = useRef(null);
   // OpenStreetMap/Nominatim không cần API key, luôn available
   const manualPinAvailable = true;
@@ -86,15 +87,6 @@ const DeliveryAddressInput = ({
       setShowDetailFields(true);
     }
   }, [addressData?.street, addressData?.houseNumber, addressData?.city, addressData?.zipcode, addressData?.latitude, addressData?.longitude, addressData?.coordinates]);
-
-  // Khách tự sửa 1 trong 4 ô chi tiết - không re-geocode, giữ nguyên toạ độ đã chọn
-  const handleManualFieldChange = (field) => (e) => {
-    const val = e.target.value;
-    setManualFields((prev) => ({ ...prev, [field]: val }));
-    if (onChange) {
-      onChange({ [field]: val });
-    }
-  };
 
   const zipcodeInvalid = manualFields.zipcode.trim().length > 0 && !isValidHungarianZipcode(manualFields.zipcode);
 
@@ -163,7 +155,7 @@ const DeliveryAddressInput = ({
   }, [query, fetchSuggestions, selectedAddress]);
 
   // Calculate delivery fee
-  const calculateDelivery = useCallback(async ({ address, latitude, longitude, components, suppressQueryUpdate } = {}) => {
+  const calculateDelivery = useCallback(async ({ address, latitude, longitude, components, suppressQueryUpdate, preserveManualFields } = {}) => {
     setIsLoading(true);
     setError('');
 
@@ -202,9 +194,19 @@ const DeliveryAddressInput = ({
         });
 
         if (onChange) {
-          onChange(normalized);
+          if (preserveManualFields) {
+            onChange({
+              coordinates: normalized.coordinates,
+              latitude: normalized.latitude,
+              longitude: normalized.longitude
+            });
+          } else {
+            onChange(normalized);
+            applyAutofillFields(normalized);
+          }
+        } else if (!preserveManualFields) {
+          applyAutofillFields(normalized);
         }
-        applyAutofillFields(normalized);
 
         if (!suppressQueryUpdate && normalized.address) {
           setQuery(normalized.address);
@@ -278,6 +280,47 @@ const DeliveryAddressInput = ({
       setIsLoading(false);
     }
   }, [url, onDeliveryCalculated, onChange, selectedAddress, t]);
+
+  const buildStructuredQuery = useCallback((fields) => {
+    const streetLine = [fields.houseNumber, fields.street].filter(Boolean).join(' ').trim();
+    return [streetLine, fields.zipcode, fields.city, 'Hungary'].filter(Boolean).join(', ');
+  }, []);
+
+  const scheduleDeliveryRecalc = useCallback((fields) => {
+    if (!fields.city?.trim() || !isValidHungarianZipcode(fields.zipcode)) return;
+
+    if (recalcTimer.current) {
+      clearTimeout(recalcTimer.current);
+    }
+
+    recalcTimer.current = setTimeout(() => {
+      const addressQuery = buildStructuredQuery(fields);
+      if (addressQuery.length >= 5) {
+        calculateDelivery({ address: addressQuery, suppressQueryUpdate: true, preserveManualFields: true });
+      }
+    }, 600);
+  }, [buildStructuredQuery, calculateDelivery]);
+
+  // Khách sửa city/zip → tính lại phí ship; sửa street/số nhà → giữ toạ độ cũ
+  const handleManualFieldChange = (field) => (e) => {
+    const val = e.target.value;
+    const nextFields = { ...manualFields, [field]: val };
+    setManualFields(nextFields);
+    if (onChange) {
+      onChange({ [field]: val });
+    }
+    if (field === 'city' || field === 'zipcode') {
+      scheduleDeliveryRecalc(nextFields);
+    }
+  };
+
+  useEffect(() => {
+    return () => {
+      if (recalcTimer.current) {
+        clearTimeout(recalcTimer.current);
+      }
+    };
+  }, []);
 
   // Handle suggestion selection
   const handleSelectSuggestion = (suggestion) => {
@@ -402,7 +445,7 @@ const DeliveryAddressInput = ({
           className="address-input"
           autoComplete="off"
         />
-        {isLoading && <div className="loading-spinner">🔄</div>}
+        {isLoading && <span className="address-input-spinner" aria-hidden="true" />}
 
         {showSuggestions && suggestions.length > 0 && (
           <div className="suggestions-dropdown">

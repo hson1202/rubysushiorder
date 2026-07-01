@@ -5,6 +5,7 @@ import { sendOrderConfirmation, sendAdminOrderNotification } from "../services/e
 import eventBus from "../services/eventBus.js"
 import { calculateOrderTotal, getSystemFeeFromDB, validatePrice } from "../utils/priceCalculator.js"
 import { isRestaurantOpen, getRestaurantStatus, normalizeWeeklyHours } from "../utils/restaurantHours.js"
+import { resolveDelivery } from "../utils/deliveryCalculator.js"
 
 // Mã bưu điện Hungary luôn gồm đúng 4 chữ số (ví dụ: 1061)
 const HU_ZIPCODE_REGEX = /^\d{4}$/;
@@ -144,12 +145,50 @@ const placeOrder = async (req, res) => {
         });
 
         // ========================================
-        // ✅ SERVER-SIDE PRICE VALIDATION
+        // ✅ SERVER-SIDE DELIVERY + PRICE VALIDATION
         // ========================================
         console.log('💰 Validating order price from database...');
 
-        const deliveryFee = isDelivery ? (req.body.deliveryInfo?.deliveryFee || 0) : 0;
-        const systemFee = isDelivery ? await getSystemFeeFromDB() : 0;
+        let deliveryFee = 0;
+        let systemFee = 0;
+        let normalizedDeliveryInfo = null;
+
+        if (isDelivery) {
+            const deliveryResult = await resolveDelivery({
+                structuredAddress: normalizedAddress,
+                preferStructuredGeocode: true
+            });
+
+            if (!deliveryResult.success) {
+                return res.status(400).json({
+                    success: false,
+                    code: 'DELIVERY_UNAVAILABLE',
+                    message: deliveryResult.message,
+                    messageEn: deliveryResult.messageEn,
+                    messageHu: deliveryResult.messageHu,
+                    outOfRange: deliveryResult.outOfRange || false
+                });
+            }
+
+            const { zone, distance, coordinates } = deliveryResult.data;
+            deliveryFee = Number(zone.deliveryFee) || 0;
+            systemFee = await getSystemFeeFromDB();
+
+            if (coordinates) {
+                normalizedAddress.coordinates = coordinates;
+            }
+
+            normalizedDeliveryInfo = {
+                zone: zone.name,
+                distance,
+                deliveryFee,
+                systemFee: Number(systemFee),
+                estimatedTime: zone.estimatedTime
+            };
+
+            console.log(`🚚 Server delivery resolved: zone=${zone.name}, fee=${deliveryFee} Ft, distance=${distance} km`);
+        }
+
         const calculationResult = await calculateOrderTotal(processedItems, deliveryFee, systemFee);
 
         const validation = validatePrice(amount, calculationResult.total, 1); // 1 Ft tolerance
@@ -163,6 +202,7 @@ const placeOrder = async (req, res) => {
 
             return res.status(400).json({
                 success: false,
+                code: 'PRICE_MISMATCH',
                 message: "Price validation failed. Please refresh the page and try again.",
                 ...(process.env.NODE_ENV !== 'production' ? {
                     debug: {
@@ -184,17 +224,11 @@ const placeOrder = async (req, res) => {
         console.log(`   Delivery fee: ${Math.round(calculationResult.deliveryFee)} Ft`);
         console.log(`   System fee: ${Math.round(calculationResult.systemFee)} Ft`);
 
-        const normalizedDeliveryInfo = isDelivery ? {
-            ...(deliveryInfo || {}),
-            deliveryFee: Number(deliveryFee),
-            systemFee: Number(systemFee)
-        } : null;
-
         // Tạo đơn hàng mới
         const newOrder = new orderModel({
             userId: validUserId, // Sẽ có giá trị nếu user đã đăng nhập và hợp lệ
             items: processedItems, // Sử dụng processedItems đã được xử lý options
-            amount: amount,
+            amount: calculationResult.total,
             address: isDelivery ? normalizedAddress : null,
             customerInfo: customerInfo,
             orderType: validUserId ? 'registered' : 'guest', // Tự động set dựa trên userId

@@ -1,149 +1,26 @@
 import deliveryZoneModel from "../models/deliveryZoneModel.js";
 import restaurantLocationModel from "../models/restaurantLocationModel.js";
 import { extractAddressComponents, formatShortAddress, cleanDisplayName } from "../utils/addressFormat.js";
+import { resolveDelivery } from "../utils/deliveryCalculator.js";
 
-// ========== OPENSTREETMAP/NOMINATIM CONFIG ==========
-// Nominatim API không cần API key, nhưng cần User-Agent header
 const NOMINATIM_BASE_URL = 'https://nominatim.openstreetmap.org';
 const DEFAULT_MAP_CENTER = { latitude: 47.4979, longitude: 19.0402 };
-// User-Agent header bắt buộc cho Nominatim (theo policy của họ)
 const NOMINATIM_USER_AGENT = process.env.NOMINATIM_USER_AGENT || 'FoodDeliveryApp/1.0';
 
-// Convert Nominatim result to our address format
 const nominatimResultToAddress = (result = {}) => {
   const latitude = parseFloat(result.lat) || DEFAULT_MAP_CENTER.latitude;
   const longitude = parseFloat(result.lon) || DEFAULT_MAP_CENTER.longitude;
   const components = extractAddressComponents(result);
-
-  // Format địa chỉ ngắn gọn từ components
   const shortAddress = formatShortAddress(components);
-
-  // Nếu không format được địa chỉ ngắn, fallback về display_name đã được clean
   const formattedAddress = shortAddress || cleanDisplayName(result.display_name) || "";
 
   return {
     latitude,
     longitude,
-    formattedAddress: formattedAddress,
-    components: components,
+    formattedAddress,
+    components,
   };
 };
-
-// ========== HAVERSINE FORMULA ==========
-// Tính khoảng cách thẳng giữa 2 điểm trên trái đất (km)
-function calculateHaversineDistance(lat1, lon1, lat2, lon2) {
-  const R = 6371; // Bán kính trái đất (km)
-  const dLat = toRad(lat2 - lat1);
-  const dLon = toRad(lon2 - lon1);
-
-  const a =
-    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-    Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) *
-    Math.sin(dLon / 2) * Math.sin(dLon / 2);
-
-  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-  const distance = R * c;
-
-  return distance;
-}
-
-function toRad(value) {
-  return value * Math.PI / 180;
-}
-
-// ========== GEOCODING WITH NOMINATIM (OPENSTREETMAP) ==========
-async function geocodeAddress(address) {
-  try {
-    const encodedAddress = encodeURIComponent(address);
-    // Nominatim API: search endpoint
-    // countrycodes=hu: giới hạn trong Hungary
-    // addressdetails=1: lấy chi tiết địa chỉ
-    // limit=5: lấy 5 kết quả để tìm địa chỉ có số nhà
-    const url = `${NOMINATIM_BASE_URL}/search?q=${encodedAddress}&format=json&limit=5&countrycodes=hu&addressdetails=1&accept-language=en`;
-
-    console.log("🔍 Geocoding address with Nominatim:", address);
-
-    const response = await fetch(url, {
-      headers: {
-        'User-Agent': NOMINATIM_USER_AGENT
-      }
-    });
-
-    if (!response.ok) {
-      throw new Error(`Nominatim API error: ${response.status} ${response.statusText}`);
-    }
-
-    const data = await response.json();
-
-    if (!data || data.length === 0) {
-      throw new Error("Address not found");
-    }
-
-    // ✨ Ưu tiên chọn địa chỉ có số nhà cụ thể
-    let bestResult = data[0];
-    let bestParsed = nominatimResultToAddress(bestResult);
-
-    // Tìm địa chỉ có số nhà trong các kết quả
-    for (const result of data) {
-      const parsed = nominatimResultToAddress(result);
-      if (parsed.components.houseNumber && parsed.components.houseNumber.trim().length > 0) {
-        bestResult = result;
-        bestParsed = parsed;
-        console.log("✅ Found address with house number:", parsed.components.houseNumber);
-        break; // Dừng khi tìm thấy địa chỉ có số nhà
-      }
-    }
-
-    console.log("✅ Geocoding successful:", {
-      latitude: bestParsed.latitude,
-      longitude: bestParsed.longitude,
-      placeName: bestParsed.formattedAddress,
-      houseNumber: bestParsed.components.houseNumber || "N/A"
-    });
-
-    return bestParsed;
-  } catch (error) {
-    console.error("❌ Geocoding error:", error);
-    throw new Error(`Failed to geocode address: ${error.message}`);
-  }
-}
-
-async function reverseGeocodeCoordinates(latitude, longitude) {
-  try {
-    // Nominatim reverse geocoding
-    const url = `${NOMINATIM_BASE_URL}/reverse?lat=${latitude}&lon=${longitude}&format=json&addressdetails=1&accept-language=en`;
-    console.log("🔄 Reverse geocoding coordinates with Nominatim:", latitude, longitude);
-
-    const response = await fetch(url, {
-      headers: {
-        'User-Agent': NOMINATIM_USER_AGENT
-      }
-    });
-
-    if (!response.ok) {
-      throw new Error(`Nominatim API error: ${response.status} ${response.statusText}`);
-    }
-
-    const data = await response.json();
-
-    if (!data || !data.lat || !data.lon) {
-      throw new Error("Reverse geocoding failed");
-    }
-
-    const parsedResult = nominatimResultToAddress(data);
-
-    console.log("✅ Reverse geocoding successful:", {
-      latitude: parsedResult.latitude,
-      longitude: parsedResult.longitude,
-      placeName: parsedResult.formattedAddress,
-    });
-
-    return parsedResult;
-  } catch (error) {
-    console.error("❌ Reverse geocoding error:", error);
-    throw new Error(`Failed to reverse geocode coordinates: ${error.message}`);
-  }
-}
 
 // ========== GET DELIVERY ZONES ==========
 const getDeliveryZones = async (req, res) => {
@@ -168,149 +45,19 @@ const calculateDeliveryFee = async (req, res) => {
   try {
     const { address, latitude, longitude } = req.body;
 
-    let customerLat, customerLng, formattedAddress;
-    let addressComponents = null;
+    const result = await resolveDelivery({ address, latitude, longitude });
 
-    // Nếu có latitude/longitude thì dùng luôn
-    if (latitude && longitude) {
-      customerLat = parseFloat(latitude);
-      customerLng = parseFloat(longitude);
-
-      if (address) {
-        formattedAddress = address;
-      } else {
-        try {
-          const reverse = await reverseGeocodeCoordinates(customerLat, customerLng);
-          formattedAddress = reverse.formattedAddress;
-          addressComponents = reverse.components;
-        } catch (geoErr) {
-          console.warn("⚠️ Reverse geocode failed, falling back to raw coordinates:", geoErr?.message);
-          formattedAddress = `${latitude}, ${longitude}`;
-        }
+    if (!result.success) {
+      if (result.message === "Restaurant location not configured") {
+        return res.status(404).json(result);
       }
-    }
-    // Nếu không, geocode từ address
-    else if (address) {
-      const geocoded = await geocodeAddress(address);
-      customerLat = geocoded.latitude;
-      customerLng = geocoded.longitude;
-      formattedAddress = geocoded.formattedAddress;
-      addressComponents = geocoded.components;
-    }
-    else {
-      return res.status(400).json({
-        success: false,
-        message: "Please provide either address or latitude/longitude"
-      });
-    }
-
-    // Lấy vị trí nhà hàng
-    const restaurant = await restaurantLocationModel.findOne({
-      isActive: true,
-      isPrimary: true
-    });
-
-    if (!restaurant) {
-      return res.status(404).json({
-        success: false,
-        message: "Restaurant location not configured"
-      });
-    }
-
-    // Tính khoảng cách
-    const distance = calculateHaversineDistance(
-      restaurant.latitude,
-      restaurant.longitude,
-      customerLat,
-      customerLng
-    );
-
-    // Tìm zone phù hợp
-    const zones = await deliveryZoneModel.find({ isActive: true }).sort({ minDistance: 1 });
-
-    console.log(`🔍 Delivery calculation for distance: ${distance.toFixed(2)}km`);
-    console.log(`📦 Available zones (${zones.length}):`, zones.map(z => ({
-      name: z.name,
-      range: `${z.minDistance}-${z.maxDistance}km`,
-      fee: `${z.deliveryFee} Ft`
-    })));
-
-    let matchedZone = null;
-    for (const zone of zones) {
-      if (distance >= zone.minDistance && distance <= zone.maxDistance) {
-        matchedZone = zone;
-        console.log(`✅ Matched zone: ${zone.name} (${zone.minDistance}-${zone.maxDistance}km) - Fee: ${zone.deliveryFee} Ft`);
-        break;
+      if (result.message === "Please provide either address or latitude/longitude") {
+        return res.status(400).json(result);
       }
+      return res.json(result);
     }
 
-    // Nếu khách gần hơn cả zone nhỏ nhất (ví dụ < 1km) thì áp dụng zone đầu tiên
-    if (!matchedZone && zones.length > 0) {
-      const nearestZone = zones[0];
-      if (distance < nearestZone.minDistance) {
-        matchedZone = nearestZone;
-        console.log(`⚠️ Distance ${distance.toFixed(2)}km is less than minimum zone. Using nearest zone: ${nearestZone.name}`);
-      }
-    }
-
-    if (!matchedZone) {
-      console.log(`❌ No zone matched for distance: ${distance.toFixed(2)}km`);
-    }
-
-
-    if (!matchedZone) {
-      // Kiểm tra xem có zone nào được setup không
-      if (zones.length === 0) {
-        return res.json({
-          success: false,
-          message: "Hiện chưa có khu vực giao hàng được cấu hình. Vui lòng liên hệ nhà hàng để biết thêm chi tiết.",
-          messageEn: "No delivery zones are currently configured. Please contact the restaurant for more details.",
-          messageHu: "Jelenleg nincsenek kiszállítási zónák beállítva. Kérjük, vegye fel a kapcsolatot az étteremmel.",
-          distance: parseFloat(distance.toFixed(2)),
-          address: formattedAddress,
-          outOfRange: true,
-          noZonesConfigured: true
-        });
-      }
-
-      // Có zone nhưng địa chỉ ngoài tất cả các zone
-      const maxDistance = Math.max(...zones.map(z => z.maxDistance || 0));
-      return res.json({
-        success: false,
-        message: `Xin lỗi, địa chỉ này quá xa (${parseFloat(distance.toFixed(2))}km). Hiện chúng tôi chưa phục vụ giao hàng tại khu vực này. Vui lòng chọn địa chỉ gần hơn hoặc liên hệ nhà hàng để biết thêm chi tiết.`,
-        messageEn: `Sorry, this address is too far (${parseFloat(distance.toFixed(2))}km). We currently don't deliver to this area. Please choose a closer address or contact the restaurant for more details.`,
-        messageHu: `Sajnáljuk, ez a cím túl messze van (${parseFloat(distance.toFixed(2))} km). Jelenleg nem szállítunk erre a területre. Kérjük, válasszon közelebbi címet, vagy vegye fel a kapcsolatot az étteremmel.`,
-        distance: parseFloat(distance.toFixed(2)),
-        address: formattedAddress,
-        outOfRange: true,
-        maxDeliveryDistance: maxDistance
-      });
-    }
-
-    res.json({
-      success: true,
-      data: {
-        zone: {
-          name: matchedZone.name,
-          deliveryFee: matchedZone.deliveryFee,
-          minOrder: matchedZone.minOrder,
-          estimatedTime: matchedZone.estimatedTime,
-          color: matchedZone.color
-        },
-        distance: parseFloat(distance.toFixed(2)),
-        address: formattedAddress,
-        addressComponents,
-        coordinates: {
-          latitude: customerLat,
-          longitude: customerLng
-        },
-        restaurant: {
-          name: restaurant.name,
-          address: restaurant.address
-        }
-      }
-    });
-
+    res.json({ success: true, data: result.data });
   } catch (error) {
     console.error("Error calculating delivery fee:", error);
     res.status(500).json({

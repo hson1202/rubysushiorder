@@ -13,9 +13,27 @@ const Footer = () => {
   const { restaurantInfo, restaurantInfoLoading: loading } = useContext(StoreContext)
   const isContactPage = location?.pathname === '/contact'
 
+  const lang = (i18n.language || 'vi').split('-')[0]
+
+  const reserveTagline = useMemo(() => {
+    return (
+      restaurantInfo?.translations?.[lang]?.tagline
+      || restaurantInfo?.tagline
+      || t('footer.reserveDescription')
+      || ''
+    )
+  }, [restaurantInfo, lang, t])
+
+  const copyrightText = useMemo(() => {
+    return restaurantInfo?.copyrightText || t('footer.allRightsReserved') || ''
+  }, [restaurantInfo, t])
+
+  const localizedAddress = useMemo(() => {
+    return restaurantInfo?.translations?.[lang]?.address || restaurantInfo?.address || ''
+  }, [restaurantInfo, lang])
+
   const openingHoursText = useMemo(() => {
     if (!restaurantInfo) return ''
-    const lang = (i18n.language || 'vi').split('-')[0]
     if (restaurantInfo.weeklyHours?.length === 7) {
       return formatWeeklyHoursDisplay(
         normalizeWeeklyHours(restaurantInfo.weeklyHours),
@@ -27,7 +45,7 @@ const Footer = () => {
       restaurantInfo.openingHours?.sunday
     ].filter(Boolean)
     return parts.join(' · ')
-  }, [restaurantInfo, i18n.language])
+  }, [restaurantInfo, lang])
 
   return (
     <footer className='footer' id='footer'>
@@ -39,7 +57,7 @@ const Footer = () => {
             <ul className='footer-list'>
               <li><a href={config.EXTERNAL_LINKS.HOME}>{t('footer.home') || 'Home'}</a></li>
               <li><a href={config.EXTERNAL_LINKS.ABOUT}>{t('footer.aboutUs') || 'About Us'}</a></li>
-              <li><a href='/menu'>Menu</a></li>
+              <li><a href='/menu'>{t('nav.menu')}</a></li>
               <li><a href='/blog'>{t('footer.blog') || 'Blog'}</a></li>
             </ul>
           </div>
@@ -72,10 +90,10 @@ const Footer = () => {
                     <span className='footer-value'>{loading ? '...' : restaurantInfo.email}</span>
                   </li>
                 )}
-                {restaurantInfo?.address && (
+                {localizedAddress && (
                   <li>
                     <span className='footer-label'>{t('footer.address') || 'Address'}:</span>
-                    <span className='footer-value'>{loading ? '...' : restaurantInfo.address}</span>
+                    <span className='footer-value'>{loading ? '...' : localizedAddress}</span>
                   </li>
                 )}
                 {(loading || openingHoursText) && (
@@ -94,7 +112,7 @@ const Footer = () => {
           <div className='footer-col'>
             <h3 className='footer-title'>{t('footer.reserveTitle') || 'Reserve a Table'}</h3>
             <p className='footer-text'>
-              {restaurantInfo?.tagline || t('footer.reserveDescription') || ''}
+              {reserveTagline}
             </p>
             <a
               className='footer-reserve-btn'
@@ -105,17 +123,17 @@ const Footer = () => {
             <div className='footer-social'>
               {restaurantInfo?.socialMedia?.facebook && (
                 <a href={restaurantInfo.socialMedia.facebook} target='_blank' rel='noreferrer'>
-                  <img src={assets.facebook_icon} alt='Facebook' />
+                  <img src={assets.facebook_icon} alt={t('footer.socialLabels.fb')} />
                 </a>
               )}
               {restaurantInfo?.socialMedia?.twitter && (
                 <a href={restaurantInfo.socialMedia.twitter} target='_blank' rel='noreferrer'>
-                  <img src={assets.twitter_icon} alt='Twitter' />
+                  <img src={assets.twitter_icon} alt={t('footer.socialLabels.tw')} />
                 </a>
               )}
               {restaurantInfo?.socialMedia?.linkedin && (
                 <a href={restaurantInfo.socialMedia.linkedin} target='_blank' rel='noreferrer'>
-                  <img src={assets.linkedin_icon} alt='LinkedIn' />
+                  <img src={assets.linkedin_icon} alt={t('footer.socialLabels.in')} />
                 </a>
               )}
             </div>
@@ -124,7 +142,7 @@ const Footer = () => {
 
         {/* Bottom Bar */}
         <div className='footer-bottom'>
-          <p>{restaurantInfo?.copyrightText || ''}</p>
+          <p>{copyrightText}</p>
         </div>
       </div>
     </footer>
